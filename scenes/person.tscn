@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://by56u258h7le5"]
+[gd_scene load_steps=30 format=3 uid="uid://by56u258h7le5"]
 
 [ext_resource type="Script" uid="uid://djh86oew3hjc7" path="res://scripts/person_red.gd" id="1_rm4p6"]
 [ext_resource type="PackedScene" uid="uid://btgvb01m7i75d" path="res://scenes/pathfinder.tscn" id="2_asawu"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://7kcr2qf5us1c" path="res://scripts/follow_area.gd" id="3_g6f2d"]
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="5_aoiax"]
 [ext_resource type="PackedScene" uid="uid://1mmh648yardf" path="res://scenes/sword_blue.tscn" id="6_r7rx5"]
+[ext_resource type="PackedScene" uid="uid://t8dd0ie1wqde" path="res://scenes/person_test.tscn" id="7_2jjoq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4v2wv"]
 albedo_color = Color(1, 0, 0, 1)
@@ -89,6 +90,7 @@ collision_mask = 4
 script = ExtResource("1_rm4p6")
 
 [node name="Red" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("CapsuleMesh_rm4p6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -96,6 +98,7 @@ shape = SubResource("CapsuleShape3D_asawu")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.3, 0, 0, 0, -1.3113417e-08, -0.3, 0, 0.3, -1.3113417e-08, 0, 0.69842196, -0.44759548)
+visible = false
 mesh = SubResource("CylinderMesh_4v2wv")
 
 [node name="Vision" type="RayCast3D" parent="."]
@@ -110,6 +113,7 @@ one_shot = true
 autostart = true
 
 [node name="Pathfinder" parent="." instance=ExtResource("2_asawu")]
+visible = false
 
 [node name="Click_Check" type="Area3D" parent="."]
 collision_layer = 8
@@ -171,6 +175,9 @@ visible = false
 [node name="sword_blue" parent="." instance=ExtResource("6_r7rx5")]
 transform = Transform3D(0.065261416, 0.122223906, -1.493587, 0.70349723, 1.3175333, 0.13855588, 1.3231903, -0.7065178, -6.528676e-08, 0.463, 0.463, -0.5)
 visible = false
+
+[node name="Person_test" parent="." instance=ExtResource("7_2jjoq")]
+transform = Transform3D(-0.35, 0, -5.284853e-08, 0, 0.35, 0, 5.284853e-08, 0, -0.35, 0, -0.82895726, 0)
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]
 [connection signal="input_event" from="Click_Check" to="." method="_on_click_check_input_event"]
