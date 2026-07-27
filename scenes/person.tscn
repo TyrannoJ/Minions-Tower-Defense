@@ -1,9 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://by56u258h7le5"]
+[gd_scene load_steps=29 format=3 uid="uid://by56u258h7le5"]
 
-[ext_resource type="Script" uid="uid://djh86oew3hjc7" path="res://person_red.gd" id="1_rm4p6"]
-[ext_resource type="PackedScene" uid="uid://btgvb01m7i75d" path="res://pathfinder.tscn" id="2_asawu"]
-[ext_resource type="Shader" uid="uid://cpb3sj6nalqcd" path="res://person.tres" id="3_3qlke"]
-[ext_resource type="Script" uid="uid://7kcr2qf5us1c" path="res://follow_area.gd" id="3_g6f2d"]
+[ext_resource type="Script" uid="uid://djh86oew3hjc7" path="res://scripts/person_red.gd" id="1_rm4p6"]
+[ext_resource type="PackedScene" uid="uid://btgvb01m7i75d" path="res://scenes/pathfinder.tscn" id="2_asawu"]
+[ext_resource type="Shader" uid="uid://cpb3sj6nalqcd" path="res://assets/person.tres" id="3_3qlke"]
+[ext_resource type="Script" uid="uid://7kcr2qf5us1c" path="res://scripts/follow_area.gd" id="3_g6f2d"]
+[ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="5_aoiax"]
+[ext_resource type="PackedScene" uid="uid://1mmh648yardf" path="res://scenes/sword_blue.tscn" id="6_r7rx5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4v2wv"]
 albedo_color = Color(1, 0, 0, 1)
@@ -161,6 +163,14 @@ mesh = SubResource("CylinderMesh_hoeld")
 transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.268, 0)
 visible = false
 mesh = SubResource("BoxMesh_xktsn")
+
+[node name="sword_red" parent="." instance=ExtResource("5_aoiax")]
+transform = Transform3D(0.06486639, 0.12134133, -1.4936762, 0.704183, 1.3172679, 0.1375913, 1.3228447, -0.7071642, -6.5567086e-08, 0.46259564, 0.46280247, -0.5383053)
+visible = false
+
+[node name="sword_blue" parent="." instance=ExtResource("6_r7rx5")]
+transform = Transform3D(0.065261416, 0.122223906, -1.493587, 0.70349723, 1.3175333, 0.13855588, 1.3231903, -0.7065178, -6.528676e-08, 0.463, 0.463, -0.5)
+visible = false
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]
 [connection signal="input_event" from="Click_Check" to="." method="_on_click_check_input_event"]

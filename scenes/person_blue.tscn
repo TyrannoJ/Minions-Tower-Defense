@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bhsqlqusof6r3"]
 
-[ext_resource type="Script" uid="uid://ql7txemdlqim" path="res://person_blue.gd" id="1_of8eu"]
-[ext_resource type="PackedScene" uid="uid://btgvb01m7i75d" path="res://pathfinder.tscn" id="2_cbl2n"]
+[ext_resource type="Script" uid="uid://ql7txemdlqim" path="res://scripts/person_blue.gd" id="1_of8eu"]
+[ext_resource type="PackedScene" uid="uid://btgvb01m7i75d" path="res://scenes/pathfinder.tscn" id="2_cbl2n"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cbl2n"]
 albedo_color = Color(0.1226666, 0.060000002, 1, 1)

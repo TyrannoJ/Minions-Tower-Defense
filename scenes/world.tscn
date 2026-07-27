@@ -1,14 +1,14 @@
 [gd_scene load_steps=30 format=3 uid="uid://bwueoqydhfxpi"]
 
-[ext_resource type="Script" uid="uid://dvnlk6fsggwvk" path="res://world.gd" id="1_aqk2v"]
-[ext_resource type="PackedScene" uid="uid://by56u258h7le5" path="res://person.tscn" id="2_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://qa5h70ybtd6w" path="res://obstacle_wall.tscn" id="3_aqk2v"]
-[ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://sword.tscn" id="3_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://drkudlhdt224y" path="res://weapon.tscn" id="4_036b0"]
-[ext_resource type="PackedScene" uid="uid://v1u3ltbpyuh5" path="res://custom_wall.tscn" id="5_pkg7o"]
-[ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://player_spawner.tscn" id="6_dwbse"]
-[ext_resource type="PackedScene" uid="uid://ba6ranqlu2t2m" path="res://base.tscn" id="8_gbfbk"]
-[ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://controls_theme.tres" id="8_ioo17"]
+[ext_resource type="Script" uid="uid://dvnlk6fsggwvk" path="res://scripts/world.gd" id="1_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://by56u258h7le5" path="res://scenes/person.tscn" id="2_w7kh3"]
+[ext_resource type="PackedScene" uid="uid://qa5h70ybtd6w" path="res://scenes/obstacle_wall.tscn" id="3_e3hyu"]
+[ext_resource type="PackedScene" uid="uid://drkudlhdt224y" path="res://scenes/weapon.tscn" id="4_q5onr"]
+[ext_resource type="PackedScene" uid="uid://v1u3ltbpyuh5" path="res://scenes/custom_wall.tscn" id="5_jhx03"]
+[ext_resource type="PackedScene" uid="uid://ba6ranqlu2t2m" path="res://scenes/base.tscn" id="6_o8fc1"]
+[ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="7_xo05s"]
+[ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
+[ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="9_7t5mc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
 size = Vector3(1000, 1, 1000)
@@ -82,12 +82,12 @@ size = Vector3(1, 0.5, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_036b0"]
 
 [node name="World" type="Node3D"]
-script = ExtResource("1_aqk2v")
-person = ExtResource("2_tlwt5")
-obstacle_wall = ExtResource("3_aqk2v")
-weapon = ExtResource("4_036b0")
-wall_piece = ExtResource("5_pkg7o")
-base_scene = ExtResource("8_gbfbk")
+script = ExtResource("1_7r4gi")
+person = ExtResource("2_w7kh3")
+obstacle_wall = ExtResource("3_e3hyu")
+weapon = ExtResource("4_q5onr")
+wall_piece = ExtResource("5_jhx03")
+base_scene = ExtResource("6_o8fc1")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 collision_layer = 4
@@ -109,15 +109,13 @@ shape = SubResource("BoxShape3D_tlwt5")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 25.214771, 0)
 
-[node name="Sword" parent="." instance=ExtResource("3_tlwt5")]
+[node name="Sword" parent="." instance=ExtResource("7_xo05s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
-collision_layer = 0
-collision_mask = 0
 
 [node name="Walls" type="Node3D" parent="."]
 
 [node name="Wall1" type="StaticBody3D" parent="Walls" groups=["walls"]]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, -28.995)
+transform = Transform3D(80, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, -30)
 collision_layer = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall1"]
@@ -127,7 +125,7 @@ mesh = SubResource("BoxMesh_aqk2v")
 shape = SubResource("BoxShape3D_036b0")
 
 [node name="Wall2" type="StaticBody3D" parent="Walls" groups=["walls"]]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, 30.235)
+transform = Transform3D(80, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, 30)
 collision_layer = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall2"]
@@ -137,7 +135,7 @@ mesh = SubResource("BoxMesh_aqk2v")
 shape = SubResource("BoxShape3D_036b0")
 
 [node name="Wall3" type="StaticBody3D" parent="Walls" groups=["walls"]]
-transform = Transform3D(-8.742278e-08, 0, 2, 0, 2, 0, -2, 0, -8.742278e-08, -40, 2.5, 0)
+transform = Transform3D(-2.6226833e-06, 0, 2, 0, 2, 0, -60, 0, -8.742278e-08, -40, 2.5, 0)
 collision_layer = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall3"]
@@ -147,7 +145,7 @@ mesh = SubResource("BoxMesh_aqk2v")
 shape = SubResource("BoxShape3D_036b0")
 
 [node name="Wall4" type="StaticBody3D" parent="Walls" groups=["walls"]]
-transform = Transform3D(-8.742278e-08, 0, 2, 0, 2, 0, -2, 0, -8.742278e-08, 40, 2.5, 0)
+transform = Transform3D(-2.6226833e-06, 0, 2, 0, 2, 0, -60, 0, -8.742278e-08, 40, 2.5, 0)
 collision_layer = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall4"]
@@ -227,7 +225,7 @@ offset_left = 58.0
 offset_top = -2.0
 offset_right = 226.0
 offset_bottom = 301.0
-theme = ExtResource("8_ioo17")
+theme = ExtResource("8_dss4m")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/character_view"]
 layout_mode = 0
@@ -396,7 +394,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = ExtResource("8_ioo17")
+theme = ExtResource("8_dss4m")
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/loose_screen"]
 layout_mode = 0
@@ -463,7 +461,7 @@ mesh = SubResource("BoxMesh_gbfbk")
 visible = false
 mesh = SubResource("CylinderMesh_036b0")
 
-[node name="player_spawner" parent="." instance=ExtResource("6_dwbse")]
+[node name="player_spawner" parent="." instance=ExtResource("9_7t5mc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]

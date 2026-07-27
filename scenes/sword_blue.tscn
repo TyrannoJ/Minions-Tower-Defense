@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://1mmh648yardf"]
+
+[ext_resource type="PackedScene" uid="uid://6ev1m7jn44g5" path="res://assets/sword.glb" id="1_fn5x3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bgibn"]
+albedo_color = Color(0, 0.43709472, 3.2944162, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5uuid"]
+albedo_color = Color(0.0333333, 0, 1, 1)
+
+[node name="sword" instance=ExtResource("1_fn5x3")]
+
+[node name="Plane" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_bgibn")
+surface_material_override/2 = SubResource("StandardMaterial3D_5uuid")

@@ -22,7 +22,8 @@ var dragged=false
 var not_rotating=false
 @onready var pathfinder=$Pathfinder
 @onready var rot_timer=$Rotation_timer
-@onready var weapon=$weapon
+@onready var weapon_red=$sword_red
+@onready var weapon_blue=$sword_blue
 @onready var attack_area=$attack
 @onready var health_bar=$Health_bar
 @onready var focused=$focused
@@ -111,7 +112,7 @@ func follow_persons():
 						look_at(collider.global_position)
 						rotation.x=0
 						rotation.z=0
-			else:
+			elif !collider.is_in_group("base"):
 				rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
 	
 func handle_pathfinding():
@@ -241,7 +242,10 @@ func _on_follow_area_area_entered(area: Area3D) -> void:
 	
 	if area.is_in_group("weapons") and !has_weapon:
 		has_weapon=true
-		weapon.show()
+		if color=="blue":
+			weapon_blue.show()
+		else:
+			weapon_red.show()
 		area.queue_free()
 
 

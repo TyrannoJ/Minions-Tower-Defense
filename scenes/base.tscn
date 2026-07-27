@@ -1,16 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://ba6ranqlu2t2m"]
+[gd_scene load_steps=10 format=3 uid="uid://ba6ranqlu2t2m"]
 
-[ext_resource type="Script" uid="uid://wdh01ieopvr4" path="res://base.gd" id="1_3vi8l"]
+[ext_resource type="Script" uid="uid://wdh01ieopvr4" path="res://scripts/base.gd" id="1_3vi8l"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g5ejs"]
-size = Vector3(2, 3, 2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gbfbk"]
-albedo_color = Color(0.53100014, 0, 0.54, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_rpg24"]
-material = SubResource("StandardMaterial3D_gbfbk")
-size = Vector3(2, 1, 2)
+size = Vector3(10, 3, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7rx5"]
 albedo_color = Color(0, 0, 1.1169488, 1)
@@ -26,6 +19,15 @@ albedo_color = Color(0, 0, 0, 1)
 material = SubResource("StandardMaterial3D_hoeld")
 size = Vector3(2, 0.2, 0.5)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rpg24"]
+albedo_color = Color(0.49399987, 0, 0.78, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3vi8l"]
+size = Vector3(8, 3, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8rhti"]
+size = Vector3(8, 3, 8)
+
 [node name="base" type="Area3D" groups=["targets"]]
 collision_layer = 64
 collision_mask = 0
@@ -33,9 +35,6 @@ script = ExtResource("1_3vi8l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_g5ejs")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_rpg24")
 
 [node name="Health_bar" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2681521, 0)
@@ -48,5 +47,16 @@ mesh = SubResource("BoxMesh_tpea4")
 [node name="rescue_timer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." groups=["base"]]
+collision_layer = 4
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+material_override = SubResource("StandardMaterial3D_rpg24")
+mesh = SubResource("BoxMesh_3vi8l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_8rhti")
 
 [connection signal="timeout" from="rescue_timer" to="." method="_on_rescue_timer_timeout"]

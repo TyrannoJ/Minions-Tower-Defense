@@ -1,4 +1,5 @@
 extends Node3D
+#ltr!vv3h5pp48
 @export var person:PackedScene
 @export var obstacle_wall:PackedScene
 @export var weapon:PackedScene
@@ -67,9 +68,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 
 func _ready() -> void:
-	var walls=[wall_up,wall_down,wall_left,wall_right]
-	for wa in walls:
-		wa.scale.z=start_size*2
+	#var walls=[wall_up,wall_down,wall_left,wall_right]
+	#for wa in walls:
+	#	wa.scale.z=start_size*2
 	add_base()
 	Global.clicked.connect(on_player_clicked)
 	Global.add_player.connect(add_player)
@@ -94,8 +95,8 @@ func spawn_weapons():
 	for i in range (0,player_number):
 		var we=weapon.instantiate()
 		add_child(we)
-		we.position.x=randi_range(-35,35)
-		we.position.z=randi_range(-25,25)
+		we.position.x=randi_range(-25,25)
+		we.position.z=randi_range(-13,13)
 		we.position.y=2
 		weapons.append(we)
 func spawn_obstacles():
@@ -123,6 +124,7 @@ func spawn_players():
 		for blu in blue_persons:
 			blu.queue_free()
 	blue_persons.clear()
+	
 	for i in range(0,player_number/2):
 		
 		var re=person.instantiate()
@@ -135,7 +137,7 @@ func spawn_players():
 		blue_persons[i].get_node("Blue").show()
 		blue_persons[i].number=i
 		blue_persons[i].color="blue"
-		blue_persons[i].position=Vector3(randi_range(10,20),2,randi_range(-20,20))
+		blue_persons[i].position=Vector3(randi_range(10,20),2,randi_range(-13,13))
 		
 		blue_persons[i].unique_id=unique_id+player_number/2
 		blue_persons[i].killed.connect(delete_player)
@@ -144,11 +146,12 @@ func spawn_players():
 		red_persons[i].number=i
 		
 		red_persons[i].color="red"
-		red_persons[i].position=Vector3(randi_range(-10,-20),2,randi_range(-20,20))
+		red_persons[i].position=Vector3(randi_range(-10,-20),2,randi_range(-13,13))
 		red_persons[i].unique_id=unique_id
 		red_persons[i].killed.connect(delete_player)
 		unique_id+=1
 func _process(delta: float) -> void:
+	print(target_area.position.y)
 	if !loose:
 		show_base_health()
 	Engine.time_scale=time_slider.value
@@ -159,7 +162,7 @@ func _process(delta: float) -> void:
 		show_player_stats()
 	handle_movement()
 	handle_tools()
-	set_map_size()
+	#set_map_size()
 	handle_time()
 func handle_time():
 	if Input.is_action_pressed("time_up"):
@@ -308,7 +311,8 @@ func start_dragging(event_position):
 	Global.drag_pos=real_drag_marker.position
 	real_drag_marker.position=event_position
 	real_drag_marker.position.y=2
-	Global.dragging=true		
+	Global.dragging=true	
+	target_area.position.y=5	
 	
 func start_marking(event_position):
 	drag_marker.show()
