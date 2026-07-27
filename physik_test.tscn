@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0yh3vwg8n2s8"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_psbe3"]
+bounce = 0.41
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_psbe3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_32mlq"]
+
+[node name="Physik_Test" type="RigidBody3D"]
+transform = Transform3D(0.79390544, 0.46949643, 0.38637698, -0.38637698, 0.8801914, -0.27563736, -0.46949643, 0.06954281, 0.8801914, 0, 0, 0)
+collision_mask = 5
+physics_material_override = SubResource("PhysicsMaterial_psbe3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_psbe3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_32mlq")

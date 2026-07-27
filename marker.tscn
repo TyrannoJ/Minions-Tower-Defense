@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgduckbm6xal"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ovyla"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_f37rb"]
+material = SubResource("StandardMaterial3D_ovyla")
+top_radius = 0.2
+bottom_radius = 0.2
+
+[node name="marker" type="Node3D"]
+top_level = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_f37rb")

@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhsqlqusof6r3"]
+
+[ext_resource type="Script" uid="uid://ql7txemdlqim" path="res://person_blue.gd" id="1_of8eu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cbl2n"]
+albedo_color = Color(0.1226666, 0.060000002, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_of8eu"]
+material = SubResource("StandardMaterial3D_cbl2n")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cbl2n"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_of8eu"]
+
+[node name="Person_Blue" type="CharacterBody3D"]
+script = ExtResource("1_of8eu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_of8eu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_cbl2n")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, -1.3113417e-08, -0.3, 0, 0.3, -1.3113417e-08, 0, 0.69842196, -0.44759548)
+mesh = SubResource("CylinderMesh_of8eu")
+
+[node name="Vision" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.674734, 0)
+target_position = Vector3(0, 0, -5)
+
+[node name="Rotation_timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]

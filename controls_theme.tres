@@ -1,0 +1,38 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://1hyjkilq2l3q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_036b0"]
+bg_color = Color(0.44099998, 0.7284667, 0.98, 0.36862746)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dwbse"]
+bg_color = Color(0.17000002, 0.6403333, 1, 0.2784314)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gbfbk"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[resource]
+default_font_size = 30
+Label/styles/normal = SubResource("StyleBoxFlat_036b0")
+Panel/styles/panel = SubResource("StyleBoxFlat_dwbse")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_gbfbk")

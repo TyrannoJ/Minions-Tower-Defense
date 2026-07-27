@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://v1u3ltbpyuh5"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ctcxv"]
+height = 4.0
+radius = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ctcxv"]
+transparency = 1
+albedo_color = Color(0, 0.48400003, 0.66, 0.25490198)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cvuh1"]
+material = SubResource("StandardMaterial3D_ctcxv")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 4.0
+
+[node name="custom_wall" type="Area3D"]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_ctcxv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_cvuh1")

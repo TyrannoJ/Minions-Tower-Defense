@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://qa5h70ybtd6w"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gpie7"]
+size = Vector3(1, 10, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jisu2"]
+size = Vector3(1, 10, 2)
+
+[node name="obstacle_wall" type="StaticBody3D"]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_gpie7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_jisu2")
