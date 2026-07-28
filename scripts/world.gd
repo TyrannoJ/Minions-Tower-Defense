@@ -154,6 +154,7 @@ func spawn_players():
 		unique_id+=1
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
+	find_red_players()#
 	if !loose:
 		show_base_health()
 	Engine.time_scale=time_slider.value
@@ -458,3 +459,8 @@ func show_base_health():
 	base_health.size.x=sca
 	base_health_label.text=str(int(base.health))
 	#anti_base_health.position.x=sca
+func find_red_players():
+	Global.red_coords=[]
+	for re in red_persons:
+		if re.show_location:
+			Global.red_coords.append(re.position)

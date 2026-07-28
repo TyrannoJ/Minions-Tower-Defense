@@ -30,7 +30,7 @@ var not_rotating=false
 @onready var anti_health_bar=$anti_health_bar
 @onready var follow_area=$follow_area
 @onready var character=$Character
-
+var show_location=false
 var pathfinding=false
 var next_pos=Vector3.ZERO
 var next_index=0
@@ -114,9 +114,10 @@ func random_movement():
 	handle_speed()
 	follow_persons()
 	if Global.attack_on_base and has_weapon and !clicked:
-		look_at(Global.base)
-		rotation.z=0
-		rotation.x=0
+		if Global.red_coords !=[]:
+			look_at(find_closest_enemy())
+			rotation.z=0
+			rotation.x=0
 func follow_persons():
 	if vision.is_colliding():
 		var collider=vision.get_collider()
@@ -279,6 +280,7 @@ func attack_players():
 	if damaging !=[]:
 		for da in damaging:
 			if da.is_in_group("targets") and color=="red":
+				show_location=true
 				character.godot_animations.play("hit")
 				da.get_damage(1)
 					
@@ -315,5 +317,15 @@ func follow_mouse():
 		rotation.z=0
 	else:
 		dragged=false
-	
-	
+func find_closest_enemy():
+	var distances=[]
+	for pos in Global.red_coords:
+		distances.append(get_distance(position,pos))
+	var result=distances.min()
+	var final_result=distances.find(result)
+	return(Global.red_coords[final_result])
+func get_distance(from:Vector3,to:Vector3):
+	var x=abs(from.x-to.x)
+	var z=abs(from.z-to.z)
+	var dist=sqrt(pow(x,2)+pow(z,2))
+	return(dist)

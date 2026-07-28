@@ -12,7 +12,10 @@ var drag_pos:Vector3
 var dragging=false
 var base:Vector3
 signal add_player
+var red_coords=[]
 
+
+	
 func restart():
 	target_pos=Vector3.ZERO
 	current_tool=0
@@ -20,4 +23,5 @@ func restart():
 	focused=null
 	attack_on_base=false
 	dragging=false
+	red_coords=[]
 	
