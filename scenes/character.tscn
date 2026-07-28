@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://bwqqttnm0lhb2"]
 
-[ext_resource type="PackedScene" uid="uid://08yqk0ay4a3s" path="res://assets/Person3.glb" id="1_m11bv"]
-[ext_resource type="Script" uid="uid://be7vm6kawudft" path="res://scripts/red_character.gd" id="2_m11bv"]
-[ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="3_unwjs"]
+[ext_resource type="PackedScene" uid="uid://08yqk0ay4a3s" path="res://assets/Person3.glb" id="1_my7n2"]
+[ext_resource type="Script" uid="uid://be7vm6kawudft" path="res://scripts/character.gd" id="2_lrhn5"]
+[ext_resource type="PackedScene" uid="uid://6ev1m7jn44g5" path="res://assets/sword.glb" id="3_lrhn5"]
+[ext_resource type="Material" uid="uid://b88yu5n4rwvl7" path="res://assets/character_materials/color_shader.tres" id="3_my7n2"]
 
 [sub_resource type="Animation" id="Animation_m11bv"]
 length = 0.001
@@ -77,15 +78,15 @@ tracks/2/path = NodePath("rig/Skeleton3D/BoneAttachment3D/sword:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false, true, false]
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_ki3tl"]
 resource_name = "hit"
-length = 0.25
+length = 0.23333333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -118,8 +119,8 @@ _data = {
 &"hit": SubResource("Animation_ki3tl")
 }
 
-[node name="Person3" unique_id=729174095 instance=ExtResource("1_m11bv")]
-script = ExtResource("2_m11bv")
+[node name="Person3" unique_id=729174095 instance=ExtResource("1_my7n2")]
+script = ExtResource("2_lrhn5")
 
 [node name="Skeleton3D" parent="rig" parent_id_path=PackedInt32Array(647975005) index="0" unique_id=381755283]
 bones/1/position = Vector3(1.8859284e-08, 0.015338659, 3.6987092)
@@ -306,6 +307,9 @@ bones/615/rotation = Quaternion(-4.6490095e-10, -7.47207e-09, 1, -3.4924597e-10)
 bones/616/position = Vector3(-0.7804556, 0.95086133, 1.5415545)
 bones/617/position = Vector3(-6.4686276e-08, -3.1694398e-08, 5.4533906e-08)
 
+[node name="Cube" parent="rig/Skeleton3D" index="0" unique_id=781304580]
+surface_material_override/1 = ExtResource("3_my7n2")
+
 [node name="FABRIK3D" type="FABRIK3D" parent="rig/Skeleton3D" index="1" unique_id=1163975575]
 setting_count = 1
 settings/0/target_node = NodePath("../../../right_hand_target")
@@ -327,13 +331,18 @@ settings/0/joints/4/rotation_axis = 3
 settings/0/joints/4/limitation = null
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="rig/Skeleton3D" index="2" unique_id=437410800]
-transform = Transform3D(0.7237966, -0.42852452, 0.5408185, 0.32810408, -0.47576034, -0.8160879, 0.6070138, 0.7681268, -0.203753, -1.3628058, 2.7939835, 0.9524152)
+transform = Transform3D(0.37812996, -0.72553337, 0.5749947, 0.32810402, -0.4757603, -0.8160877, 0.8656584, 0.49724546, 0.05815105, -1.8725758, 3.8131018, 0.751371)
 bone_name = "DEF-hand.R"
 bone_idx = 476
 
-[node name="sword" parent="rig/Skeleton3D/BoneAttachment3D" index="0" unique_id=2032796431 instance=ExtResource("3_unwjs")]
-transform = Transform3D(0.37957156, 0.9554086, 2.2788417, -2.4708607, 0.12084526, 0.36089057, 0.027764231, -2.3070738, 0.9626205, 0.768, -0.03399983, -1.4769998)
+[node name="sword" parent="rig/Skeleton3D/BoneAttachment3D" index="0" unique_id=1439888815 instance=ExtResource("3_lrhn5")]
+transform = Transform3D(1.1929524, 0.53881997, 2.1299152, -2.1642675, -0.1286788, 1.2447449, 0.37790734, -2.4378505, 0.40505707, 0.4078115, 0.516052, -0.13688755)
 visible = false
+
+[node name="Plane" parent="rig/Skeleton3D/BoneAttachment3D/sword" index="0"]
+transform = Transform3D(-0.05850759, -0.036478363, 0.0018117074, -0.004276435, 0.010239913, 0.06807305, 0.03627207, -0.05763299, 0.010948093, 0.13957703, 0.26719546, -0.112127125)
+surface_material_override/0 = ExtResource("3_my7n2")
+surface_material_override/2 = ExtResource("3_my7n2")
 
 [node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="rig/Skeleton3D" index="3" unique_id=2120608538]
 setting_count = 1
@@ -375,3 +384,5 @@ libraries/ = SubResource("AnimationLibrary_unwjs")
 
 [node name="left_hand_target" type="Marker3D" parent="." index="231" unique_id=1373112395]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.11939, 1.6221588, 0)
+
+[editable path="rig/Skeleton3D/BoneAttachment3D/sword"]

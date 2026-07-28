@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bwueoqydhfxpi"]
+[gd_scene format=3 uid="uid://bwueoqydhfxpi"]
 
 [ext_resource type="Script" uid="uid://dvnlk6fsggwvk" path="res://scripts/world.gd" id="1_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://by56u258h7le5" path="res://scenes/person.tscn" id="2_w7kh3"]
@@ -81,7 +81,7 @@ size = Vector3(1, 0.5, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_036b0"]
 
-[node name="World" type="Node3D"]
+[node name="World" type="Node3D" unique_id=1978241428]
 script = ExtResource("1_7r4gi")
 person = ExtResource("2_w7kh3")
 obstacle_wall = ExtResource("3_e3hyu")
@@ -89,135 +89,135 @@ weapon = ExtResource("4_q5onr")
 wall_piece = ExtResource("5_jhx03")
 base_scene = ExtResource("6_o8fc1")
 
-[node name="Ground" type="StaticBody3D" parent="."]
+[node name="Ground" type="StaticBody3D" parent="." unique_id=46194837]
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=80798511]
 shape = SubResource("BoxShape3D_gv5m4")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1432988841]
 mesh = SubResource("BoxMesh_f3sb7")
 
-[node name="set_target" type="Area3D" parent="Ground"]
+[node name="set_target" type="Area3D" parent="Ground" unique_id=240993363]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 8
 collision_mask = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/set_target"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/set_target" unique_id=1405770471]
 shape = SubResource("BoxShape3D_tlwt5")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=345759241]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 25.214771, 0)
 
-[node name="Sword" parent="." instance=ExtResource("7_xo05s")]
+[node name="Sword" parent="." unique_id=83097579 instance=ExtResource("7_xo05s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
 
-[node name="Walls" type="Node3D" parent="."]
+[node name="Walls" type="Node3D" parent="." unique_id=984571823]
 
-[node name="Wall1" type="StaticBody3D" parent="Walls" groups=["walls"]]
+[node name="Wall1" type="StaticBody3D" parent="Walls" unique_id=1224140026 groups=["walls"]]
 transform = Transform3D(80, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, -30)
 collision_layer = 4
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall1"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall1" unique_id=1620947768]
 mesh = SubResource("BoxMesh_aqk2v")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall1"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall1" unique_id=1494064584]
 shape = SubResource("BoxShape3D_036b0")
 
-[node name="Wall2" type="StaticBody3D" parent="Walls" groups=["walls"]]
+[node name="Wall2" type="StaticBody3D" parent="Walls" unique_id=1939134685 groups=["walls"]]
 transform = Transform3D(80, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, 30)
 collision_layer = 4
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall2" unique_id=807261109]
 mesh = SubResource("BoxMesh_aqk2v")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall2" unique_id=234614238]
 shape = SubResource("BoxShape3D_036b0")
 
-[node name="Wall3" type="StaticBody3D" parent="Walls" groups=["walls"]]
+[node name="Wall3" type="StaticBody3D" parent="Walls" unique_id=837196928 groups=["walls"]]
 transform = Transform3D(-2.6226833e-06, 0, 2, 0, 2, 0, -60, 0, -8.742278e-08, -40, 2.5, 0)
 collision_layer = 4
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall3"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall3" unique_id=138057990]
 mesh = SubResource("BoxMesh_aqk2v")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall3" unique_id=463733121]
 shape = SubResource("BoxShape3D_036b0")
 
-[node name="Wall4" type="StaticBody3D" parent="Walls" groups=["walls"]]
+[node name="Wall4" type="StaticBody3D" parent="Walls" unique_id=1286768155 groups=["walls"]]
 transform = Transform3D(-2.6226833e-06, 0, 2, 0, 2, 0, -60, 0, -8.742278e-08, 40, 2.5, 0)
 collision_layer = 4
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall4"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall4" unique_id=1668814099]
 mesh = SubResource("BoxMesh_aqk2v")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall4"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall4" unique_id=2015634392]
 shape = SubResource("BoxShape3D_036b0")
 
-[node name="obstacles" type="Node3D" parent="."]
+[node name="obstacles" type="Node3D" parent="." unique_id=217127881]
 visible = false
 
-[node name="StaticBody3D" type="StaticBody3D" parent="obstacles"]
+[node name="StaticBody3D" type="StaticBody3D" parent="obstacles" unique_id=533012948]
 transform = Transform3D(0.95607483, 0, 0.2931227, -0.19414851, 0.7491985, 0.6332519, -0.2196071, -0.6623455, 0.7162898, 0, 2.469444, -3.4499576)
 visible = false
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D" unique_id=1694387312]
 shape = SubResource("BoxShape3D_dwbse")
 disabled = true
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="obstacles/StaticBody3D"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="obstacles/StaticBody3D" unique_id=609488208]
 shape = SubResource("BoxShape3D_dwbse")
 disabled = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D" unique_id=1789400509]
 mesh = SubResource("BoxMesh_pkg7o")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="obstacles"]
+[node name="StaticBody3D2" type="StaticBody3D" parent="obstacles" unique_id=659008222]
 transform = Transform3D(0.6109745, 0, -0.79165024, 0, 1, 0, 0.79165024, 0, 0.6109745, -9.24511, 2.469444, 10.545323)
 visible = false
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D2" unique_id=1068983403]
 shape = SubResource("BoxShape3D_dwbse")
 disabled = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D2" unique_id=956931806]
 mesh = SubResource("BoxMesh_pkg7o")
 
-[node name="StaticBody3D3" type="StaticBody3D" parent="obstacles"]
+[node name="StaticBody3D3" type="StaticBody3D" parent="obstacles" unique_id=2094514718]
 transform = Transform3D(0.058138967, 0, -0.99830854, 0, 1, 0, 0.99830854, 0, 0.058138967, 6.2804413, 2.469444, 5.9515142)
 visible = false
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D3" unique_id=460722510]
 shape = SubResource("BoxShape3D_dwbse")
 disabled = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D3"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D3" unique_id=408426332]
 mesh = SubResource("BoxMesh_pkg7o")
 
-[node name="StaticBody3D4" type="StaticBody3D" parent="obstacles"]
+[node name="StaticBody3D4" type="StaticBody3D" parent="obstacles" unique_id=2075186292]
 transform = Transform3D(0.6119136, 0, -0.79092467, 0, 1, 0, 0.79092467, 0, 0.6119136, -14.452997, 2.469444, -13.596018)
 visible = false
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D4"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D4" unique_id=677989900]
 shape = SubResource("BoxShape3D_dwbse")
 disabled = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D4"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D4" unique_id=987167981]
 mesh = SubResource("BoxMesh_pkg7o")
 
-[node name="Camerapivot" type="Marker3D" parent="."]
+[node name="Camerapivot" type="Marker3D" parent="." unique_id=1507521941]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Camerapivot"]
+[node name="Camera3D" type="Camera3D" parent="Camerapivot" unique_id=1430498056]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1247105778]
 
-[node name="character_view" type="Control" parent="CanvasLayer"]
+[node name="character_view" type="Control" parent="CanvasLayer" unique_id=1196692845]
 visible = false
 layout_mode = 3
 anchors_preset = 0
@@ -227,14 +227,14 @@ offset_right = 226.0
 offset_bottom = 301.0
 theme = ExtResource("8_dss4m")
 
-[node name="Panel" type="Panel" parent="CanvasLayer/character_view"]
+[node name="Panel" type="Panel" parent="CanvasLayer/character_view" unique_id=654524504]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 45.0
 offset_right = 140.0
 offset_bottom = 320.0
 
-[node name="character_view" type="VBoxContainer" parent="CanvasLayer/character_view/Panel"]
+[node name="character_view" type="VBoxContainer" parent="CanvasLayer/character_view/Panel" unique_id=1113250036]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -247,25 +247,25 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 4
 
-[node name="Name_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view"]
+[node name="Name_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view" unique_id=1964693346]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 
-[node name="Color_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view"]
+[node name="Color_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view" unique_id=1087223501]
 layout_mode = 2
 
-[node name="Weapon_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view"]
+[node name="Weapon_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view" unique_id=694442557]
 layout_mode = 2
 
-[node name="Kill_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view"]
+[node name="Kill_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view" unique_id=1271757052]
 layout_mode = 2
 
-[node name="Health_bar" type="ProgressBar" parent="CanvasLayer/character_view/Panel/character_view"]
+[node name="Health_bar" type="ProgressBar" parent="CanvasLayer/character_view/Panel/character_view" unique_id=857338949]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 show_percentage = false
 
-[node name="ToolBar" type="Control" parent="CanvasLayer"]
+[node name="ToolBar" type="Control" parent="CanvasLayer" unique_id=1269353350]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 229.0
@@ -273,7 +273,7 @@ offset_right = 916.0
 offset_bottom = 52.0
 theme = SubResource("Theme_gbfbk")
 
-[node name="Panel" type="Panel" parent="CanvasLayer/ToolBar"]
+[node name="Panel" type="Panel" parent="CanvasLayer/ToolBar" unique_id=100940752]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -281,7 +281,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ToolBar/Panel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ToolBar/Panel" unique_id=1395801063]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -289,10 +289,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Tool_Label" type="Label" parent="CanvasLayer/ToolBar/Panel/HBoxContainer"]
+[node name="Tool_Label" type="Label" parent="CanvasLayer/ToolBar/Panel/HBoxContainer" unique_id=428301771]
 layout_mode = 2
 
-[node name="red_label" type="Label" parent="CanvasLayer/ToolBar"]
+[node name="red_label" type="Label" parent="CanvasLayer/ToolBar" unique_id=1175373018]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 87.0
@@ -300,7 +300,7 @@ offset_right = 45.0
 offset_bottom = 142.0
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 
-[node name="blue_label" type="Label" parent="CanvasLayer/ToolBar"]
+[node name="blue_label" type="Label" parent="CanvasLayer/ToolBar" unique_id=92440136]
 layout_mode = 0
 offset_left = 643.0
 offset_top = 89.0
@@ -308,21 +308,21 @@ offset_right = 683.0
 offset_bottom = 144.0
 theme_override_colors/font_color = Color(0.0333333, 0, 1, 1)
 
-[node name="anti_health_bar" type="ColorRect" parent="CanvasLayer/ToolBar"]
+[node name="anti_health_bar" type="ColorRect" parent="CanvasLayer/ToolBar" unique_id=1660463709]
 layout_mode = 0
 offset_top = 70.0
 offset_right = 40.0
 offset_bottom = 80.0
 color = Color(0, 0, 0, 1)
 
-[node name="health_bar" type="ColorRect" parent="CanvasLayer/ToolBar"]
+[node name="health_bar" type="ColorRect" parent="CanvasLayer/ToolBar" unique_id=7762231]
 layout_mode = 0
 offset_top = 70.0
 offset_right = 690.0
 offset_bottom = 80.0
 color = Color(0, 0, 1, 1)
 
-[node name="base_health" type="Label" parent="CanvasLayer/ToolBar"]
+[node name="base_health" type="Label" parent="CanvasLayer/ToolBar" unique_id=1662216208]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -337,7 +337,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 1, 1)
 
-[node name="Controls" type="Control" parent="CanvasLayer"]
+[node name="Controls" type="Control" parent="CanvasLayer" unique_id=2125183668]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 985.0
@@ -345,40 +345,40 @@ offset_top = 6.0
 offset_right = 1145.0
 offset_bottom = 190.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Controls"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Controls" unique_id=1862481191]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 5.0
 offset_right = 150.0
 offset_bottom = 130.0
 
-[node name="Label" type="Label" parent="CanvasLayer/Controls/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Controls/VBoxContainer" unique_id=1072200132]
 layout_mode = 2
 text = "Map size"
 
-[node name="Size_slider" type="HSlider" parent="CanvasLayer/Controls/VBoxContainer"]
+[node name="Size_slider" type="HSlider" parent="CanvasLayer/Controls/VBoxContainer" unique_id=1665136120]
 layout_mode = 2
 min_value = 30.0
 max_value = 500.0
 value = 40.0
 exp_edit = true
 
-[node name="show_health" type="CheckBox" parent="CanvasLayer/Controls/VBoxContainer"]
+[node name="show_health" type="CheckBox" parent="CanvasLayer/Controls/VBoxContainer" unique_id=987017346]
 layout_mode = 2
 text = "Show Health"
 
-[node name="Label2" type="Label" parent="CanvasLayer/Controls/VBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/Controls/VBoxContainer" unique_id=1095341300]
 layout_mode = 2
 text = "Time scale"
 
-[node name="Time_slider" type="HSlider" parent="CanvasLayer/Controls/VBoxContainer"]
+[node name="Time_slider" type="HSlider" parent="CanvasLayer/Controls/VBoxContainer" unique_id=1181528617]
 layout_mode = 2
 min_value = 0.05
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="loose_screen" type="Control" parent="CanvasLayer"]
+[node name="loose_screen" type="Control" parent="CanvasLayer" unique_id=192368139]
 visible = false
 layout_mode = 3
 anchors_preset = 8
@@ -396,7 +396,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("8_dss4m")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/loose_screen"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/loose_screen" unique_id=454615560]
 layout_mode = 0
 offset_left = -348.5
 offset_top = -138.5
@@ -404,7 +404,7 @@ offset_right = 798.5
 offset_bottom = 510.5
 color = Color(0, 0, 0, 0.16078432)
 
-[node name="Label" type="Label" parent="CanvasLayer/loose_screen"]
+[node name="Label" type="Label" parent="CanvasLayer/loose_screen" unique_id=895346383]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -415,7 +415,7 @@ offset_bottom = 48.0
 grow_horizontal = 2
 text = "You Loose"
 
-[node name="restart" type="Button" parent="CanvasLayer/loose_screen"]
+[node name="restart" type="Button" parent="CanvasLayer/loose_screen" unique_id=512167444]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -430,38 +430,38 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Restart"
 
-[node name="click_marker" type="StaticBody3D" parent="."]
+[node name="click_marker" type="StaticBody3D" parent="." unique_id=1864312677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
 visible = false
 collision_layer = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="click_marker"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="click_marker" unique_id=1046974948]
 shape = SubResource("CylinderShape3D_036b0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="click_marker"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="click_marker" unique_id=1148836537]
 mesh = SubResource("CylinderMesh_dwbse")
 
-[node name="release_marker" type="StaticBody3D" parent="."]
+[node name="release_marker" type="StaticBody3D" parent="." unique_id=1693512572]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
 visible = false
 collision_layer = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="release_marker"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="release_marker" unique_id=1281478695]
 shape = SubResource("CylinderShape3D_o8xsq")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="release_marker"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="release_marker" unique_id=471960154]
 mesh = SubResource("CylinderMesh_74bdg")
 
-[node name="dragMmarker" type="MeshInstance3D" parent="."]
+[node name="dragMmarker" type="MeshInstance3D" parent="." unique_id=1983778899]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 visible = false
 mesh = SubResource("BoxMesh_gbfbk")
 
-[node name="real_drag_marker" type="MeshInstance3D" parent="."]
+[node name="real_drag_marker" type="MeshInstance3D" parent="." unique_id=396510350]
 visible = false
 mesh = SubResource("CylinderMesh_036b0")
 
-[node name="player_spawner" parent="." instance=ExtResource("9_7t5mc")]
+[node name="player_spawner" parent="." unique_id=1704637076 instance=ExtResource("9_7t5mc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]

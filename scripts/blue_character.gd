@@ -3,5 +3,5 @@ extends Node3D
 @onready var animations=$AnimationPlayer
 @onready var godot_animations=$AnimationPlayer2
 func _process(delta: float) -> void:
-	$AnimationPlayer.speed_scale=2
+	#$AnimationPlayer.speed_scale=4
 	$AnimationPlayer.play("Walk")

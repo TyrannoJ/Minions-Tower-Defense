@@ -4,7 +4,7 @@ var delta_v_x
 var delta_v_z
 var start_v_x
 var start_v_z
-var Speed=0.75
+var Speed=1
 var max_speed=1
 var min_speed=0.5
 var color=""
@@ -29,8 +29,8 @@ var not_rotating=false
 @onready var focused=$focused
 @onready var anti_health_bar=$anti_health_bar
 @onready var follow_area=$follow_area
-@onready var red_character=$Red
-@onready var blue_character=$Blue
+@onready var character=$Character
+
 var pathfinding=false
 var next_pos=Vector3.ZERO
 var next_index=0
@@ -43,7 +43,17 @@ func _ready() -> void:
 	rotation.y=deg_to_rad(randf_range(-180,180))
 	velocity+=-global_transform.basis.z
 	Global.update_target.connect(on_update_target)
+
+func initialize():
+	
+	if color=="blue":
+		character.make_blue()
+	else:
+		
+		character.make_red()
+		
 func _physics_process(delta: float) -> void:
+	
 	if not_rotating:
 		if !pathfinding and !vision.is_colliding() and !dragged:
 			not_rotating=false
@@ -97,6 +107,9 @@ func handle_speed():
 		Speed+=randf_range(-0.05,0.05)
 	else:
 		Speed+=0.2
+	
+	character.animations.speed_scale=Speed*4
+	
 func random_movement():
 	handle_speed()
 	follow_persons()
@@ -244,12 +257,9 @@ func _on_follow_area_area_entered(area: Area3D) -> void:
 	
 	if area.is_in_group("weapons") and !has_weapon:
 		has_weapon=true
-		if color=="blue":
-			#blue_character.weapon.show()
-			blue_character.godot_animations.play("grab")
-		else:
-			#red_character.weapon.show()
-			red_character.godot_animations.play("grab")
+		
+		character.godot_animations.play("grab")
+		
 		area.queue_free()
 
 
@@ -260,17 +270,16 @@ func attack_players():
 		for da in damaging:
 			if da.is_in_group("persons") and has_weapon:
 				if da.color != color:
-					if color =="blue":
-						blue_character.godot_animations.play("hit")
-					else:
-						red_character.godot_animations.play("hit")
+					
+					character.godot_animations.play("hit")
+					
 					da.get_damage(1,unique_id)
 			
 	damaging=attack_area.get_overlapping_areas()
 	if damaging !=[]:
 		for da in damaging:
 			if da.is_in_group("targets") and color=="red":
-				red_character.godot_animations.play("hit")
+				character.godot_animations.play("hit")
 				da.get_damage(1)
 					
 func get_damage(val,attacker):
