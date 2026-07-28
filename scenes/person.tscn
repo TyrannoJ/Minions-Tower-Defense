@@ -1,12 +1,13 @@
-[gd_scene load_steps=30 format=3 uid="uid://by56u258h7le5"]
+[gd_scene format=3 uid="uid://by56u258h7le5"]
 
-[ext_resource type="Script" uid="uid://djh86oew3hjc7" path="res://scripts/person_red.gd" id="1_rm4p6"]
+[ext_resource type="Script" uid="uid://djh86oew3hjc7" path="res://scripts/person.gd" id="1_rm4p6"]
 [ext_resource type="PackedScene" uid="uid://btgvb01m7i75d" path="res://scenes/pathfinder.tscn" id="2_asawu"]
 [ext_resource type="Shader" uid="uid://cpb3sj6nalqcd" path="res://assets/person.tres" id="3_3qlke"]
 [ext_resource type="Script" uid="uid://7kcr2qf5us1c" path="res://scripts/follow_area.gd" id="3_g6f2d"]
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="5_aoiax"]
 [ext_resource type="PackedScene" uid="uid://1mmh648yardf" path="res://scenes/sword_blue.tscn" id="6_r7rx5"]
-[ext_resource type="PackedScene" uid="uid://bwqqttnm0lhb2" path="res://scenes/person_test_2.tscn" id="7_2jjoq"]
+[ext_resource type="PackedScene" uid="uid://bwqqttnm0lhb2" path="res://scenes/red_character.tscn" id="7_2jjoq"]
+[ext_resource type="PackedScene" uid="uid://hfogvokwmjl1" path="res://scenes/blue_character.tscn" id="8_ym70v"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4v2wv"]
 albedo_color = Color(1, 0, 0, 1)
@@ -85,98 +86,103 @@ albedo_color = Color(1, 0, 0, 1)
 material = SubResource("StandardMaterial3D_hoeld")
 size = Vector3(2, 0.2, 0.5)
 
-[node name="Person_Red" type="CharacterBody3D" groups=["persons"]]
+[node name="Person_Red" type="CharacterBody3D" unique_id=203047781 groups=["persons"]]
 collision_mask = 4
 script = ExtResource("1_rm4p6")
 
-[node name="Red" type="MeshInstance3D" parent="."]
+[node name="Red3" type="MeshInstance3D" parent="." unique_id=851468993]
 visible = false
 mesh = SubResource("CapsuleMesh_rm4p6")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1474165057]
 shape = SubResource("CapsuleShape3D_asawu")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=324152745]
 transform = Transform3D(0.3, 0, 0, 0, -1.3113417e-08, -0.3, 0, 0.3, -1.3113417e-08, 0, 0.69842196, -0.44759548)
 visible = false
 mesh = SubResource("CylinderMesh_4v2wv")
 
-[node name="Vision" type="RayCast3D" parent="."]
+[node name="Vision" type="RayCast3D" parent="." unique_id=1223000617]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015973687, 0)
 target_position = Vector3(0, 0, -5)
 collision_mask = 5
 collide_with_areas = true
 
-[node name="Rotation_timer" type="Timer" parent="."]
+[node name="Rotation_timer" type="Timer" parent="." unique_id=593734346]
 wait_time = 0.5
 one_shot = true
 autostart = true
 
-[node name="Pathfinder" parent="." instance=ExtResource("2_asawu")]
+[node name="Pathfinder" parent="." unique_id=336635558 instance=ExtResource("2_asawu")]
 
-[node name="Click_Check" type="Area3D" parent="."]
+[node name="Click_Check" type="Area3D" parent="." unique_id=1797500761]
 collision_layer = 8
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Click_Check"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Click_Check" unique_id=423641895]
 shape = SubResource("BoxShape3D_hncb1")
 
-[node name="Blue" type="MeshInstance3D" parent="."]
+[node name="Blue2" type="MeshInstance3D" parent="." unique_id=1862933140]
 visible = false
 mesh = SubResource("CapsuleMesh_3qlke")
 
-[node name="clicked_hat" type="MeshInstance3D" parent="."]
+[node name="clicked_hat" type="MeshInstance3D" parent="." unique_id=2129280500]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1814814, 0)
 visible = false
 mesh = SubResource("CylinderMesh_hncb1")
 
-[node name="follow_area" type="Area3D" parent="." groups=["persons"]]
+[node name="follow_area" type="Area3D" parent="." unique_id=373154287 groups=["persons"]]
 collision_mask = 80
 script = ExtResource("3_g6f2d")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="follow_area"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="follow_area" unique_id=36651014]
 shape = SubResource("CapsuleShape3D_hncb1")
 
-[node name="weapon" type="MeshInstance3D" parent="."]
+[node name="weapon" type="MeshInstance3D" parent="." unique_id=1331364659]
 transform = Transform3D(1, 0, 0, 0, 0.7979628, 0.60270673, 0, -0.60270673, 0.7979628, -0.6062522, 0.13604698, -0.25176388)
 visible = false
 mesh = SubResource("CapsuleMesh_aoiax")
 
-[node name="attack" type="Area3D" parent="."]
+[node name="attack" type="Area3D" parent="." unique_id=826258034]
 collision_mask = 65
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="attack"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="attack" unique_id=802758492]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.33276367, -1.4382831)
 shape = SubResource("BoxShape3D_3qlke")
 
-[node name="clicked" type="MeshInstance3D" parent="."]
+[node name="clicked" type="MeshInstance3D" parent="." unique_id=1605485960]
 visible = false
 mesh = SubResource("BoxMesh_r7rx5")
 
-[node name="Health_bar" type="MeshInstance3D" parent="."]
+[node name="Health_bar" type="MeshInstance3D" parent="." unique_id=1774231909]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2681521, 0)
 material_override = SubResource("ShaderMaterial_g6f2d")
 mesh = SubResource("BoxMesh_2v3k6")
 
-[node name="focused" type="MeshInstance3D" parent="."]
+[node name="focused" type="MeshInstance3D" parent="." unique_id=21022616]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
 visible = false
 mesh = SubResource("CylinderMesh_hoeld")
 
-[node name="anti_health_bar" type="MeshInstance3D" parent="."]
+[node name="anti_health_bar" type="MeshInstance3D" parent="." unique_id=1677478668]
 transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.268, 0)
 visible = false
 mesh = SubResource("BoxMesh_xktsn")
 
-[node name="sword_red" parent="." instance=ExtResource("5_aoiax")]
+[node name="sword_red" parent="." unique_id=1997743619 instance=ExtResource("5_aoiax")]
 transform = Transform3D(0.06486639, 0.12134133, -1.4936762, 0.704183, 1.3172679, 0.1375913, 1.3228447, -0.7071642, -6.5567086e-08, 0.46259564, 0.46280247, -0.5383053)
 visible = false
 
-[node name="sword_blue" parent="." instance=ExtResource("6_r7rx5")]
+[node name="sword_blue" parent="." unique_id=1864143042 instance=ExtResource("6_r7rx5")]
 transform = Transform3D(0.065261416, 0.122223906, -1.493587, 0.70349723, 1.3175333, 0.13855588, 1.3231903, -0.7065178, -6.528676e-08, 0.463, 0.463, -0.5)
 visible = false
 
-[node name="Person3" parent="." instance=ExtResource("7_2jjoq")]
-transform = Transform3D(-0.35, 0, -5.284853e-08, 0, 0.35, 0, 5.284853e-08, 0, -0.35, 0, -0.8831052, 0)
+[node name="Red" parent="." unique_id=729174095 instance=ExtResource("7_2jjoq")]
+transform = Transform3D(-0.35, 0, -3.059797e-08, 0, 0.35, 0, 3.059797e-08, 0, -0.35, 0, -0.9160619, 0)
+visible = false
+
+[node name="Blue" parent="." unique_id=1933014016 instance=ExtResource("8_ym70v")]
+transform = Transform3D(-0.35, 0, -3.059797e-08, 0, 0.35, 0, 3.059797e-08, 0, -0.35, 0, -0.86711884, 0)
+visible = false
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]
 [connection signal="input_event" from="Click_Check" to="." method="_on_click_check_input_event"]

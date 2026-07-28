@@ -1,12 +1,127 @@
 [gd_scene format=3 uid="uid://bwqqttnm0lhb2"]
 
-[ext_resource type="PackedScene" uid="uid://08yqk0ay4a3s" path="res://assets/Person3.glb" id="1_3sq35"]
-[ext_resource type="Script" uid="uid://be7vm6kawudft" path="res://scripts/person_test.gd" id="2_e1lch"]
+[ext_resource type="PackedScene" uid="uid://08yqk0ay4a3s" path="res://assets/Person3.glb" id="1_m11bv"]
+[ext_resource type="Script" uid="uid://be7vm6kawudft" path="res://scripts/red_character.gd" id="2_m11bv"]
+[ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="3_unwjs"]
 
-[node name="Person3" unique_id=1880466880 instance=ExtResource("1_3sq35")]
-script = ExtResource("2_e1lch")
+[sub_resource type="Animation" id="Animation_m11bv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("right_hand_target:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.3849442, 2.765773, 0.98903084)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("right_hand_target:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.95460945, 1.9310998, 2.5378525)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("rig/Skeleton3D/BoneAttachment3D/sword:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
-[node name="Skeleton3D" parent="rig" parent_id_path=PackedInt32Array(861328401) index="0" unique_id=553890699]
+[sub_resource type="Animation" id="Animation_unwjs"]
+resource_name = "grab"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("right_hand_target:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-2.0424142, 3.8527286, 0.8720584), Vector3(-1.6305833, 3.4818127, 1.2237825), Vector3(-1.429292, 3.1102827, 1.2758029), Vector3(-1.114208, 3.1102827, 1.2758029)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("right_hand_target:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.95460945, 1.4700055, 2.5378525), Vector3(0.95460945, 2.0045455, 2.5378525), Vector3(0.9546095, 2.0045455, 2.5378525), Vector3(0.9546095, 2.1904452, 2.5378525)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("rig/Skeleton3D/BoneAttachment3D/sword:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_ki3tl"]
+resource_name = "hit"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("right_hand_target:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.2521572, 4.5783753, 0.8853807), Vector3(-1.2521572, 4.0915337, 1.1817427), Vector3(-1.4575412, 3.8494835, 1.3071387), Vector3(-1.30338, 3.431025, 1.3071387), Vector3(-1.30338, 3.1856232, 1.3071387), Vector3(-1.30338, 2.9134831, 1.3071387)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("right_hand_target:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.7832804, 0.6272931, 0.57120883), Vector3(1.0186635, 0.9156746, 0.9350166), Vector3(1.1327714, 1.7681539, 1.8864803), Vector3(1.0249723, 2.212304, 2.387346), Vector3(0.7894356, 2.5098076, 2.760766), Vector3(0.61479944, 2.6073973, 2.911132)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_unwjs"]
+_data = {
+&"RESET": SubResource("Animation_m11bv"),
+&"grab": SubResource("Animation_unwjs"),
+&"hit": SubResource("Animation_ki3tl")
+}
+
+[node name="Person3" unique_id=729174095 instance=ExtResource("1_m11bv")]
+script = ExtResource("2_m11bv")
+
+[node name="Skeleton3D" parent="rig" parent_id_path=PackedInt32Array(647975005) index="0" unique_id=381755283]
 bones/1/position = Vector3(1.8859284e-08, 0.015338659, 3.6987092)
 bones/2/position = Vector3(1.5775994e-08, 0.17902127, 1.7578567)
 bones/7/rotation = Quaternion(0.9146956, 0.0016421449, 0.001015265, -0.4041388)
@@ -191,5 +306,72 @@ bones/615/rotation = Quaternion(-4.6490095e-10, -7.47207e-09, 1, -3.4924597e-10)
 bones/616/position = Vector3(-0.7804556, 0.95086133, 1.5415545)
 bones/617/position = Vector3(-6.4686276e-08, -3.1694398e-08, 5.4533906e-08)
 
-[node name="Marker3D" type="Marker3D" parent="." index="229" unique_id=265482260]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2073002, 1.3831973)
+[node name="FABRIK3D" type="FABRIK3D" parent="rig/Skeleton3D" index="1" unique_id=1163975575]
+setting_count = 1
+settings/0/target_node = NodePath("../../../right_hand_target")
+settings/0/root_bone_name = "DEF-upper_arm.R"
+settings/0/root_bone = 472
+settings/0/end_bone_name = "DEF-hand.R"
+settings/0/end_bone = 476
+settings/0/extend_end_bone = false
+settings/0/joint_count = 5
+settings/0/joints/0/rotation_axis = 3
+settings/0/joints/0/limitation = null
+settings/0/joints/1/rotation_axis = 3
+settings/0/joints/1/limitation = null
+settings/0/joints/2/rotation_axis = 3
+settings/0/joints/2/limitation = null
+settings/0/joints/3/rotation_axis = 3
+settings/0/joints/3/limitation = null
+settings/0/joints/4/rotation_axis = 3
+settings/0/joints/4/limitation = null
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="rig/Skeleton3D" index="2" unique_id=437410800]
+transform = Transform3D(0.7237966, -0.42852452, 0.5408185, 0.32810408, -0.47576034, -0.8160879, 0.6070138, 0.7681268, -0.203753, -1.3628058, 2.7939835, 0.9524152)
+bone_name = "DEF-hand.R"
+bone_idx = 476
+
+[node name="sword" parent="rig/Skeleton3D/BoneAttachment3D" index="0" unique_id=2032796431 instance=ExtResource("3_unwjs")]
+transform = Transform3D(0.37957156, 0.9554086, 2.2788417, -2.4708607, 0.12084526, 0.36089057, 0.027764231, -2.3070738, 0.9626205, 0.768, -0.03399983, -1.4769998)
+visible = false
+
+[node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="rig/Skeleton3D" index="3" unique_id=2120608538]
+setting_count = 1
+settings/0/amount = 1.0
+settings/0/apply_bone_name = "DEF-hand.R"
+settings/0/apply_bone = 476
+settings/0/reference_type = 1
+settings/0/reference_node = NodePath("../../../right_hand_target")
+settings/0/copy = 2
+settings/0/axes = 7
+settings/0/invert = 0
+settings/0/additive = false
+
+[node name="left_hand_ik" type="FABRIK3D" parent="rig/Skeleton3D" index="4" unique_id=197049658]
+setting_count = 1
+settings/0/target_node = NodePath("../../../left_hand_target")
+settings/0/root_bone_name = "DEF-upper_arm.L"
+settings/0/root_bone = 348
+settings/0/end_bone_name = "DEF-hand.L"
+settings/0/end_bone = 352
+settings/0/extend_end_bone = false
+settings/0/joint_count = 5
+settings/0/joints/0/rotation_axis = 3
+settings/0/joints/0/limitation = null
+settings/0/joints/1/rotation_axis = 3
+settings/0/joints/1/limitation = null
+settings/0/joints/2/rotation_axis = 3
+settings/0/joints/2/limitation = null
+settings/0/joints/3/rotation_axis = 3
+settings/0/joints/3/limitation = null
+settings/0/joints/4/rotation_axis = 3
+settings/0/joints/4/limitation = null
+
+[node name="right_hand_target" type="Marker3D" parent="." index="229" unique_id=82868789]
+transform = Transform3D(0.7237969, -0.42852452, 0.5408186, 0.3281042, -0.47576028, -0.8160878, 0.60701406, 0.7681266, -0.20375302, -1.3849442, 2.765773, 0.98903084)
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="." index="230" unique_id=291593489]
+libraries/ = SubResource("AnimationLibrary_unwjs")
+
+[node name="left_hand_target" type="Marker3D" parent="." index="231" unique_id=1373112395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.11939, 1.6221588, 0)

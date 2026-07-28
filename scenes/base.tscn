@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ba6ranqlu2t2m"]
+[gd_scene format=3 uid="uid://ba6ranqlu2t2m"]
 
 [ext_resource type="Script" uid="uid://wdh01ieopvr4" path="res://scripts/base.gd" id="1_3vi8l"]
 
@@ -28,35 +28,35 @@ size = Vector3(8, 3, 8)
 [sub_resource type="BoxShape3D" id="BoxShape3D_8rhti"]
 size = Vector3(8, 3, 8)
 
-[node name="base" type="Area3D" groups=["targets"]]
+[node name="base" type="Area3D" unique_id=1270803802 groups=["targets"]]
 collision_layer = 64
 collision_mask = 0
 script = ExtResource("1_3vi8l")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2002304775]
 shape = SubResource("BoxShape3D_g5ejs")
 
-[node name="Health_bar" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2681521, 0)
+[node name="Health_bar" type="MeshInstance3D" parent="." unique_id=2062945594]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
 mesh = SubResource("BoxMesh_21bcp")
 
-[node name="anti_health_bar" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.268, 0)
+[node name="anti_health_bar" type="MeshInstance3D" parent="." unique_id=171145705]
+transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
 mesh = SubResource("BoxMesh_tpea4")
 
-[node name="rescue_timer" type="Timer" parent="."]
+[node name="rescue_timer" type="Timer" parent="." unique_id=42337122]
 wait_time = 5.0
 one_shot = true
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." groups=["base"]]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=641756913 groups=["base"]]
 collision_layer = 4
 collision_mask = 0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1810335423]
 material_override = SubResource("StandardMaterial3D_rpg24")
 mesh = SubResource("BoxMesh_3vi8l")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=376223144]
 shape = SubResource("BoxShape3D_8rhti")
 
 [connection signal="timeout" from="rescue_timer" to="." method="_on_rescue_timer_timeout"]

@@ -29,6 +29,8 @@ var not_rotating=false
 @onready var focused=$focused
 @onready var anti_health_bar=$anti_health_bar
 @onready var follow_area=$follow_area
+@onready var red_character=$Red
+@onready var blue_character=$Blue
 var pathfinding=false
 var next_pos=Vector3.ZERO
 var next_index=0
@@ -243,9 +245,11 @@ func _on_follow_area_area_entered(area: Area3D) -> void:
 	if area.is_in_group("weapons") and !has_weapon:
 		has_weapon=true
 		if color=="blue":
-			weapon_blue.show()
+			#blue_character.weapon.show()
+			blue_character.godot_animations.play("grab")
 		else:
-			weapon_red.show()
+			#red_character.weapon.show()
+			red_character.godot_animations.play("grab")
 		area.queue_free()
 
 
@@ -256,13 +260,17 @@ func attack_players():
 		for da in damaging:
 			if da.is_in_group("persons") and has_weapon:
 				if da.color != color:
-					
+					if color =="blue":
+						blue_character.godot_animations.play("hit")
+					else:
+						red_character.godot_animations.play("hit")
 					da.get_damage(1,unique_id)
 			
 	damaging=attack_area.get_overlapping_areas()
 	if damaging !=[]:
 		for da in damaging:
 			if da.is_in_group("targets") and color=="red":
+				red_character.godot_animations.play("hit")
 				da.get_damage(1)
 					
 func get_damage(val,attacker):
