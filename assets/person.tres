@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=4 format=3 uid="uid://cpb3sj6nalqcd"]
+[gd_resource type="VisualShader" format=3 uid="uid://cpb3sj6nalqcd"]
 
 [sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_kry81"]
 constant = Color(1, 0, 0, 1)
@@ -10,23 +10,6 @@ constant = Color(0.14999998, 1, 0, 1)
 parameter_name = "Interpolation"
 
 [resource]
-code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx;
-
-
-
-
-void fragment() {
-// ColorConstant:3
-	vec4 n_out3p0 = vec4(0.150000, 1.000000, 0.000000, 1.000000);
-
-
-// Output:0
-	ALBEDO = vec3(n_out3p0.xyz);
-
-
-}
-"
 nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_kry81")
 nodes/fragment/2/position = Vector2(60, 280)
 nodes/fragment/3/node = SubResource("VisualShaderNodeColorConstant_xstk5")

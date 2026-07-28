@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://7kcr2qf5us1c" path="res://scripts/follow_area.gd" id="3_g6f2d"]
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="5_aoiax"]
 [ext_resource type="PackedScene" uid="uid://1mmh648yardf" path="res://scenes/sword_blue.tscn" id="6_r7rx5"]
-[ext_resource type="PackedScene" uid="uid://t8dd0ie1wqde" path="res://scenes/person_test.tscn" id="7_2jjoq"]
+[ext_resource type="PackedScene" uid="uid://bwqqttnm0lhb2" path="res://scenes/person_test_2.tscn" id="7_2jjoq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4v2wv"]
 albedo_color = Color(1, 0, 0, 1)
@@ -113,7 +113,6 @@ one_shot = true
 autostart = true
 
 [node name="Pathfinder" parent="." instance=ExtResource("2_asawu")]
-visible = false
 
 [node name="Click_Check" type="Area3D" parent="."]
 collision_layer = 8
@@ -176,8 +175,8 @@ visible = false
 transform = Transform3D(0.065261416, 0.122223906, -1.493587, 0.70349723, 1.3175333, 0.13855588, 1.3231903, -0.7065178, -6.528676e-08, 0.463, 0.463, -0.5)
 visible = false
 
-[node name="Person_test" parent="." instance=ExtResource("7_2jjoq")]
-transform = Transform3D(-0.35, 0, -5.284853e-08, 0, 0.35, 0, 5.284853e-08, 0, -0.35, 0, -0.82895726, 0)
+[node name="Person3" parent="." instance=ExtResource("7_2jjoq")]
+transform = Transform3D(-0.35, 0, -5.284853e-08, 0, 0.35, 0, 5.284853e-08, 0, -0.35, 0, -0.8831052, 0)
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]
 [connection signal="input_event" from="Click_Check" to="." method="_on_click_check_input_event"]
