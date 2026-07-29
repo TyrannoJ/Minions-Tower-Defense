@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://djyrvoejdui5i"]
+
+[ext_resource type="PackedScene" uid="uid://b2pko1dfaywn8" path="res://assets/wall_1_edge.glb" id="1_fsgl7"]
+[ext_resource type="Script" uid="uid://64i1krym5b2o" path="res://scripts/base_wall2.gd" id="1_rcjp3"]
+[ext_resource type="Script" uid="uid://d1mx71bqfcsqh" path="res://scripts/base_wall.gd" id="2_03b3w"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hhcb3"]
+size = Vector3(2, 4, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t4qo1"]
+size = Vector3(4, 4, 4)
+
+[node name="base_wall_edge" type="StaticBody3D" unique_id=1138275984 groups=["base"]]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_rcjp3")
+
+[node name="wall_1_edge" parent="." unique_id=1427408705 instance=ExtResource("1_fsgl7")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=315551554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_hhcb3")
+
+[node name="area" type="Area3D" parent="." unique_id=1376319863 groups=["targets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -1)
+collision_layer = 64
+script = ExtResource("2_03b3w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area" unique_id=1350343808 groups=["targets"]]
+shape = SubResource("BoxShape3D_t4qo1")

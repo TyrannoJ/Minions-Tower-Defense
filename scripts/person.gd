@@ -115,9 +115,7 @@ func random_movement():
 	follow_persons()
 	if Global.attack_on_base and has_weapon and !clicked:
 		if Global.red_coords !=[]:
-			look_at(find_closest_enemy())
-			rotation.z=0
-			rotation.x=0
+			walk_to(find_closest_enemy())
 func follow_persons():
 	if vision.is_colliding():
 		var collider=vision.get_collider()
@@ -129,7 +127,8 @@ func follow_persons():
 						rotation.x=0
 						rotation.z=0
 			elif !collider.is_in_group("base"):
-				rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
+				pass
+				#rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
 	
 func handle_pathfinding():
 	if next_pos != Vector3.ZERO:
@@ -279,7 +278,8 @@ func attack_players():
 	damaging=attack_area.get_overlapping_areas()
 	if damaging !=[]:
 		for da in damaging:
-			if da.is_in_group("targets") and color=="red":
+			print(da)
+			if da.is_in_group("targets") and color=="red" and has_weapon:
 				show_location=true
 				character.godot_animations.play("hit")
 				da.get_damage(1)
@@ -288,8 +288,6 @@ func get_damage(val,attacker):
 	health-=val
 	if health <=0:
 		if !has_killed_emitted:
-			
-			
 			killed.emit(color,number,attacker)
 			has_killed_emitted=true
 		
@@ -305,14 +303,14 @@ func handle_enemy():
 	
 	handle_speed()
 	follow_persons()
-	if !vision.is_colliding() and has_weapon:
+	if  has_weapon:#!vision.is_colliding() and
 		look_at(Global.base)
 		rotation.z=0
 		rotation.x=0
 func follow_mouse():
 	if clicked and Global.current_tool==0 and Global.dragging:
 		dragged=true
-		look_at(Global.drag_pos)
+		walk_to(Global.drag_pos)
 		rotation.x=0
 		rotation.z=0
 	else:
@@ -329,3 +327,26 @@ func get_distance(from:Vector3,to:Vector3):
 	var z=abs(from.z-to.z)
 	var dist=sqrt(pow(x,2)+pow(z,2))
 	return(dist)
+	
+func walk_to(location:Vector3):
+	if vision.is_colliding() and vision.get_collider() !=null:
+		if vision.get_collider().is_in_group("obstacles"):
+			rotate_to_vector_better(Vector3(-vision.get_collision_normal().z,vision.get_collision_normal().y,vision.get_collision_normal().x))
+			
+	else:
+		
+		look_at(location)
+		rotation.x=0
+		rotation.z=0
+		
+func rotate_to_vector_better(vector:Vector3):
+	var vec=Vector2(vector.x,vector.z)
+	vec.x=-vec.x
+	var ang=vec.angle()
+	
+	#if y_rot_tween.is_running():
+	if !rotating:
+		
+		y_rot_tween=get_tree().create_tween()
+		y_rot_tween.tween_property($".", "rotation:y", ang+PI/2, 0.2)
+	#y_rot_tween.tween_callback($".".queue_free)

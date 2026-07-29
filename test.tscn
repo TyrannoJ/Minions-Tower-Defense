@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://bb76ekm0c5vxj"]
+
+[ext_resource type="PackedScene" uid="uid://qa5h70ybtd6w" path="res://scenes/obstacle_wall.tscn" id="1_8uh7m"]
+[ext_resource type="PackedScene" uid="uid://by56u258h7le5" path="res://scenes/person.tscn" id="2_6uqi0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mf4mk"]
+size = Vector3(1000, 1, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqk2v"]
+albedo_color = Color(0.42, 0.42, 0.42, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_37kl0"]
+material = SubResource("StandardMaterial3D_aqk2v")
+size = Vector3(1000, 1, 1000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8uh7m"]
+size = Vector3(100, 3, 100)
+
+[node name="Test" type="Node3D" unique_id=1884790284]
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=989313242]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=252115244]
+shape = SubResource("BoxShape3D_mf4mk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=336415394]
+mesh = SubResource("BoxMesh_37kl0")
+
+[node name="set_target" type="Area3D" parent="Ground" unique_id=2145325519]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/set_target" unique_id=722620276]
+shape = SubResource("BoxShape3D_8uh7m")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1686245330]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 25.214771, 0)
+
+[node name="obstacle_wall" parent="." unique_id=1410191189 instance=ExtResource("1_8uh7m")]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="Person_Red" parent="." unique_id=203047781 instance=ExtResource("2_6uqi0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6598845, 10.119507)
+
+[node name="Camerapivot" type="Marker3D" parent="." unique_id=1324287005]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Camerapivot" unique_id=1931666131]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)

@@ -8,16 +8,15 @@
 [ext_resource type="PackedScene" uid="uid://ba6ranqlu2t2m" path="res://scenes/base.tscn" id="6_o8fc1"]
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="7_xo05s"]
 [ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
-[ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="9_7t5mc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
 size = Vector3(1000, 1, 1000)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqk2v"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7r4gi"]
 albedo_color = Color(0.42, 0.42, 0.42, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_f3sb7"]
-material = SubResource("StandardMaterial3D_aqk2v")
+material = SubResource("StandardMaterial3D_7r4gi")
 size = Vector3(1000, 1, 1000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tlwt5"]
@@ -460,9 +459,6 @@ mesh = SubResource("BoxMesh_gbfbk")
 [node name="real_drag_marker" type="MeshInstance3D" parent="." unique_id=396510350]
 visible = false
 mesh = SubResource("CylinderMesh_036b0")
-
-[node name="player_spawner" parent="." unique_id=1704637076 instance=ExtResource("9_7t5mc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="drag_ended" from="CanvasLayer/Controls/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]

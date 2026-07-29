@@ -1,5 +1,5 @@
 extends Node3D
-#ltr!vv3h5pp48
+
 @export var person:PackedScene
 @export var obstacle_wall:PackedScene
 @export var weapon:PackedScene
@@ -35,7 +35,7 @@ extends Node3D
 @onready var anti_base_health=$CanvasLayer/ToolBar/anti_health_bar
 var drawings=[]
 var loose=false
-var player_number=20
+var player_number=30
 var current_unique_id=player_number
 var blue_persons=[]
 var red_persons=[]
@@ -64,8 +64,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		camera.rotation.x = clamp(camera.rotation.x, -PI,PI)
 		camera.rotation.y = clamp(camera.rotation.y, -PI,PI)
-	
-		
 
 func _ready() -> void:
 	#var walls=[wall_up,wall_down,wall_left,wall_right]
@@ -84,7 +82,7 @@ func add_base():
 		base.queue_free()
 	base=base_scene.instantiate()
 	add_child(base)
-	base.position=Vector3(30,2,0)
+	base.position=Vector3(0,2,0)
 	base.base_killed.connect(base_killed)
 func spawn_weapons():
 	if weapons !=[]:
@@ -154,6 +152,7 @@ func spawn_players():
 		unique_id+=1
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
+	#print(Engine.get_frames_per_second())
 	find_red_players()#
 	if !loose:
 		show_base_health()

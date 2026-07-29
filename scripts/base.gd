@@ -5,6 +5,39 @@ signal base_killed
 @onready var health_bar=$Health_bar
 @onready var anti_health_bar=$anti_health_bar
 @onready var rescue_timer=$rescue_timer
+@export var wall:PackedScene
+@export var wall_edge:PackedScene
+func _ready() -> void:
+	for x in range(-8,10,2):
+		for z in range(-8,10,2):
+			if abs(x)==8 and abs(z)==8:
+				var wa=wall_edge.instantiate()
+				add_child(wa)
+				wa.position=Vector3(x,-1,z)
+				if x==-8 and z==-8:
+					wa.rotation.y=PI/2
+				elif x==8 and z==-8:
+					wa.rotation.y=0
+				elif x==8 and z==8:
+					wa.rotation.y=-PI/2
+				elif x==-8 and z==8:
+					wa.rotation.y=PI
+			elif abs(x)==8 and abs(z)!=8:
+				var wa=wall.instantiate()
+				add_child(wa)
+				wa.position=Vector3(x,-1,z)
+				if x==8:
+					wa.rotation.y=PI/2
+				elif x==-8:
+					wa.rotation.y=-PI/2
+			elif abs(x)!=8 and abs(z)==8:
+				var wa=wall.instantiate()
+				add_child(wa)
+				wa.position=Vector3(x,-1,z)
+				if z==8:
+					wa.rotation.y=0
+				elif z==-8:
+					wa.rotation.y=PI
 func get_damage(val):
 	health-=val
 	rescue_timer.start(5)
