@@ -20,6 +20,7 @@ signal killed(color,number)
 var has_killed_emitted=false
 var dragged=false
 var not_rotating=false
+var stop=false
 @onready var pathfinder=$Pathfinder
 @onready var rot_timer=$Rotation_timer
 @onready var weapon_red=$sword_red
@@ -54,11 +55,7 @@ func initialize():
 		
 func _physics_process(delta: float) -> void:
 	
-	if not_rotating:
-		if !pathfinding and !vision.is_colliding() and !dragged:
-			not_rotating=false
-			change_rotation()
-			rot_timer.start(1)
+	
 	if color=="blue" and has_weapon:
 		vision.set_collision_mask_value(6,true)
 		
@@ -66,29 +63,72 @@ func _physics_process(delta: float) -> void:
 		vision.set_collision_mask_value(6,false)
 		
 	follow_area.color=color
+	
 	attack_players()
 	follow_mouse()
 	show_attributes()
 	pathfinder.player_position=position
+	move()
 	if rotation.y==rot_y_before:
 		rotating=false
 	else:
 		rotating=true
 	
-	if pathfinding:
-		handle_pathfinding()
-	else:
-		if color=="blue":
-			random_movement()
-		else:
-			handle_enemy()
+	
+	
+		
 	handle_collisions()
-	move_and_slide()
+	
 	velocity.x=0
 	velocity.z=0
 	velocity+=-global_transform.basis.z*Speed
 	move_and_slide()
 	rot_y_before=rotation.y
+	
+func move():
+	speed()
+	
+	if pathfinding:
+		handle_pathfinding()
+	else:
+		direction()
+	
+	
+func direction():
+	
+	follow_persons()
+	if not_rotating:
+		if !pathfinding and !vision.is_colliding() and !dragged:
+			not_rotating=false
+			change_rotation()
+			rot_timer.start(1)
+			
+			
+	if color=="blue":
+		
+		if Global.attack_on_base and has_weapon and !clicked:
+			if Global.red_coords !=[]:
+				walk_to(find_closest_enemy())
+				
+				
+	elif color=="red":
+		if  has_weapon:#!vision.is_colliding() and
+			look_at(Global.base)
+			rotation.z=0
+			rotation.x=0
+		
+
+func speed():
+	if Speed>=min_speed:
+		if Speed>=max_speed:
+			Speed-=0.1
+		Speed+=randf_range(-0.05,0.05)
+	else:
+		Speed+=0.2
+	if stop:
+		Speed=0
+		velocity=Vector3.ZERO
+	character.animations.speed_scale=Speed*4
 	
 func handle_collisions():
 	for index in range(get_slide_collision_count()):
@@ -100,22 +140,12 @@ func handle_collisions():
 			if pathfinding:
 				look_at(next_pos)
 				
-func handle_speed():
-	if Speed>=min_speed:
-		if Speed>=max_speed:
-			Speed-=0.1
-		Speed+=randf_range(-0.05,0.05)
-	else:
-		Speed+=0.2
+
 	
-	character.animations.speed_scale=Speed*4
 	
 func random_movement():
-	handle_speed()
-	follow_persons()
-	if Global.attack_on_base and has_weapon and !clicked:
-		if Global.red_coords !=[]:
-			walk_to(find_closest_enemy())
+	speed()
+	
 func follow_persons():
 	if vision.is_colliding():
 		var collider=vision.get_collider()
@@ -127,8 +157,8 @@ func follow_persons():
 						rotation.x=0
 						rotation.z=0
 			elif !collider.is_in_group("base"):
-				pass
-				#rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
+				
+				rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
 	
 func handle_pathfinding():
 	if next_pos != Vector3.ZERO:
@@ -146,7 +176,7 @@ func handle_pathfinding():
 			
 			rotation.x=0
 			rotation.z=0
-			Speed=7
+			stop=false
 			if next_index <len(pathfinder.markers):
 				pathfinder.markers[next_index].queue_free()
 			next_index+=1
@@ -197,8 +227,8 @@ func on_update_target(col,num):
 		end_pathfinding()
 		rot_timer.paused=true
 		pathfinding=true
-		Speed=0
-		velocity=Vector3.ZERO
+		stop=true
+		
 	#look_at(Global.target_pos)
 	#rotation.x=0
 	#rotation.z=0
@@ -278,7 +308,7 @@ func attack_players():
 	damaging=attack_area.get_overlapping_areas()
 	if damaging !=[]:
 		for da in damaging:
-			print(da)
+			
 			if da.is_in_group("targets") and color=="red" and has_weapon:
 				show_location=true
 				character.godot_animations.play("hit")
@@ -301,7 +331,7 @@ func get_damage(val,attacker):
 	#anti_health_bar.position.x=1-sca
 func handle_enemy():
 	
-	handle_speed()
+	speed()
 	follow_persons()
 	if  has_weapon:#!vision.is_colliding() and
 		look_at(Global.base)

@@ -1,7 +1,8 @@
 extends Area3D
-var health:float=10000
+var health:float=8000
 var has_killed_emitted=false
 signal base_killed
+var start_health=8000
 @onready var health_bar=$Health_bar
 @onready var anti_health_bar=$anti_health_bar
 @onready var rescue_timer=$rescue_timer
@@ -49,7 +50,7 @@ func get_damage(val):
 			
 			base_killed.emit()
 			has_killed_emitted=true
-	var sca:float=float(health/10000)
+	var sca:float=float(health/start_health)
 	
 	anti_health_bar.scale.x=1-sca
 	health_bar.position.x=-(1-sca)

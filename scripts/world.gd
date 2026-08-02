@@ -33,6 +33,7 @@ extends Node3D
 @onready var base:Node3D
 @onready var base_health=$CanvasLayer/ToolBar/health_bar
 @onready var anti_base_health=$CanvasLayer/ToolBar/anti_health_bar
+var start_base_health=8000
 var drawings=[]
 var loose=false
 var player_number=30
@@ -281,7 +282,7 @@ func mark_players(event_position):
 				pass
 	for pe in blue_persons:
 		if pe != null:
-			if is_in_area(pe.position,klick_pos,release_pos) and pe.has_weapon:
+			if is_in_area(pe.position,klick_pos,release_pos):
 				pe.clicked=true
 	release_marker.hide()
 	click_marker.hide()
@@ -451,7 +452,7 @@ func reset_stat_board():
 	
 
 func show_base_health():
-	var sca:float=float(base.health/10000)
+	var sca:float=float(base.health/start_base_health)
 	sca=sca*690
 	anti_base_health.size.x=690
 	#base_health.position.x=-(1-sca)

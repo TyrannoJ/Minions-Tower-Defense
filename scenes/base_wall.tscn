@@ -3,12 +3,13 @@
 [ext_resource type="Script" uid="uid://64i1krym5b2o" path="res://scripts/base_wall2.gd" id="1_3vsr5"]
 [ext_resource type="PackedScene" uid="uid://bjidq0pkmiexl" path="res://assets/wall_1.glb" id="1_lxn0i"]
 [ext_resource type="Script" uid="uid://d1mx71bqfcsqh" path="res://scripts/base_wall.gd" id="2_tv6fm"]
+[ext_resource type="PackedScene" uid="uid://bmdpmky38y1xe" path="res://assets/wall_animated.glb" id="4_pvnqg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_t4qo1"]
 size = Vector3(2, 4, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lxn0i"]
-size = Vector3(2, 4, 2)
+size = Vector3(2, 4, 4)
 
 [node name="base_wall" type="StaticBody3D" unique_id=734140346 groups=["base"]]
 collision_layer = 4
@@ -21,10 +22,21 @@ shape = SubResource("BoxShape3D_t4qo1")
 
 [node name="wall_1" parent="." unique_id=377890474 instance=ExtResource("1_lxn0i")]
 
+[node name="Cube" parent="wall_1" index="0" unique_id=874730815]
+visible = false
+
+[node name="Cube_001" parent="wall_1" index="1" unique_id=1166935291]
+visible = false
+
 [node name="area" type="Area3D" parent="." unique_id=133967569 groups=["targets"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 1)
 collision_layer = 64
 script = ExtResource("2_tv6fm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="area" unique_id=189690167]
 shape = SubResource("BoxShape3D_lxn0i")
+
+[node name="wall_animated" parent="." unique_id=731919429 instance=ExtResource("4_pvnqg")]
+
+[editable path="wall_1"]
+[editable path="wall_animated"]
