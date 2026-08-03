@@ -54,7 +54,7 @@ func initialize():
 		character.make_red()
 		
 func _physics_process(delta: float) -> void:
-	
+
 	
 	if color=="blue" and has_weapon:
 		vision.set_collision_mask_value(6,true)
@@ -82,6 +82,11 @@ func _physics_process(delta: float) -> void:
 	velocity.x=0
 	velocity.z=0
 	velocity+=-global_transform.basis.z*Speed
+	if color=="blue":
+		#print(rad_to_deg(rotation.y))
+		#print(dragged)
+		pass
+		
 	move_and_slide()
 	rot_y_before=rotation.y
 	
@@ -95,13 +100,18 @@ func move():
 	
 	
 func direction():
-	
-	follow_persons()
+	if !dragged:
+		follow_persons()
 	if not_rotating:
 		if !pathfinding and !vision.is_colliding() and !dragged:
 			not_rotating=false
 			change_rotation()
+			
 			rot_timer.start(1)
+	
+		
+		
+				
 			
 			
 	if color=="blue":
@@ -143,8 +153,7 @@ func handle_collisions():
 
 	
 	
-func random_movement():
-	speed()
+
 	
 func follow_persons():
 	if vision.is_colliding():
@@ -153,12 +162,13 @@ func follow_persons():
 			if vision.get_collider().is_in_group("persons") : 
 				if has_weapon:
 					if vision.get_collider().color !=color:
-						look_at(collider.global_position)
+						#look_at(collider.global_position)
 						rotation.x=0
 						rotation.z=0
-			elif !collider.is_in_group("base"):
-				
+			elif !vision.get_collider().is_in_group("base"):
 				rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
+			
+			
 	
 func handle_pathfinding():
 	if next_pos != Vector3.ZERO:
@@ -200,12 +210,13 @@ func show_attributes():
 func change_rotation():
 	
 	rotate_smooth(randf_range(-30,30))
-	$Rotation_timer.start(randf_range(0.1,0.3))
+	
 
 func _on_rotation_timer_timeout() -> void:
 	change_rotation()
 	if !pathfinding and !vision.is_colliding() and !dragged:
-		rot_timer.start(1)
+		rot_timer.start(randf_range(0.1,0.3))
+		
 		
 	else:
 		not_rotating=true
@@ -267,6 +278,7 @@ func rotate_smooth(deg):
 	#if y_rot_tween.is_running():
 	if !rotating:
 		#print("a")
+		pass
 		y_rot_tween=get_tree().create_tween()
 		y_rot_tween.tween_property($".", "rotation:y", rotation.y+deg_to_rad(deg), 0.2)
 	#y_rot_tween.tween_callback($".".queue_free)
@@ -277,7 +289,7 @@ func rotate_to_Vector(vec:Vector2):
 	
 	#if y_rot_tween.is_running():
 	if !rotating:
-		
+		pass
 		y_rot_tween=get_tree().create_tween()
 		y_rot_tween.tween_property($".", "rotation:y", ang+PI/2, 0.2)
 	#y_rot_tween.tween_callback($".".queue_free)
@@ -329,14 +341,7 @@ func get_damage(val,attacker):
 	health_bar.position.x=-(1-sca)
 	health_bar.scale.x=sca
 	#anti_health_bar.position.x=1-sca
-func handle_enemy():
-	
-	speed()
-	follow_persons()
-	if  has_weapon:#!vision.is_colliding() and
-		look_at(Global.base)
-		rotation.z=0
-		rotation.x=0
+
 func follow_mouse():
 	if clicked and Global.current_tool==0 and Global.dragging:
 		dragged=true
@@ -361,8 +366,13 @@ func get_distance(from:Vector3,to:Vector3):
 func walk_to(location:Vector3):
 	if vision.is_colliding() and vision.get_collider() !=null:
 		if vision.get_collider().is_in_group("obstacles"):
-			rotate_to_vector_better(Vector3(-vision.get_collision_normal().z,vision.get_collision_normal().y,vision.get_collision_normal().x))
 			
+			rotate_to_vector_better(Vector3(-vision.get_collision_normal().z,vision.get_collision_normal().y,vision.get_collision_normal().x))
+		else:
+			
+			look_at(location)
+			rotation.x=0
+			rotation.z=0	
 	else:
 		
 		look_at(location)

@@ -20,9 +20,9 @@ func _process(delta: float) -> void:
 	if has_node("area"):
 		if area.health !=start_health:
 			animations.play("crumble")
-			print(3.3*(area.health/start_health-1))
+			#print(3.3*(area.health/start_health-1))
 			animations.pause()
-			print(animations.current_animation)
+			#print(animations.current_animation)
 			animations.seek(3.3*abs(area.health/start_health-1),true)
 		
 	

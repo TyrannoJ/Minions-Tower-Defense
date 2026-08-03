@@ -36,7 +36,7 @@ extends Node3D
 var start_base_health=8000
 var drawings=[]
 var loose=false
-var player_number=30
+var player_number=2
 var current_unique_id=player_number
 var blue_persons=[]
 var red_persons=[]
