@@ -13,6 +13,8 @@ var dragging=false
 var base:Vector3
 signal add_player
 var red_coords=[]
+var camera_position:Vector3
+var show_name_tag=false
 
 
 	
@@ -24,4 +26,5 @@ func restart():
 	attack_on_base=false
 	dragging=false
 	red_coords=[]
+	show_name_tag=false
 	

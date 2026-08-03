@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://d34ijti0xkubl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
+material = SubResource("StandardMaterial3D_t4qo1")
+size = Vector3(5, 5, 5)
+
+[node name="enemy spawner" type="Node3D" unique_id=2055623077]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1004828529]
+mesh = SubResource("BoxMesh_hhcb3")

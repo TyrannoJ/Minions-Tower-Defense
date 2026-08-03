@@ -85,8 +85,15 @@ albedo_color = Color(1, 0, 0, 1)
 material = SubResource("StandardMaterial3D_hoeld")
 size = Vector3(2, 0.2, 0.5)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_hhcb3"]
+resource_local_to_scene = true
+font_size = 40
+
 [node name="Person_Red" type="CharacterBody3D" unique_id=203047781 groups=["persons"]]
-collision_mask = 4
+collision_mask = 5
 script = ExtResource("1_rm4p6")
 
 [node name="Red3" type="MeshInstance3D" parent="." unique_id=851468993]
@@ -177,6 +184,13 @@ visible = false
 
 [node name="Character" parent="." unique_id=729174095 instance=ExtResource("7_2jjoq")]
 transform = Transform3D(-0.35, 0, -3.059797e-08, 0, 0.35, 0, 3.059797e-08, 0, -0.35, 0, -0.9160619, 0)
+
+[node name="name_tag" type="Marker3D" parent="." unique_id=1434658882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6536827, 0)
+
+[node name="name_mesh" type="MeshInstance3D" parent="name_tag" unique_id=141573168]
+material_override = SubResource("StandardMaterial3D_t4qo1")
+mesh = SubResource("TextMesh_hhcb3")
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]
 [connection signal="input_event" from="Click_Check" to="." method="_on_click_check_input_event"]

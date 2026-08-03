@@ -31,6 +31,8 @@ var stop=false
 @onready var anti_health_bar=$anti_health_bar
 @onready var follow_area=$follow_area
 @onready var character=$Character
+@onready var name_mesh=$name_tag/name_mesh.mesh
+@onready var name_tag=$name_tag
 var show_location=false
 var pathfinding=false
 var next_pos=Vector3.ZERO
@@ -47,6 +49,7 @@ func _ready() -> void:
 
 func initialize():
 	
+	name_mesh.text=str(number)
 	if color=="blue":
 		character.make_blue()
 	else:
@@ -54,7 +57,9 @@ func initialize():
 		character.make_red()
 		
 func _physics_process(delta: float) -> void:
-
+	#name_tag.look_at(Global.camera_position)
+	name_tag.rotation.y=-rotation.y
+	name_tag.rotation.x=-PI/2
 	
 	if color=="blue" and has_weapon:
 		vision.set_collision_mask_value(6,true)
@@ -162,7 +167,7 @@ func follow_persons():
 			if vision.get_collider().is_in_group("persons") : 
 				if has_weapon:
 					if vision.get_collider().color !=color:
-						#look_at(collider.global_position)
+						look_at(collider.global_position)
 						rotation.x=0
 						rotation.z=0
 			elif !vision.get_collider().is_in_group("base"):
@@ -197,6 +202,10 @@ func show_attributes():
 	else:
 		health_bar.hide()
 		anti_health_bar.hide()
+	if Global.show_name_tag:
+		name_tag.show()
+	else:
+		name_tag.hide()
 	if $"."==Global.focused:
 		focused.show()
 	else:

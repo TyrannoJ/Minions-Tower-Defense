@@ -21,6 +21,7 @@ extends Node3D
 @onready var wall_right=$Walls/Wall4
 @onready var size_slider=$CanvasLayer/Controls/VBoxContainer/Size_slider
 @onready var health_checkbox=$CanvasLayer/Controls/VBoxContainer/show_health
+@onready var show_name_tag=$CanvasLayer/Controls/VBoxContainer/show_name_tag
 @onready var time_slider=$CanvasLayer/Controls/VBoxContainer/Time_slider
 @onready var real_drag_marker=$real_drag_marker
 @onready var target_area=$Ground/set_target
@@ -31,12 +32,14 @@ extends Node3D
 @export var wall_piece:PackedScene
 @export var base_scene:PackedScene
 @onready var base:Node3D
+@export var tree:PackedScene
 @onready var base_health=$CanvasLayer/ToolBar/health_bar
 @onready var anti_base_health=$CanvasLayer/ToolBar/anti_health_bar
+var trees=[]
 var start_base_health=8000
 var drawings=[]
 var loose=false
-var player_number=2
+var player_number=20
 var current_unique_id=player_number
 var blue_persons=[]
 var red_persons=[]
@@ -49,7 +52,7 @@ var release_pos:Vector3
 var start_size=30
 var weapons=[]
 var obstacles=[]
-var tools=["normal","draw","create_areas","draw"]
+var tools=["normal","draw","create_areas"]
 var wall_positions=[Vector3(start_size,2.5,0),Vector3(-start_size,2.5,0),Vector3(0,2.5,start_size),Vector3(0,2.5,-start_size)]
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -77,7 +80,25 @@ func _ready() -> void:
 	spawn_players()
 	spawn_obstacles()
 	spawn_weapons()
+	add_trees()
 	
+func add_trees():
+	if trees !=[]:
+		for tre in trees:
+			tre.queue_free()
+	trees.clear()
+	for x in range(-70,70):
+		
+		for y in range(-45,45):
+			if (x>-60 and x<60) and(y>-35 and y<35):
+				continue
+			var tre=tree.instantiate()
+				
+			add_child(tre)
+				
+			var factor=2
+			tre.position=Vector3(randf_range(x*factor+1,x*factor-1),2,randf_range(y*factor+1,y*factor-1))
+			trees.append(tre)
 func add_base():
 	if base !=null:
 		base.queue_free()
@@ -154,6 +175,7 @@ func spawn_players():
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
 	#print(Engine.get_frames_per_second())
+	
 	find_red_players()#
 	if !loose:
 		show_base_health()
@@ -212,6 +234,7 @@ func handle_movement():
 		camera_pivot.position.y+=0.3
 	if Input.is_action_pressed("down"):
 		camera_pivot.position.y-=0.3
+	Global.camera_position=camera_pivot.position
 func set_map_size():
 	wall_positions[0].x=size_slider.value
 	wall_positions[1].x=-size_slider.value
@@ -464,3 +487,7 @@ func find_red_players():
 	for re in red_persons:
 		if re.show_location:
 			Global.red_coords.append(re.position)
+
+
+func _on_show_name_tag_toggled(toggled_on: bool) -> void:
+	Global.show_name_tag=toggled_on

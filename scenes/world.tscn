@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://drkudlhdt224y" path="res://scenes/weapon.tscn" id="4_q5onr"]
 [ext_resource type="PackedScene" uid="uid://v1u3ltbpyuh5" path="res://scenes/custom_wall.tscn" id="5_jhx03"]
 [ext_resource type="PackedScene" uid="uid://ba6ranqlu2t2m" path="res://scenes/base.tscn" id="6_o8fc1"]
+[ext_resource type="PackedScene" uid="uid://cwihb43aoxqge" path="res://scenes/tree.tscn" id="7_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="7_xo05s"]
 [ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
 
@@ -13,14 +14,14 @@
 size = Vector3(1000, 1, 1000)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7r4gi"]
-albedo_color = Color(0.42, 0.42, 0.42, 1)
+albedo_color = Color(0.26606768, 0.48477095, 0.15379554, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_f3sb7"]
 material = SubResource("StandardMaterial3D_7r4gi")
 size = Vector3(1000, 1, 1000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tlwt5"]
-size = Vector3(100, 3, 100)
+size = Vector3(1000, 3, 1000)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlwt5"]
 albedo_color = Color(0, 0, 0, 1)
@@ -87,6 +88,7 @@ obstacle_wall = ExtResource("3_e3hyu")
 weapon = ExtResource("4_q5onr")
 wall_piece = ExtResource("5_jhx03")
 base_scene = ExtResource("6_o8fc1")
+tree = ExtResource("7_7r4gi")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=46194837]
 collision_layer = 4
@@ -114,40 +116,44 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
 [node name="Walls" type="Node3D" parent="." unique_id=984571823]
 
 [node name="Wall1" type="StaticBody3D" parent="Walls" unique_id=1224140026 groups=["walls"]]
-transform = Transform3D(80, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, -30)
+transform = Transform3D(240, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, -70)
 collision_layer = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall1" unique_id=1620947768]
+visible = false
 mesh = SubResource("BoxMesh_aqk2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall1" unique_id=1494064584]
 shape = SubResource("BoxShape3D_036b0")
 
 [node name="Wall2" type="StaticBody3D" parent="Walls" unique_id=1939134685 groups=["walls"]]
-transform = Transform3D(80, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, 30)
+transform = Transform3D(240, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, 70)
 collision_layer = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall2" unique_id=807261109]
+visible = false
 mesh = SubResource("BoxMesh_aqk2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall2" unique_id=234614238]
 shape = SubResource("BoxShape3D_036b0")
 
 [node name="Wall3" type="StaticBody3D" parent="Walls" unique_id=837196928 groups=["walls"]]
-transform = Transform3D(-2.6226833e-06, 0, 2, 0, 2, 0, -60, 0, -8.742278e-08, -40, 2.5, 0)
+transform = Transform3D(-6.119594e-06, 0, 2, 0, 2, 0, -140, 0, -8.742278e-08, -120, 2.5, 0)
 collision_layer = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall3" unique_id=138057990]
+visible = false
 mesh = SubResource("BoxMesh_aqk2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall3" unique_id=463733121]
 shape = SubResource("BoxShape3D_036b0")
 
 [node name="Wall4" type="StaticBody3D" parent="Walls" unique_id=1286768155 groups=["walls"]]
-transform = Transform3D(-2.6226833e-06, 0, 2, 0, 2, 0, -60, 0, -8.742278e-08, 40, 2.5, 0)
+transform = Transform3D(-6.119594e-06, 0, 2, 0, 2, 0, -140, 0, -8.742278e-08, 120, 2.5, 0)
 collision_layer = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall4" unique_id=1668814099]
+visible = false
 mesh = SubResource("BoxMesh_aqk2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall4" unique_id=2015634392]
@@ -352,10 +358,12 @@ offset_right = 150.0
 offset_bottom = 130.0
 
 [node name="Label" type="Label" parent="CanvasLayer/Controls/VBoxContainer" unique_id=1072200132]
+visible = false
 layout_mode = 2
 text = "Map size"
 
 [node name="Size_slider" type="HSlider" parent="CanvasLayer/Controls/VBoxContainer" unique_id=1665136120]
+visible = false
 layout_mode = 2
 min_value = 30.0
 max_value = 500.0
@@ -376,6 +384,10 @@ min_value = 0.05
 max_value = 1.0
 step = 0.01
 value = 1.0
+
+[node name="show_name_tag" type="CheckBox" parent="CanvasLayer/Controls/VBoxContainer" unique_id=2103219265]
+layout_mode = 2
+text = "show name tag"
 
 [node name="loose_screen" type="Control" parent="CanvasLayer" unique_id=192368139]
 visible = false
@@ -463,4 +475,5 @@ mesh = SubResource("CylinderMesh_036b0")
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="drag_ended" from="CanvasLayer/Controls/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]
 [connection signal="toggled" from="CanvasLayer/Controls/VBoxContainer/show_health" to="." method="_on_show_health_toggled"]
+[connection signal="toggled" from="CanvasLayer/Controls/VBoxContainer/show_name_tag" to="." method="_on_show_name_tag_toggled"]
 [connection signal="pressed" from="CanvasLayer/loose_screen/restart" to="." method="_on_restart_pressed"]
