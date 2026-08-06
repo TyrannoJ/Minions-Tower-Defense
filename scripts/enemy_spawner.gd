@@ -13,4 +13,4 @@ func spawn_enemys():
 func spawn_weapon():
 	var we=weapon.instantiate()
 	add_child(we)
-	we.position=Vector3(randf_range(-2,2),2,randf_range(-2,2))
+	we.position=Vector3(randf_range(-2,2),-2,randf_range(-2,2))

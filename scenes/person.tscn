@@ -112,7 +112,7 @@ mesh = SubResource("CylinderMesh_4v2wv")
 
 [node name="Vision" type="RayCast3D" parent="." unique_id=1223000617]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015973687, 0)
-target_position = Vector3(0, 0, -5)
+target_position = Vector3(0, 0, -2)
 collision_mask = 5
 collide_with_areas = true
 
@@ -200,6 +200,9 @@ collision_mask = 128
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="check_area" unique_id=437347992]
 shape = SubResource("CapsuleShape3D_hhcb3")
+
+[node name="vision_attack" type="RayCast3D" parent="." unique_id=455825748]
+target_position = Vector3(0, 0, -5)
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]
 [connection signal="input_event" from="Click_Check" to="." method="_on_click_check_input_event"]

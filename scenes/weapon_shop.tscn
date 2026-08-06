@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://2wvt11ktj12u"]
+
+[ext_resource type="Script" uid="uid://byhyaa67j0ll5" path="res://scripts/weapon_shop.gd" id="1_rr21f"]
+[ext_resource type="PackedScene" uid="uid://drkudlhdt224y" path="res://scenes/weapon.tscn" id="2_cr765"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
+albedo_color = Color(1, 0.90000004, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
+size = Vector3(1, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hhcb3"]
+size = Vector3(15, 2, 15)
+
+[node name="weapon_shop" type="Node3D" unique_id=260314551]
+script = ExtResource("1_rr21f")
+weapon = ExtResource("2_cr765")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1601272681]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=320797458]
+material_override = SubResource("StandardMaterial3D_t4qo1")
+mesh = SubResource("BoxMesh_hhcb3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1258992569]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_hhcb3")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

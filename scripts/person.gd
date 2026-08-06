@@ -34,6 +34,7 @@ var stop=false
 @onready var character=$Character
 @onready var name_mesh=$name_tag/name_mesh.mesh
 @onready var name_tag=$name_tag
+@onready var vision_attack=$vision_attack
 var show_location=false
 var pathfinding=false
 var next_pos=Vector3.ZERO
@@ -49,7 +50,11 @@ func _ready() -> void:
 	velocity+=-global_transform.basis.z
 	Global.update_target.connect(on_update_target)
 
-func initialize():
+func initialize(num,col,pos,un):
+	number=num
+	color=col
+	position=pos
+	unique_id=un
 	position.y=2
 	name_mesh.text=str(number)
 	if color=="blue":
@@ -118,8 +123,9 @@ func move():
 func direction():
 	if !dragged:
 		follow_persons()
+		evade_obstacles()
 	if not_rotating:
-		if !pathfinding and !vision.is_colliding() and !dragged and !to_base:
+		if !pathfinding and !vision.is_colliding() and !dragged and !to_base and !vision_attack.is_colliding():
 			not_rotating=false
 			change_rotation()
 			#to_base=true
@@ -171,18 +177,21 @@ func handle_collisions():
 
 	
 func follow_persons():
-	if vision.is_colliding():
-		var collider=vision.get_collider()
+	if vision_attack.is_colliding():
+		var collider=vision_attack.get_collider()
 		if collider !=null:
-			if vision.get_collider().is_in_group("persons") : 
+			if vision_attack.get_collider().is_in_group("persons") : 
 				if has_weapon:
-					if vision.get_collider().color !=color:
+					if collider.color !=color:
 						look_at(collider.global_position)
 						rotation.x=0
 						rotation.z=0
-			elif !(vision.get_collider().is_in_group("base") and has_weapon ):
-				rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
 			
+func evade_obstacles():
+	if vision.is_colliding():
+		if vision.get_collider() !=null:
+			if !(vision.get_collider().is_in_group("base") and has_weapon ) and !vision.get_collider().is_in_group("persons"):
+				rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
 			
 	
 func handle_pathfinding():
@@ -233,7 +242,7 @@ func change_rotation():
 
 func _on_rotation_timer_timeout() -> void:
 	change_rotation()
-	if !pathfinding and !vision.is_colliding() and !dragged and !to_base:
+	if !pathfinding and !vision.is_colliding() and !dragged and !to_base and !vision_attack.is_colliding():
 		rot_timer.start(randf_range(0.1,0.3))
 		
 		

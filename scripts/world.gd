@@ -92,7 +92,7 @@ func _ready() -> void:
 	Global.base=base.global_position
 	spawn_players()
 	spawn_obstacles()
-	spawn_weapons()
+	#spawn_weapons()
 	add_trees()
 	
 func add_trees():
@@ -158,32 +158,26 @@ func spawn_players():
 			blu.queue_free()
 	blue_persons.clear()
 	
-	for i in range(0,player_number/2):
+	for i in range(0,player_number):
 		
-		var re=person.instantiate()
+		#var re=person.instantiate()
 		var blu=person.instantiate()
-		red_persons.append(re)
+		#red_persons.append(re)
 		blue_persons.append(blu)
-		add_child(red_persons[i])
+		#add_child(red_persons[i])
 		add_child(blue_persons[i])
 		
 		
-		blue_persons[i].number=i
-		blue_persons[i].color="blue"
-		blue_persons[i].position=Vector3(randi_range(10,20),2,randi_range(-13,13))
-		blue_persons[i].initialize()
 		
-		blue_persons[i].unique_id=unique_id+player_number/2
+		blue_persons[i].initialize(i,"blue",Vector3(randi_range(10,20),2,randi_range(-13,13)),unique_id)
+		
+
 		blue_persons[i].killed.connect(delete_player)
 		
 		
-		red_persons[i].number=i
-		
-		red_persons[i].color="red"
-		red_persons[i].position=Vector3(randi_range(-10,-20),2,randi_range(-13,13))
-		red_persons[i].unique_id=unique_id
-		red_persons[i].killed.connect(delete_player)
-		red_persons[i].initialize()
+	
+		#red_persons[i].killed.connect(delete_player)
+		#red_persons[i].initialize(i,"red",Vector3(randi_range(-10,-20),2,randi_range(-13,13)),unique_id)
 		unique_id+=1
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
@@ -474,23 +468,18 @@ func generate_new_numbers_red():
 		red_persons[i].number=i
 	
 	
-func add_player():
+func add_player(pos):
 	if len(all_players())<140:
 		var blu=person.instantiate()
 		
 		blue_persons.append(blu)
 		
 		add_child(blue_persons[len(blue_persons)-1])
-		
-		
-		blue_persons[len(blue_persons)-1].number=len(blue_persons)-1
-		blue_persons[len(blue_persons)-1].color="blue"
-		blue_persons[len(blue_persons)-1].position=Vector3(0,2,0)
-		
-		blue_persons[len(blue_persons)-1].unique_id=current_unique_id
+		blue_persons[len(blue_persons)-1].initialize(len(blue_persons)-1,"blue",pos,current_unique_id)
+
 		current_unique_id+=1
 		blue_persons[len(blue_persons)-1].killed.connect(delete_player)
-		blue_persons[len(blue_persons)-1].initialize()
+		
 func add_enemy(pos):
 	if len(all_players())<140:
 		var blu=person.instantiate()
@@ -498,16 +487,10 @@ func add_enemy(pos):
 		red_persons.append(blu)
 		
 		add_child(red_persons[len(red_persons)-1])
-		
-		
-		red_persons[len(red_persons)-1].number=len(red_persons)-1
-		red_persons[len(red_persons)-1].color="red"
-		red_persons[len(red_persons)-1].position=pos
-		
-		red_persons[len(blue_persons)-1].unique_id=current_unique_id
+		red_persons[len(red_persons)-1].initialize(len(red_persons)-1,"red",pos,current_unique_id)
 		current_unique_id+=1
 		red_persons[len(red_persons)-1].killed.connect(delete_player)
-		red_persons[len(red_persons)-1].initialize()
+		
 		
 func _on_show_health_toggled(toggled_on: bool) -> void:
 	Global.show_health=toggled_on

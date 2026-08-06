@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqlpt61hqv0o2"]
+[gd_scene format=3 uid="uid://cqlpt61hqv0o2"]
 
 [ext_resource type="Script" uid="uid://nib3le1l3j3x" path="res://scripts/player_spawner.gd" id="1_6jqeu"]
 
@@ -6,14 +6,32 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_6jqeu"]
 
-[node name="player_spawner" type="Area3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_hhcb3"]
+text = "2"
+font_size = 60
+
+[node name="player_spawner" type="Area3D" unique_id=1809576690]
 collision_layer = 8
 script = ExtResource("1_6jqeu")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1041820217]
 shape = SubResource("BoxShape3D_74qmu")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2133839587]
 mesh = SubResource("BoxMesh_6jqeu")
 
+[node name="number" type="MeshInstance3D" parent="." unique_id=1960935913]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.55492175, 0)
+material_override = SubResource("StandardMaterial3D_t4qo1")
+mesh = SubResource("TextMesh_hhcb3")
+
+[node name="Timer" type="Timer" parent="." unique_id=1829903370]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
 [connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

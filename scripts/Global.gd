@@ -11,7 +11,7 @@ var focused:Node3D
 var drag_pos:Vector3
 var dragging=false
 var base:Vector3
-signal add_player
+signal add_player(pos)
 signal add_enemy(pos)
 var red_coords=[]
 var camera_position:Vector3
