@@ -92,6 +92,8 @@ albedo_color = Color(0, 0, 0, 1)
 resource_local_to_scene = true
 font_size = 40
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hhcb3"]
+
 [node name="Person_Red" type="CharacterBody3D" unique_id=203047781 groups=["persons"]]
 collision_mask = 5
 script = ExtResource("1_rm4p6")
@@ -191,6 +193,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6536827, 0)
 [node name="name_mesh" type="MeshInstance3D" parent="name_tag" unique_id=141573168]
 material_override = SubResource("StandardMaterial3D_t4qo1")
 mesh = SubResource("TextMesh_hhcb3")
+
+[node name="check_area" type="Area3D" parent="." unique_id=560950702]
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="check_area" unique_id=437347992]
+shape = SubResource("CapsuleShape3D_hhcb3")
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]
 [connection signal="input_event" from="Click_Check" to="." method="_on_click_check_input_event"]

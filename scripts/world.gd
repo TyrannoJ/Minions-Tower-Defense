@@ -35,16 +35,23 @@ extends Node3D
 @export var tree:PackedScene
 @onready var base_health=$CanvasLayer/ToolBar/health_bar
 @onready var anti_base_health=$CanvasLayer/ToolBar/anti_health_bar
+@export var control_area:PackedScene
+
+@onready var wall_up_notifier=$Walls/Wall1/up
+@onready var wall_down_notifier=$Walls/Wall2/down
+@onready var wall_left_notifier=$Walls/Wall3/left
+@onready var wall_right_notifier=$Walls/Wall4/right
 var trees=[]
 var start_base_health=8000
 var drawings=[]
 var loose=false
-var player_number=20
+var player_number=2
 var current_unique_id=player_number
 var blue_persons=[]
 var red_persons=[]
 var sensitivity=.005
-
+var current_area=0
+var control_areas=[]
 var slowed=false
 var current_player:Node3D
 var klick_pos:Vector3
@@ -73,6 +80,11 @@ func _ready() -> void:
 	#var walls=[wall_up,wall_down,wall_left,wall_right]
 	#for wa in walls:
 	#	wa.scale.z=start_size*2
+	var screen=get_window().size
+	$CanvasLayer/ToolBar.position.x=screen.x/2-343
+	$CanvasLayer/Controls.position.x=screen.x-180
+	
+	print(screen)
 	add_base()
 	Global.clicked.connect(on_player_clicked)
 	Global.add_player.connect(add_player)
@@ -222,17 +234,17 @@ func handle_tools():
 	
 	tool_label.text=str(tools[Global.current_tool])
 func handle_movement():
-	if Input.is_action_pressed("forward"):
+	if Input.is_action_pressed("forward") and !wall_up_notifier.is_on_screen():
 		camera_pivot.position.z-=0.3
-	if Input.is_action_pressed("back"):
+	if Input.is_action_pressed("back") and !wall_down_notifier.is_on_screen():
 		camera_pivot.position.z+=0.3
-	if Input.is_action_pressed("left"):
+	if Input.is_action_pressed("left") and !wall_left_notifier.is_on_screen():
 		camera_pivot.position.x-=0.3
-	if Input.is_action_pressed("right"):
+	if Input.is_action_pressed("right") and !wall_right_notifier.is_on_screen():
 		camera_pivot.position.x+=0.3
-	if Input.is_action_pressed("up"):
+	if Input.is_action_pressed("up") and !wall_up_notifier.is_on_screen() and !wall_down_notifier.is_on_screen() and !wall_left_notifier.is_on_screen() and !wall_right_notifier.is_on_screen():
 		camera_pivot.position.y+=0.3
-	if Input.is_action_pressed("down"):
+	if Input.is_action_pressed("down") and camera_pivot.position.y>15:
 		camera_pivot.position.y-=0.3
 	Global.camera_position=camera_pivot.position
 func set_map_size():
@@ -255,7 +267,17 @@ func _on_set_target_input_event(camera: Node, event: InputEvent, event_position:
 		target_area.position.y=5
 		if event is InputEventMouseMotion and event.button_mask==1:
 			draw(event_position)
-
+	if Global.current_tool==2:
+		
+		#target_area.position.y=3
+		if event is InputEventMouseButton and event.is_pressed() and event.button_index==1:
+			set_area_start_point(event_position)
+		if event is InputEventMouseMotion and event.button_mask==1:
+			make_area(event_position)
+		
+			
+		if event is InputEventMouseButton and event.is_released() and event.button_index==1:
+			finish_area(event_position)
 	if Global.current_tool==0:
 		if event is InputEventMouseMotion and event.button_mask==1:
 			
@@ -281,7 +303,41 @@ func _on_set_target_input_event(camera: Node, event: InputEvent, event_position:
 			set_target(event_position)
 
 
+func set_area_start_point(event_position):
+	klick_pos=event_position
+	click_marker.position=event_position
+	click_marker.position.y=2
+	target_area.position.y=5
+	var ar=control_area.instantiate()
+	add_child(ar)
+	control_areas.append(ar)
+	
 
+func make_area(event_position):
+	#target_area.position.y=5
+	
+	if len(control_areas)==current_area:
+		var ar=control_area.instantiate()
+		add_child(ar)
+		control_areas.append(ar)
+	control_areas[current_area].show()
+	control_areas[current_area].position.y=3
+	control_areas[current_area].position.x=klick_pos.x-(klick_pos.x-event_position.x)/2
+	control_areas[current_area].position.z=klick_pos.z-(klick_pos.z-event_position.z)/2
+	control_areas[current_area].scale.x=abs((klick_pos.x-event_position.x))
+	control_areas[current_area].scale.z=abs((klick_pos.z-event_position.z))
+	
+
+func finish_area(event_position):
+	
+	control_areas[current_area].under_creation=false
+	current_area+=1
+	release_marker.position=event_position
+	release_marker.position.y=2
+	target_area.position.y=2
+	release_marker.hide()
+	click_marker.hide()
+	
 func set_drag_start_point(event_position):
 	klick_pos=event_position
 	click_marker.position=event_position

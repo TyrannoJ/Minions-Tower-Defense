@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cwihb43aoxqge" path="res://scenes/tree.tscn" id="7_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="7_xo05s"]
 [ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
+[ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/control_area.tscn" id="8_w7kh3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
 size = Vector3(1000, 1, 1000)
@@ -71,12 +72,12 @@ albedo_color = Color(0, 0, 0, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_74bdg"]
 material = SubResource("StandardMaterial3D_o8xsq")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dwbse"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3hyu"]
 transparency = 1
 albedo_color = Color(0, 1, 0.98333335, 0.20784314)
 
 [sub_resource type="BoxMesh" id="BoxMesh_gbfbk"]
-material = SubResource("StandardMaterial3D_dwbse")
+material = SubResource("StandardMaterial3D_e3hyu")
 size = Vector3(1, 0.5, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_036b0"]
@@ -89,6 +90,7 @@ weapon = ExtResource("4_q5onr")
 wall_piece = ExtResource("5_jhx03")
 base_scene = ExtResource("6_o8fc1")
 tree = ExtResource("7_7r4gi")
+control_area = ExtResource("8_w7kh3")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=46194837]
 collision_layer = 4
@@ -126,6 +128,9 @@ mesh = SubResource("BoxMesh_aqk2v")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall1" unique_id=1494064584]
 shape = SubResource("BoxShape3D_036b0")
 
+[node name="up" type="VisibleOnScreenNotifier3D" parent="Walls/Wall1" unique_id=973988870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
 [node name="Wall2" type="StaticBody3D" parent="Walls" unique_id=1939134685 groups=["walls"]]
 transform = Transform3D(240, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, 70)
 collision_layer = 4
@@ -136,6 +141,9 @@ mesh = SubResource("BoxMesh_aqk2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall2" unique_id=234614238]
 shape = SubResource("BoxShape3D_036b0")
+
+[node name="down" type="VisibleOnScreenNotifier3D" parent="Walls/Wall2" unique_id=508385904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
 [node name="Wall3" type="StaticBody3D" parent="Walls" unique_id=837196928 groups=["walls"]]
 transform = Transform3D(-6.119594e-06, 0, 2, 0, 2, 0, -140, 0, -8.742278e-08, -120, 2.5, 0)
@@ -148,6 +156,9 @@ mesh = SubResource("BoxMesh_aqk2v")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall3" unique_id=463733121]
 shape = SubResource("BoxShape3D_036b0")
 
+[node name="left" type="VisibleOnScreenNotifier3D" parent="Walls/Wall3" unique_id=2015159017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
 [node name="Wall4" type="StaticBody3D" parent="Walls" unique_id=1286768155 groups=["walls"]]
 transform = Transform3D(-6.119594e-06, 0, 2, 0, 2, 0, -140, 0, -8.742278e-08, 120, 2.5, 0)
 collision_layer = 4
@@ -158,6 +169,9 @@ mesh = SubResource("BoxMesh_aqk2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall4" unique_id=2015634392]
 shape = SubResource("BoxShape3D_036b0")
+
+[node name="right" type="VisibleOnScreenNotifier3D" parent="Walls/Wall4" unique_id=854037997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
 [node name="obstacles" type="Node3D" parent="." unique_id=217127881]
 visible = false

@@ -5,8 +5,8 @@ var delta_v_z
 var start_v_x
 var start_v_z
 var Speed=1
-var max_speed=1
-var min_speed=0.5
+var max_speed=4
+var min_speed=2
 var color=""
 var number=0
 var clicked=false
@@ -29,6 +29,7 @@ var stop=false
 @onready var health_bar=$Health_bar
 @onready var focused=$focused
 @onready var anti_health_bar=$anti_health_bar
+@onready var check_area=$check_area
 @onready var follow_area=$follow_area
 @onready var character=$Character
 @onready var name_mesh=$name_tag/name_mesh.mesh
@@ -39,10 +40,11 @@ var next_pos=Vector3.ZERO
 var next_index=0
 @export var health:float=100
 var damaging=[]
+var to_base=false
 
 func _ready() -> void:
 	
-	#Engine.time_scale=0.2
+	
 	rotation.y=deg_to_rad(randf_range(-180,180))
 	velocity+=-global_transform.basis.z
 	Global.update_target.connect(on_update_target)
@@ -57,15 +59,15 @@ func initialize():
 		character.make_red()
 		
 func _physics_process(delta: float) -> void:
-	#name_tag.look_at(Global.camera_position)
+	if color=="blue":
+		pass
+		#print(str(number)+" "+str(not_rotating)+" "+str(vision.is_colliding())+" "+str(dragged)+" "+str(to_base))
+	
+	
 	name_tag.rotation.y=-rotation.y
 	name_tag.rotation.x=-PI/2
 	
-	if color=="blue" and has_weapon:
-		vision.set_collision_mask_value(6,true)
-		
-	else:
-		vision.set_collision_mask_value(6,false)
+	
 		
 	follow_area.color=color
 	
@@ -94,7 +96,16 @@ func _physics_process(delta: float) -> void:
 		
 	move_and_slide()
 	rot_y_before=rotation.y
-	
+	var in_area=false
+	var areas=check_area.get_overlapping_areas()
+	if color=="blue":
+		if areas !=[]:
+			in_area=true
+		if !in_area :
+			vision.set_collision_mask_value(6,false)
+		
+			
+		
 func move():
 	speed()
 	
@@ -108,11 +119,11 @@ func direction():
 	if !dragged:
 		follow_persons()
 	if not_rotating:
-		if !pathfinding and !vision.is_colliding() and !dragged:
+		if !pathfinding and !vision.is_colliding() and !dragged and !to_base:
 			not_rotating=false
 			change_rotation()
-			
-			rot_timer.start(1)
+			#to_base=true
+			rot_timer.start(randi_range(0.3,0.5))
 	
 		
 		
@@ -123,11 +134,13 @@ func direction():
 		
 		if Global.attack_on_base and has_weapon and !clicked:
 			if Global.red_coords !=[]:
+				to_base=true
 				walk_to(find_closest_enemy())
 				
 				
 	elif color=="red":
 		if  has_weapon:#!vision.is_colliding() and
+			to_base=true
 			look_at(Global.base)
 			rotation.z=0
 			rotation.x=0
@@ -157,9 +170,6 @@ func handle_collisions():
 				
 
 	
-	
-
-	
 func follow_persons():
 	if vision.is_colliding():
 		var collider=vision.get_collider()
@@ -170,7 +180,7 @@ func follow_persons():
 						look_at(collider.global_position)
 						rotation.x=0
 						rotation.z=0
-			elif !vision.get_collider().is_in_group("base"):
+			elif !(vision.get_collider().is_in_group("base") and has_weapon ):
 				rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
 			
 			
@@ -223,7 +233,7 @@ func change_rotation():
 
 func _on_rotation_timer_timeout() -> void:
 	change_rotation()
-	if !pathfinding and !vision.is_colliding() and !dragged:
+	if !pathfinding and !vision.is_colliding() and !dragged and !to_base:
 		rot_timer.start(randf_range(0.1,0.3))
 		
 		
@@ -321,8 +331,8 @@ func attack_players():
 		for da in damaging:
 			if da.is_in_group("persons") and has_weapon:
 				if da.color != color:
-					
-					character.godot_animations.play("hit")
+					if !character.godot_animations.is_playing():
+						character.godot_animations.play("hit")
 					
 					da.get_damage(1,unique_id)
 			
@@ -332,8 +342,12 @@ func attack_players():
 			
 			if da.is_in_group("targets") and color=="red" and has_weapon:
 				show_location=true
-				character.godot_animations.play("hit")
+				if !character.godot_animations.is_playing():
+					character.godot_animations.play("hit")
+				stop=true
 				da.get_damage(1)
+			else:
+				stop=false
 					
 func get_damage(val,attacker):
 	health-=val

@@ -1,5 +1,12 @@
 [gd_scene format=3 uid="uid://cwihb43aoxqge"]
 
 [ext_resource type="PackedScene" uid="uid://cxgkkqwxamgab" path="res://assets/tree.glb" id="1_avsvi"]
+[ext_resource type="Script" uid="uid://ckk3xvasf8nk0" path="res://scenes/tree.gd" id="2_vplca"]
 
 [node name="tree" unique_id=1764884998 instance=ExtResource("1_avsvi")]
+script = ExtResource("2_vplca")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="." index="4" unique_id=1428707156]
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]

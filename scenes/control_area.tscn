@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://cyge7jtwsvial"]
+
+[ext_resource type="Script" uid="uid://xsvb0xjqpmn2" path="res://scripts/control_area.gd" id="1_014hc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hhcb3"]
+size = Vector3(0.9, 5, 0.9)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
+transparency = 1
+albedo_color = Color(0.9666667, 0, 1, 0.05882353)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
+size = Vector3(1, 0.3, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t4qo1"]
+size = Vector3(1, 5, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ckxbf"]
+transparency = 1
+albedo_color = Color(0.8745043, 0, 1.8247963, 0.15686275)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t4qo1"]
+size = Vector3(1, 0.2, 0.2)
+
+[node name="Control_Area" type="Area3D" unique_id=113061008 groups=["control_area"]]
+collision_layer = 128
+script = ExtResource("1_014hc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1572434065]
+shape = SubResource("BoxShape3D_hhcb3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1661255163]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_t4qo1")
+mesh = SubResource("BoxMesh_hhcb3")
+
+[node name="walls" type="Node3D" parent="." unique_id=1932327556]
+
+[node name="wall1" type="Area3D" parent="walls" unique_id=315908353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+collision_layer = 33
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/wall1" unique_id=538142509]
+shape = SubResource("BoxShape3D_t4qo1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/wall1" unique_id=1075747253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+material_override = SubResource("StandardMaterial3D_ckxbf")
+mesh = SubResource("BoxMesh_t4qo1")
+
+[node name="wall2" type="Area3D" parent="walls" unique_id=1626609974]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/wall2" unique_id=1280487379]
+shape = SubResource("BoxShape3D_t4qo1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/wall2" unique_id=1648968777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+material_override = SubResource("StandardMaterial3D_ckxbf")
+mesh = SubResource("BoxMesh_t4qo1")
+
+[node name="wall3" type="Area3D" parent="walls" unique_id=1724581395]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.5, 0, 0)
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/wall3" unique_id=1088287083]
+shape = SubResource("BoxShape3D_t4qo1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/wall3" unique_id=95271986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+material_override = SubResource("StandardMaterial3D_ckxbf")
+mesh = SubResource("BoxMesh_t4qo1")
+
+[node name="wall4" type="Area3D" parent="walls" unique_id=483357162]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.5, 0, 0)
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/wall4" unique_id=196058661]
+shape = SubResource("BoxShape3D_t4qo1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/wall4" unique_id=1717793013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+material_override = SubResource("StandardMaterial3D_ckxbf")
+mesh = SubResource("BoxMesh_t4qo1")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
