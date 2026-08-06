@@ -12,6 +12,7 @@ var drag_pos:Vector3
 var dragging=false
 var base:Vector3
 signal add_player
+signal add_enemy(pos)
 var red_coords=[]
 var camera_position:Vector3
 var show_name_tag=false

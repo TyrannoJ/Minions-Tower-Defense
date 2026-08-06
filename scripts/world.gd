@@ -59,7 +59,7 @@ var release_pos:Vector3
 var start_size=30
 var weapons=[]
 var obstacles=[]
-var tools=["normal","draw","create_areas"]
+var tools=["normal","draw","areas"]
 var wall_positions=[Vector3(start_size,2.5,0),Vector3(-start_size,2.5,0),Vector3(0,2.5,start_size),Vector3(0,2.5,-start_size)]
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -88,6 +88,7 @@ func _ready() -> void:
 	add_base()
 	Global.clicked.connect(on_player_clicked)
 	Global.add_player.connect(add_player)
+	Global.add_enemy.connect(add_enemy)
 	Global.base=base.global_position
 	spawn_players()
 	spawn_obstacles()
@@ -481,7 +482,7 @@ func add_player():
 		
 		add_child(blue_persons[len(blue_persons)-1])
 		
-		blue_persons[len(blue_persons)-1].get_node("Blue").show()
+		
 		blue_persons[len(blue_persons)-1].number=len(blue_persons)-1
 		blue_persons[len(blue_persons)-1].color="blue"
 		blue_persons[len(blue_persons)-1].position=Vector3(0,2,0)
@@ -489,6 +490,25 @@ func add_player():
 		blue_persons[len(blue_persons)-1].unique_id=current_unique_id
 		current_unique_id+=1
 		blue_persons[len(blue_persons)-1].killed.connect(delete_player)
+		blue_persons[len(blue_persons)-1].initialize()
+func add_enemy(pos):
+	if len(all_players())<140:
+		var blu=person.instantiate()
+		
+		red_persons.append(blu)
+		
+		add_child(red_persons[len(red_persons)-1])
+		
+		
+		red_persons[len(red_persons)-1].number=len(red_persons)-1
+		red_persons[len(red_persons)-1].color="red"
+		red_persons[len(red_persons)-1].position=pos
+		
+		red_persons[len(blue_persons)-1].unique_id=current_unique_id
+		current_unique_id+=1
+		red_persons[len(red_persons)-1].killed.connect(delete_player)
+		red_persons[len(red_persons)-1].initialize()
+		
 func _on_show_health_toggled(toggled_on: bool) -> void:
 	Global.show_health=toggled_on
 func draw(event_position):

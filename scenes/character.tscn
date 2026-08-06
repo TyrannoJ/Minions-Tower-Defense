@@ -3,7 +3,19 @@
 [ext_resource type="PackedScene" uid="uid://08yqk0ay4a3s" path="res://assets/Person3.glb" id="1_my7n2"]
 [ext_resource type="Script" uid="uid://be7vm6kawudft" path="res://scripts/character.gd" id="2_lrhn5"]
 [ext_resource type="PackedScene" uid="uid://6ev1m7jn44g5" path="res://assets/sword.glb" id="3_lrhn5"]
-[ext_resource type="Material" uid="uid://b88yu5n4rwvl7" path="res://assets/character_materials/color_shader.tres" id="3_my7n2"]
+[ext_resource type="Shader" uid="uid://dcivlttptsgeo" path="res://scenes/character.tres" id="3_my7n2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dp8ca"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_my7n2")
+shader_parameter/Color = Color(1, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0lw5n"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_my7n2")
+shader_parameter/Color = Color(1, 0, 0, 1)
 
 [sub_resource type="Animation" id="Animation_m11bv"]
 length = 0.001
@@ -308,7 +320,7 @@ bones/616/position = Vector3(-0.7804556, 0.95086133, 1.5415545)
 bones/617/position = Vector3(-6.4686276e-08, -3.1694398e-08, 5.4533906e-08)
 
 [node name="Cube" parent="rig/Skeleton3D" index="0" unique_id=781304580]
-surface_material_override/1 = ExtResource("3_my7n2")
+surface_material_override/1 = SubResource("ShaderMaterial_dp8ca")
 
 [node name="FABRIK3D" type="FABRIK3D" parent="rig/Skeleton3D" index="1" unique_id=1163975575]
 setting_count = 1
@@ -331,7 +343,7 @@ settings/0/joints/4/rotation_axis = 3
 settings/0/joints/4/limitation = null
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="rig/Skeleton3D" index="2" unique_id=437410800]
-transform = Transform3D(0.37812996, -0.72553337, 0.5749947, 0.32810402, -0.4757603, -0.8160877, 0.8656584, 0.49724546, 0.05815105, -1.8725758, 3.8131018, 0.751371)
+transform = Transform3D(0.72379655, -0.42852467, 0.5408186, 0.32810396, -0.47576037, -0.8160879, 0.6070137, 0.7681266, -0.20375302, -1.3628066, 2.793981, 0.9524131)
 bone_name = "DEF-hand.R"
 bone_idx = 476
 
@@ -341,8 +353,8 @@ visible = false
 
 [node name="Plane" parent="rig/Skeleton3D/BoneAttachment3D/sword" index="0"]
 transform = Transform3D(-0.05850759, -0.036478363, 0.0018117074, -0.004276435, 0.010239913, 0.06807305, 0.03627207, -0.05763299, 0.010948093, 0.13957703, 0.26719546, -0.112127125)
-surface_material_override/0 = ExtResource("3_my7n2")
-surface_material_override/2 = ExtResource("3_my7n2")
+surface_material_override/0 = SubResource("ShaderMaterial_0lw5n")
+surface_material_override/2 = SubResource("ShaderMaterial_0lw5n")
 
 [node name="CopyTransformModifier3D" type="CopyTransformModifier3D" parent="rig/Skeleton3D" index="3" unique_id=2120608538]
 setting_count = 1
@@ -377,7 +389,7 @@ settings/0/joints/4/rotation_axis = 3
 settings/0/joints/4/limitation = null
 
 [node name="right_hand_target" type="Marker3D" parent="." index="229" unique_id=82868789]
-transform = Transform3D(0.7237969, -0.42852452, 0.5408186, 0.3281042, -0.47576028, -0.8160878, 0.60701406, 0.7681266, -0.20375302, -1.3849442, 2.765773, 0.98903084)
+transform = Transform3D(0.7237969, -0.4285245, 0.5408186, 0.3281042, -0.47576025, -0.8160878, 0.60701406, 0.7681266, -0.20375302, -1.3849442, 2.765773, 0.98903084)
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="." index="230" unique_id=291593489]
 libraries/ = SubResource("AnimationLibrary_unwjs")

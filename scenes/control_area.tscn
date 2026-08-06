@@ -39,7 +39,7 @@ mesh = SubResource("BoxMesh_hhcb3")
 
 [node name="wall1" type="Area3D" parent="walls" unique_id=315908353]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
-collision_layer = 33
+collision_layer = 32
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="walls/wall1" unique_id=538142509]

@@ -50,12 +50,12 @@ func _ready() -> void:
 	Global.update_target.connect(on_update_target)
 
 func initialize():
-	
+	position.y=2
 	name_mesh.text=str(number)
 	if color=="blue":
 		character.make_blue()
 	else:
-		
+		vision.set_collision_mask_value(6,true)
 		character.make_red()
 		
 func _physics_process(delta: float) -> void:
@@ -318,7 +318,8 @@ func _on_follow_area_area_entered(area: Area3D) -> void:
 	
 	if area.is_in_group("weapons") and !has_weapon:
 		has_weapon=true
-		
+		if color=="red":
+			vision.set_collision_mask_value(6,false)
 		character.godot_animations.play("grab")
 		
 		area.queue_free()

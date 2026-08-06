@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="7_xo05s"]
 [ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
 [ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/control_area.tscn" id="8_w7kh3"]
+[ext_resource type="PackedScene" uid="uid://d34ijti0xkubl" path="res://scenes/enemy_spawner.tscn" id="11_e3hyu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
 size = Vector3(1000, 1, 1000)
@@ -485,6 +486,9 @@ mesh = SubResource("BoxMesh_gbfbk")
 [node name="real_drag_marker" type="MeshInstance3D" parent="." unique_id=396510350]
 visible = false
 mesh = SubResource("CylinderMesh_036b0")
+
+[node name="enemy spawner" parent="." unique_id=2055623077 instance=ExtResource("11_e3hyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.935, 53.009)
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="drag_ended" from="CanvasLayer/Controls/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]
