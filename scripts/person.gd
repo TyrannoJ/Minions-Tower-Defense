@@ -21,6 +21,7 @@ var has_killed_emitted=false
 var dragged=false
 var not_rotating=false
 var stop=false
+var found_weapons=[]
 @onready var pathfinder=$Pathfinder
 @onready var rot_timer=$Rotation_timer
 @onready var weapon_red=$sword_red
@@ -35,6 +36,7 @@ var stop=false
 @onready var name_mesh=$name_tag/name_mesh.mesh
 @onready var name_tag=$name_tag
 @onready var vision_attack=$vision_attack
+@onready var fight_area=$fight_area
 var show_location=false
 var pathfinding=false
 var next_pos=Vector3.ZERO
@@ -42,7 +44,7 @@ var next_index=0
 @export var health:float=100
 var damaging=[]
 var to_base=false
-
+var near_enemys=[]
 func _ready() -> void:
 	
 	
@@ -125,7 +127,7 @@ func direction():
 		follow_persons()
 		evade_obstacles()
 	if not_rotating:
-		if !pathfinding and !vision.is_colliding() and !dragged and !to_base and !vision_attack.is_colliding():
+		if check_rotation_conditions():
 			not_rotating=false
 			change_rotation()
 			#to_base=true
@@ -137,11 +139,32 @@ func direction():
 			
 			
 	if color=="blue":
-		
-		if Global.attack_on_base and has_weapon and !clicked:
+		if has_weapon:
+			near_enemys.clear()
+			var players=fight_area.get_overlapping_bodies()
+			for p in players:
+				if p.color!=color:
+					near_enemys.append(p)
+			if near_enemys !=[]:
+				not_rotating=true
+				look_at(find_closest(near_enemys))
+		else:
+			found_weapons.clear()
+			for a in fight_area.get_overlapping_areas():
+				if a.is_in_group("weapons"):
+					found_weapons.append(a)
+					
+			if found_weapons !=[]:
+				not_rotating=true
+				if number==1:
+					print("a")
+				look_at(find_closest(found_weapons))
+				rotation.z=0
+				rotation.x=0
+		"""if Global.attack_on_base and has_weapon and !clicked:
 			if Global.red_coords !=[]:
 				to_base=true
-				walk_to(find_closest_enemy())
+				walk_to(find_closest_enemy())"""
 				
 				
 	elif color=="red":
@@ -242,7 +265,7 @@ func change_rotation():
 
 func _on_rotation_timer_timeout() -> void:
 	change_rotation()
-	if !pathfinding and !vision.is_colliding() and !dragged and !to_base and !vision_attack.is_colliding():
+	if check_rotation_conditions():
 		rot_timer.start(randf_range(0.1,0.3))
 		
 		
@@ -327,6 +350,7 @@ func _on_follow_area_area_entered(area: Area3D) -> void:
 	
 	if area.is_in_group("weapons") and !has_weapon:
 		has_weapon=true
+		found_weapons.clear()
 		if color=="red":
 			vision.set_collision_mask_value(6,false)
 		character.godot_animations.play("grab")
@@ -390,6 +414,18 @@ func find_closest_enemy():
 	var result=distances.min()
 	var final_result=distances.find(result)
 	return(Global.red_coords[final_result])
+	
+func find_closest(nodes):
+	var positions=[]
+	for n in nodes:
+		positions.append(n.global_position)
+	var distances=[]
+	for pos in positions:
+		distances.append(get_distance(position,pos))
+	var result=distances.min()
+	var final_result=distances.find(result)
+	return(positions[final_result])
+	
 func get_distance(from:Vector3,to:Vector3):
 	var x=abs(from.x-to.x)
 	var z=abs(from.z-to.z)
@@ -411,7 +447,12 @@ func walk_to(location:Vector3):
 		look_at(location)
 		rotation.x=0
 		rotation.z=0
-		
+
+func check_rotation_conditions():
+	if !pathfinding and !vision.is_colliding() and !dragged and !to_base and !vision_attack.is_colliding() and near_enemys ==[] and found_weapons==[]:
+		return true
+	else:
+		return false
 func rotate_to_vector_better(vector:Vector3):
 	var vec=Vector2(vector.x,vector.z)
 	vec.x=-vec.x

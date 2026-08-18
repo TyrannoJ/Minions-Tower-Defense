@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://drkudlhdt224y"]
+[gd_scene format=3 uid="uid://drkudlhdt224y"]
 
 [ext_resource type="PackedScene" uid="uid://6ev1m7jn44g5" path="res://assets/sword.glb" id="1_swcir"]
 
@@ -12,14 +12,14 @@ albedo_color = Color(1.6420252, 0, 1.697393, 0.12941177)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_o2wld"]
 material = SubResource("StandardMaterial3D_swcir")
 
-[node name="weapon" type="Area3D" groups=["weapons"]]
+[node name="weapon" type="Area3D" unique_id=1086716473 groups=["weapons"]]
 collision_layer = 16
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=370244375]
 shape = SubResource("BoxShape3D_div1a")
 
-[node name="sword" parent="." instance=ExtResource("1_swcir")]
+[node name="sword" parent="." unique_id=194159746 instance=ExtResource("1_swcir")]
 transform = Transform3D(0.9806762, 0.19208004, 0.037141785, -0.19563809, 0.9628409, 0.18618089, 0, -0.18984951, 0.9818133, 0, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=549481963]
 mesh = SubResource("CapsuleMesh_o2wld")

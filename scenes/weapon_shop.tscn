@@ -17,6 +17,7 @@ script = ExtResource("1_rr21f")
 weapon = ExtResource("2_cr765")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=1601272681]
+collision_layer = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=320797458]
 material_override = SubResource("StandardMaterial3D_t4qo1")
