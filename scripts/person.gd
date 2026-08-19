@@ -59,8 +59,11 @@ func initialize(num,col,pos,un):
 	unique_id=un
 	position.y=2
 	name_mesh.text=str(number)
+	has_weapon=true
+	character.godot_animations.play("grab")
 	if color=="blue":
 		character.make_blue()
+		vision.set_collision_mask_value(9,true)
 	else:
 		vision.set_collision_mask_value(6,true)
 		character.make_red()
@@ -110,6 +113,8 @@ func _physics_process(delta: float) -> void:
 			in_area=true
 		if !in_area :
 			vision.set_collision_mask_value(6,false)
+		if clicked:
+			vision.set_collision_mask_value(9,false)
 		
 			
 		

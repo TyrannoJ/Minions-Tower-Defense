@@ -13,6 +13,12 @@ albedo_color = Color(0, 0, 0, 1)
 text = "2"
 font_size = 60
 
+[sub_resource type="BoxMesh" id="BoxMesh_27dp6"]
+size = Vector3(1, 0.2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hiofm"]
+size = Vector3(1, 5, 1)
+
 [node name="player_spawner" type="Area3D" unique_id=1809576690]
 collision_layer = 8
 script = ExtResource("1_6jqeu")
@@ -32,6 +38,56 @@ mesh = SubResource("TextMesh_hhcb3")
 wait_time = 5.0
 one_shot = true
 autostart = true
+
+[node name="walls" type="Node3D" parent="." unique_id=887575117]
+
+[node name="Area3D" type="Area3D" parent="walls" unique_id=869566928]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+collision_layer = 256
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D" unique_id=1564921319]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+mesh = SubResource("BoxMesh_27dp6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D" unique_id=1678092128]
+shape = SubResource("BoxShape3D_hiofm")
+
+[node name="Area3D2" type="Area3D" parent="walls" unique_id=1084276337]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10, 5, 0, 0)
+collision_layer = 256
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D2" unique_id=1811187830]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+mesh = SubResource("BoxMesh_27dp6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D2" unique_id=400961646]
+shape = SubResource("BoxShape3D_hiofm")
+
+[node name="Area3D3" type="Area3D" parent="walls" unique_id=1643149361]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10, -5, 0, 0)
+collision_layer = 256
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D3" unique_id=858717743]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+mesh = SubResource("BoxMesh_27dp6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D3" unique_id=777154114]
+shape = SubResource("BoxShape3D_hiofm")
+
+[node name="Area3D4" type="Area3D" parent="walls" unique_id=329327749]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+collision_layer = 256
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D4" unique_id=1971806655]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+mesh = SubResource("BoxMesh_27dp6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D4" unique_id=1323836915]
+shape = SubResource("BoxShape3D_hiofm")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -8,6 +8,7 @@ var start_health=8000
 @onready var rescue_timer=$rescue_timer
 @export var wall:PackedScene
 @export var wall_edge:PackedScene
+@onready var altar_animation=$StaticBody3D/altar/AnimationPlayer
 func _ready() -> void:
 	for x in range(-8,10,2):
 		for z in range(-8,10,2):
@@ -58,6 +59,7 @@ func get_damage(val):
 	
 	anti_health_bar.position.x=sca
 
-
+func _process(delta: float) -> void:
+	altar_animation.play("rotate")
 func _on_rescue_timer_timeout() -> void:
 	Global.attack_on_base=false

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://wdh01ieopvr4" path="res://scripts/base.gd" id="1_3vi8l"]
 [ext_resource type="PackedScene" uid="uid://bdqp711pwa6ca" path="res://scenes/base_wall.tscn" id="2_t45w4"]
 [ext_resource type="PackedScene" uid="uid://djyrvoejdui5i" path="res://scenes/base_wall_edge.tscn" id="3_h5ip5"]
+[ext_resource type="PackedScene" uid="uid://cgth1meay7vnu" path="res://assets/altar.glb" id="4_h5ip5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g5ejs"]
 size = Vector3(2, 4, 2)
@@ -30,6 +31,9 @@ size = Vector3(1, 3, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_8rhti"]
 size = Vector3(1, 3, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h5ip5"]
+albedo_color = Color(0, 2.8711097, 3.2944162, 1)
+
 [node name="base" type="Area3D" unique_id=1270803802 groups=["targets"]]
 collision_layer = 64
 collision_mask = 0
@@ -42,10 +46,12 @@ shape = SubResource("BoxShape3D_g5ejs")
 
 [node name="Health_bar" type="MeshInstance3D" parent="." unique_id=2062945594]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+visible = false
 mesh = SubResource("BoxMesh_21bcp")
 
 [node name="anti_health_bar" type="MeshInstance3D" parent="." unique_id=171145705]
 transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+visible = false
 mesh = SubResource("BoxMesh_tpea4")
 
 [node name="rescue_timer" type="Timer" parent="." unique_id=42337122]
@@ -57,10 +63,25 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1810335423]
+visible = false
 material_override = SubResource("StandardMaterial3D_rpg24")
 mesh = SubResource("BoxMesh_3vi8l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=376223144]
 shape = SubResource("BoxShape3D_8rhti")
 
+[node name="altar" parent="StaticBody3D" unique_id=974646216 instance=ExtResource("4_h5ip5")]
+
+[node name="Cube_006" parent="StaticBody3D/altar" index="5" unique_id=1451912563]
+transform = Transform3D(-0.105702356, 0.030959314, 0.18044493, -0.14948548, 0.105702266, -0.10570224, -0.10570216, -0.180445, -0.030959653, 0, 1.633795, 0)
+material_override = SubResource("StandardMaterial3D_h5ip5")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=92109729]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.189096, 0)
+light_color = Color(0, 0.9666667, 1, 1)
+light_energy = 6.986
+omni_range = 6.635
+
 [connection signal="timeout" from="rescue_timer" to="." method="_on_rescue_timer_timeout"]
+
+[editable path="StaticBody3D/altar"]

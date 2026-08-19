@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/control_area.tscn" id="8_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://d34ijti0xkubl" path="res://scenes/enemy_spawner.tscn" id="11_e3hyu"]
 [ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="12_q5onr"]
-[ext_resource type="PackedScene" uid="uid://2wvt11ktj12u" path="res://scenes/weapon_shop.tscn" id="13_jhx03"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
 size = Vector3(1000, 1, 1000)
@@ -22,7 +21,7 @@ albedo_color = Color(0.26606768, 0.48477095, 0.15379554, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_f3sb7"]
 material = SubResource("StandardMaterial3D_7r4gi")
-size = Vector3(1000, 1, 1000)
+size = Vector3(1000, 4, 1000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tlwt5"]
 size = Vector3(1000, 3, 1000)
@@ -102,6 +101,7 @@ collision_layer = 4
 shape = SubResource("BoxShape3D_gv5m4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1432988841]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.092228, -1.8500528, -2.8805618)
 mesh = SubResource("BoxMesh_f3sb7")
 
 [node name="set_target" type="Area3D" parent="Ground" unique_id=240993363]
@@ -493,10 +493,7 @@ mesh = SubResource("CylinderMesh_036b0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.935, 53.009)
 
 [node name="player_spawner" parent="." unique_id=1809576690 instance=ExtResource("12_q5onr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303331, 5.414892, 0)
-
-[node name="weapon_shop" parent="." unique_id=260314551 instance=ExtResource("13_jhx03")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 2.5, 11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303, 3, 0)
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="drag_ended" from="CanvasLayer/Controls/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]

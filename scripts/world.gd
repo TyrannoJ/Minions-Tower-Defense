@@ -492,6 +492,7 @@ func add_enemy(pos):
 		red_persons[len(red_persons)-1].killed.connect(delete_player)
 		
 		
+		
 func _on_show_health_toggled(toggled_on: bool) -> void:
 	Global.show_health=toggled_on
 func draw(event_position):

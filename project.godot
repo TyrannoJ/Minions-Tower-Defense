@@ -123,3 +123,4 @@ delete_area={
 3d_physics/layer_6="custom_walls"
 3d_physics/layer_7="targets"
 3d_physics/layer_8="control_areas"
+3d_physics/layer_9="start_chamber"

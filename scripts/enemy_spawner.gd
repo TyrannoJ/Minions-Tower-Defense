@@ -8,7 +8,7 @@ func _on_spawn_timer_timeout() -> void:
 	spawn_enemys()
 	spawn_weapon()
 func spawn_enemys():
-	Global.add_enemy.emit(position)
+	Global.add_enemy.emit(Vector3(randf_range(position.x-20,position.x+20),2,randf_range(position.z-5,position.z+5)))
 	
 func spawn_weapon():
 	var we=weapon.instantiate()
