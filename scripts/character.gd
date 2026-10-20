@@ -7,7 +7,8 @@ extends Node3D
 @onready var mat3:ShaderMaterial=$rig/Skeleton3D/BoneAttachment3D/sword/Plane.get_surface_override_material(2)
 func _process(delta: float) -> void:
 	#$AnimationPlayer.speed_scale=2
-	$AnimationPlayer.play("Walk")
+	#$AnimationPlayer.play("Walk")
+	pass
 	
 	
 	

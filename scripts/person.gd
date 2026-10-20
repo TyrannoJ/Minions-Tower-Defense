@@ -41,10 +41,12 @@ var show_location=false
 var pathfinding=false
 var next_pos=Vector3.ZERO
 var next_index=0
+var DPS=20
 @export var health:float=100
 var damaging=[]
 var to_base=false
 var near_enemys=[]
+var current_damage=0
 func _ready() -> void:
 	
 	
@@ -73,7 +75,7 @@ func _physics_process(delta: float) -> void:
 		pass
 		#print(str(number)+" "+str(not_rotating)+" "+str(vision.is_colliding())+" "+str(dragged)+" "+str(to_base))
 	
-	
+	current_damage=DPS/Engine.get_frames_per_second()
 	name_tag.rotation.y=-rotation.y
 	name_tag.rotation.x=-PI/2
 	
@@ -98,6 +100,8 @@ func _physics_process(delta: float) -> void:
 	
 	velocity.x=0
 	velocity.z=0
+	rotation.x=0
+	rotation.z=0
 	velocity+=-global_transform.basis.z*Speed
 	if color=="blue":
 		#print(rad_to_deg(rotation.y))
@@ -115,6 +119,9 @@ func _physics_process(delta: float) -> void:
 			vision.set_collision_mask_value(6,false)
 		if clicked:
 			vision.set_collision_mask_value(9,false)
+	if Input.is_action_just_pressed("stand") and clicked:
+		stop=!stop
+		not_rotating=true
 		
 			
 		
@@ -151,6 +158,7 @@ func direction():
 				if p.color!=color:
 					near_enemys.append(p)
 			if near_enemys !=[]:
+				
 				not_rotating=true
 				look_at(find_closest(near_enemys))
 		else:
@@ -173,11 +181,23 @@ func direction():
 				
 				
 	elif color=="red":
-		if  has_weapon:#!vision.is_colliding() and
-			to_base=true
-			look_at(Global.base)
-			rotation.z=0
-			rotation.x=0
+		
+			
+		if has_weapon:
+			near_enemys.clear()
+			var players=fight_area.get_overlapping_bodies()
+			for p in players:
+				if p.color!=color:
+					near_enemys.append(p)
+			if near_enemys !=[]:
+				to_base=false
+				not_rotating=true
+				look_at(find_closest(near_enemys))
+			else:
+				to_base=true
+				look_at(Global.base)
+				rotation.z=0
+				rotation.x=0
 		
 
 func speed():
@@ -185,11 +205,15 @@ func speed():
 		if Speed>=max_speed:
 			Speed-=0.1
 		Speed+=randf_range(-0.05,0.05)
+		
 	else:
 		Speed+=0.2
 	if stop:
+		character.animations.play("stand")
 		Speed=0
 		velocity=Vector3.ZERO
+	else:
+		character.animations.play("Walk")
 	character.animations.speed_scale=Speed*4
 	
 func handle_collisions():
@@ -214,11 +238,12 @@ func follow_persons():
 						look_at(collider.global_position)
 						rotation.x=0
 						rotation.z=0
+						
 			
 func evade_obstacles():
 	if vision.is_colliding():
 		if vision.get_collider() !=null:
-			if !(vision.get_collider().is_in_group("base") and has_weapon ) and !vision.get_collider().is_in_group("persons"):
+			if !vision.get_collider().is_in_group("persons") and !(vision.get_collider().is_in_group("base") and has_weapon and color=="red"): 
 				rotate_to_Vector(Vector2(vision.get_collision_normal().x,vision.get_collision_normal().z))
 			
 	
@@ -312,7 +337,7 @@ func end_pathfinding():
 		if ma != null:
 			ma.queue_free()
 	pathfinder.markers.clear()
-	rotation.y+=randi_range(-90,90)
+	#rotation.y+=randi_range(-90,90)
 	pathfinding=false
 	next_index=0
 	next_pos=Vector3.ZERO
@@ -373,20 +398,21 @@ func attack_players():
 					if !character.godot_animations.is_playing():
 						character.godot_animations.play("hit")
 					
-					da.get_damage(1,unique_id)
+					da.get_damage(current_damage,unique_id)
 			
 	damaging=attack_area.get_overlapping_areas()
-	if damaging !=[]:
-		for da in damaging:
-			
-			if da.is_in_group("targets") and color=="red" and has_weapon:
-				show_location=true
-				if !character.godot_animations.is_playing():
-					character.godot_animations.play("hit")
-				stop=true
-				da.get_damage(1)
-			else:
-				stop=false
+	if color=="red":
+		if damaging !=[]:
+			for da in damaging:
+				
+				if da.is_in_group("targets") and color=="red" and has_weapon:
+					show_location=true
+					if !character.godot_animations.is_playing():
+						character.godot_animations.play("hit")
+					stop=true
+					da.get_damage(current_damage)
+				else:
+					stop=false
 					
 func get_damage(val,attacker):
 	health-=val
@@ -395,7 +421,7 @@ func get_damage(val,attacker):
 			killed.emit(color,number,attacker)
 			has_killed_emitted=true
 		
-	var sca:float=float(health/100)
+	var sca:float=float(health/100) 
 	var mat := health_bar.material_override as ShaderMaterial
 	mat.set_shader_parameter("Interpolation", health)
 
@@ -454,7 +480,7 @@ func walk_to(location:Vector3):
 		rotation.z=0
 
 func check_rotation_conditions():
-	if !pathfinding and !vision.is_colliding() and !dragged and !to_base and !vision_attack.is_colliding() and near_enemys ==[] and found_weapons==[]:
+	if !pathfinding and !vision.is_colliding() and !dragged and !to_base and !vision_attack.is_colliding() and near_enemys ==[] and found_weapons==[] and !stop:
 		return true
 	else:
 		return false

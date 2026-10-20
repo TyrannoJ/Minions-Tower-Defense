@@ -95,7 +95,7 @@ font_size = 40
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hhcb3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hhcb3"]
-size = Vector3(5, 3, 5)
+size = Vector3(5, 3, 3.3846436)
 
 [node name="Person_Red" type="CharacterBody3D" unique_id=203047781 groups=["persons"]]
 collision_mask = 5
@@ -212,6 +212,7 @@ collision_layer = 0
 collision_mask = 17
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="fight_area" unique_id=1893377704]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8076782)
 shape = SubResource("BoxShape3D_hhcb3")
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]

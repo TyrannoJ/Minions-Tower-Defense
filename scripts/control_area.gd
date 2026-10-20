@@ -4,6 +4,7 @@ extends Area3D
 @onready var wall_left=$walls/wall4
 @onready var wall_right=$walls/wall3
 @onready var middle_mesh=$MeshInstance3D
+@onready var col_shape=$CollisionShape3D
 var under_creation=true
 var selected=false
 func _process(delta: float) -> void:
@@ -15,6 +16,10 @@ func _process(delta: float) -> void:
 		middle_mesh.show()
 	else:
 		middle_mesh.hide()
+	if Global.current_tool !=2:
+		col_shape.disabled=true
+	else:
+		col_shape.disabled=false
 	if !under_creation:
 		var col=get_overlapping_bodies()
 		for co in col:
@@ -34,7 +39,7 @@ func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, n
 		print("a")
 	else:
 		under_creation=false
-	if event is InputEventMouseButton and event.button_index==2 and event.is_released():
+	if event is InputEventMouseButton and event.button_index==2 and event.is_released() and Global.current_tool==2:
 		selected=!selected
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("delete_area") and selected:

@@ -1,6 +1,6 @@
 extends StaticBody3D
 @onready var area=$area
-var start_health=1000
+var start_health:float=1000
 @onready var animations=$wall_animated/AnimationPlayer
 @onready var col=$CollisionShape3D
 func _ready() -> void:
@@ -23,6 +23,7 @@ func _process(delta: float) -> void:
 			#print(3.3*(area.health/start_health-1))
 			animations.pause()
 			#print(animations.current_animation)
-			animations.seek(3.3*abs(area.health/start_health-1),true)
+			var anim_health=int(area.health/100)*100
+			animations.seek(3.3*abs(anim_health/start_health-1),true)
 		
 	

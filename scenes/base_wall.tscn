@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bmdpmky38y1xe" path="res://assets/wall_animated.glb" id="4_pvnqg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_t4qo1"]
-size = Vector3(2, 4, 2)
+size = Vector3(2, 4, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lxn0i"]
 size = Vector3(2, 4, 4)

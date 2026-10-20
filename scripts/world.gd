@@ -218,14 +218,14 @@ func handle_tools():
 		for blu in blue_persons:
 			blu.clicked=true
 	
-	if Input.is_action_just_pressed("tool_up"):
+	if Input.is_action_just_pressed("tool1"):
+		Global.current_tool=0
+	if Input.is_action_just_pressed("tool2"):
+		Global.current_tool=1
+	if Input.is_action_just_pressed("tool3"):
+		Global.current_tool=2
 		
-		if Global.current_tool<2:
-			Global.current_tool+=1
-		
-	if Input.is_action_just_pressed("tool_down"):
-		if Global.current_tool>0:
-			Global.current_tool-=1
+	
 	
 	tool_label.text=str(tools[Global.current_tool])
 func handle_movement():
@@ -469,7 +469,7 @@ func generate_new_numbers_red():
 	
 	
 func add_player(pos):
-	if len(all_players())<140:
+	if len(all_players())<70:
 		var blu=person.instantiate()
 		
 		blue_persons.append(blu)
@@ -481,7 +481,7 @@ func add_player(pos):
 		blue_persons[len(blue_persons)-1].killed.connect(delete_player)
 		
 func add_enemy(pos):
-	if len(all_players())<140:
+	if len(all_players())<70:
 		var blu=person.instantiate()
 		
 		red_persons.append(blu)

@@ -61,5 +61,6 @@ func get_damage(val):
 
 func _process(delta: float) -> void:
 	altar_animation.play("rotate")
+	$StaticBody3D/altar/AnimationPlayer2.play("shrink")
 func _on_rescue_timer_timeout() -> void:
 	Global.attack_on_base=false
