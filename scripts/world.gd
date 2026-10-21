@@ -36,11 +36,14 @@ extends Node3D
 @onready var base_health=$CanvasLayer/ToolBar/health_bar
 @onready var anti_base_health=$CanvasLayer/ToolBar/anti_health_bar
 @export var control_area:PackedScene
-
+@onready var enemy_spawns=$enemy_spawn_controller
 @onready var wall_up_notifier=$Walls/Wall1/up
 @onready var wall_down_notifier=$Walls/Wall2/down
 @onready var wall_left_notifier=$Walls/Wall3/left
 @onready var wall_right_notifier=$Walls/Wall4/right
+@onready var player_spawner=$player_spawner
+@onready var player_indicator=$player_indicator
+@onready var klick_indicator=$klick_indicator
 var trees=[]
 var start_base_health=8000
 var drawings=[]
@@ -277,35 +280,138 @@ func _on_set_target_input_event(camera: Node, event: InputEvent, event_position:
 		if event is InputEventMouseMotion and event.button_mask==1:
 			
 			start_dragging(event_position)
+			player_indicator.show()
+			player_indicator.position.x=event_position.x
+			player_indicator.position.z=event_position.z
+			player_indicator.position.y=2
+			
 		else:
 			Global.dragging=false
 			target_area.position.y=0
+			if !(event is InputEventMouseButton and event.is_pressed() and event.button_index==3):
+				player_indicator.hide()
+			
 		if event is InputEventMouseMotion and event.button_mask==MOUSE_BUTTON_MASK_MIDDLE :
 			
 			start_marking(event_position)
+			player_indicator.show()
+			player_indicator.position.x=event_position.x
+			player_indicator.position.z=event_position.z
+			player_indicator.position.y=2
 		else:
 			if !Global.dragging:
+				player_indicator.hide()
 				target_area.position.y=0
 		if event is InputEventMouseButton and event.is_pressed() and event.button_index==3:
-			set_drag_start_point(event_position)
+			set_mark_start_point(event_position)
 			
 		if event is InputEventMouseButton and event.is_released() and event.button_index==3:
 			release_pos=event_position
 			if release_pos!=klick_pos and Global.current_tool==0:
 				mark_players(event_position)
+				player_indicator.hide()
 				
 		if event is InputEventMouseButton and event.is_released() and event.button_index==2:
 			set_target(event_position)
 
 
+
+	
+
+	
+		
+
+	
+func set_target(event_position):
+	click_marker.hide()
+	
+	var selected_color=[]
+	var selected_number=[]
+	for pe in red_persons:
+		if pe !=null:
+			if pe.clicked:
+				selected_color.append("red")
+				selected_number.append(pe.number)
+				pe.clicked=false
+	for pe in blue_persons:
+		if pe != null:
+			if pe.clicked:
+				selected_color.append("blue")
+				selected_number.append(pe.number)
+				pe.clicked=false
+	
+	Global.target_pos=event_position
+	Global.update_target.emit(selected_color,selected_number)	
+	
+func set_mark_start_point(event_position):
+	target_area.position.y=5
+	print(target_area.position.y)
+	klick_pos=Vector3.ZERO
+	
+	#klick_pos.y=5
+	#klick_indicator.position=klick_pos
+	#klick_indicator.position.y=2
+	#click_marker.position=event_position
+	#click_marker.position.y=5
+		
+
+	
+func start_marking(event_position):
+	if klick_pos==Vector3.ZERO:
+		klick_pos=event_position
+		klick_indicator.position=klick_pos
+		klick_indicator.position.y=2
+		klick_indicator.show()
+	drag_marker.show()
+	drag_marker.position.y=2
+	drag_marker.position.x=klick_pos.x-(klick_pos.x-event_position.x)/2
+	drag_marker.position.z=klick_pos.z-(klick_pos.z-event_position.z)/2
+	drag_marker.scale.x=abs((klick_pos.x-event_position.x))
+	drag_marker.scale.z=abs((klick_pos.z-event_position.z))
+	target_area.position.y=5
+	
+func mark_players(event_position):
+	if !Input.is_action_pressed("hold"):
+		for p in all_players():
+			p.clicked=false
+			Global.focused=null
+	release_marker.position=event_position
+	release_marker.position.y=2
+	#release_marker.show()
+	klick_indicator.hide()
+	
+	for pe in red_persons:
+		if pe !=null:
+			if is_in_area(pe.position,klick_pos,release_pos):
+				#pe.clicked=true
+				pass
+	for pe in blue_persons:
+		if pe != null:
+			if is_in_area(pe.position,klick_pos,release_pos):
+				pe.clicked=true
+	release_marker.hide()
+	click_marker.hide()
+	drag_marker.hide()
+	
+	
+	
+	
 func set_area_start_point(event_position):
 	klick_pos=event_position
 	click_marker.position=event_position
-	click_marker.position.y=2
+	click_marker.position.y=5
 	target_area.position.y=5
 	var ar=control_area.instantiate()
 	add_child(ar)
 	control_areas.append(ar)
+	
+func start_dragging(event_position):
+	
+	real_drag_marker.position=event_position
+	Global.drag_pos=real_drag_marker.position
+	real_drag_marker.position.y=5
+	Global.dragging=true	
+	target_area.position.y=5	
 	
 
 func make_area(event_position):
@@ -332,73 +438,6 @@ func finish_area(event_position):
 	target_area.position.y=2
 	release_marker.hide()
 	click_marker.hide()
-	
-func set_drag_start_point(event_position):
-	klick_pos=event_position
-	click_marker.position=event_position
-	click_marker.position.y=2
-	target_area.position.y=5
-		
-func mark_players(event_position):
-	if !Input.is_action_pressed("hold"):
-		for p in all_players():
-			p.clicked=false
-			Global.focused=null
-	release_marker.position=event_position
-	release_marker.position.y=2
-	#release_marker.show()
-	
-	
-	for pe in red_persons:
-		if pe !=null:
-			if is_in_area(pe.position,klick_pos,release_pos):
-				#pe.clicked=true
-				pass
-	for pe in blue_persons:
-		if pe != null:
-			if is_in_area(pe.position,klick_pos,release_pos):
-				pe.clicked=true
-	release_marker.hide()
-	click_marker.hide()
-	drag_marker.hide()
-	
-func set_target(event_position):
-	click_marker.hide()
-	
-	var selected_color=[]
-	var selected_number=[]
-	for pe in red_persons:
-		if pe !=null:
-			if pe.clicked:
-				selected_color.append("red")
-				selected_number.append(pe.number)
-				pe.clicked=false
-	for pe in blue_persons:
-		if pe != null:
-			if pe.clicked:
-				selected_color.append("blue")
-				selected_number.append(pe.number)
-				pe.clicked=false
-	$Sword.position=event_position
-	$Sword.position.y=2
-	Global.target_pos=event_position
-	Global.update_target.emit(selected_color,selected_number)	
-		
-func start_dragging(event_position):
-	Global.drag_pos=real_drag_marker.position
-	real_drag_marker.position=event_position
-	real_drag_marker.position.y=2
-	Global.dragging=true	
-	target_area.position.y=5	
-	
-func start_marking(event_position):
-	drag_marker.show()
-	drag_marker.position.y=5
-	drag_marker.position.x=klick_pos.x-(klick_pos.x-event_position.x)/2
-	drag_marker.position.z=klick_pos.z-(klick_pos.z-event_position.z)/2
-	drag_marker.scale.x=abs((klick_pos.x-event_position.x))
-	drag_marker.scale.z=abs((klick_pos.z-event_position.z))
-	target_area.position.y=5
 	
 func show_player_stats():
 	if current_player !=null:
@@ -503,7 +542,7 @@ func draw(event_position):
 	drawings.append(ma)
 	
 func base_killed():
-	base.queue_free()
+	
 	loose=true
 	show_loose_screen()
 func show_loose_screen():
@@ -511,6 +550,7 @@ func show_loose_screen():
 
 
 func _on_restart_pressed() -> void:
+	base.queue_free()
 	loose_screen.hide()
 	loose=false
 	current_unique_id=player_number
@@ -524,6 +564,8 @@ func _on_restart_pressed() -> void:
 	health_checkbox.button_pressed=false
 	time_slider.value=1
 	size_slider.value=40
+	enemy_spawns.reset()
+	player_spawner.number=0
 	reset_stat_board()
 func reset_stat_board():
 	name_label.text=""
@@ -541,6 +583,11 @@ func show_base_health():
 	#base_health.position.x=-(1-sca)
 	base_health.size.x=sca
 	base_health_label.text=str(int(base.health))
+	var hue_val = 1-base.health/start_base_health
+	var col_begin=Color.from_hsv(0.522, 1.0, 1.0, 0.9)
+	var col_end=Color.from_hsv(1, 1.0, 1.0, 0.9)
+	base_health.color=col_begin.lerp(col_end,hue_val)
+	base_health_label.add_theme_color_override("font_color",col_begin.lerp(col_end,hue_val))
 	#anti_base_health.position.x=sca
 func find_red_players():
 	Global.red_coords=[]

@@ -37,6 +37,7 @@ var found_weapons=[]
 @onready var name_tag=$name_tag
 @onready var vision_attack=$vision_attack
 @onready var fight_area=$fight_area
+
 var show_location=false
 var pathfinding=false
 var next_pos=Vector3.ZERO

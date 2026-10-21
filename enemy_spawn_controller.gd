@@ -27,10 +27,17 @@ func add_spawner():
 	positions.append(spa.position)
 	spawners.append(spa)
 	add_child(spa)
-	print("a")
+	
 
 
 func _on_timer_timeout() -> void:
 	timer.start(randi_range(20,25))
 	if len(spawners)<6:
 		add_spawner()
+		
+func reset():
+	for spa in spawners:
+		spa.queue_free()
+	positions=[]
+	for i in range(0,len(filled)):
+		filled[i]=false

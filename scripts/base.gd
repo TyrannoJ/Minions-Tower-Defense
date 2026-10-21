@@ -9,6 +9,10 @@ var start_health=8000
 @export var wall:PackedScene
 @export var wall_edge:PackedScene
 @onready var altar_animation=$StaticBody3D/altar/AnimationPlayer
+@onready var mat=$StaticBody3D/altar/Cube_006.get_active_material(0)
+@onready var light=$OmniLight3D
+@onready var main=$StaticBody3D
+var dead=false
 func _ready() -> void:
 	for x in range(-8,10,2):
 		for z in range(-8,10,2):
@@ -48,9 +52,11 @@ func get_damage(val):
 	if health <=0:
 		if !has_killed_emitted:
 			
-			
+			main.queue_free()
 			base_killed.emit()
 			has_killed_emitted=true
+			dead=true
+			
 	var sca:float=float(health/start_health)
 	
 	anti_health_bar.scale.x=1-sca
@@ -60,7 +66,15 @@ func get_damage(val):
 	anti_health_bar.position.x=sca
 
 func _process(delta: float) -> void:
-	altar_animation.play("rotate")
-	$StaticBody3D/altar/AnimationPlayer2.play("shrink")
+	
+	if !dead:
+		var hue_val = 1-health/start_health
+		var col_begin=Color.from_hsv(0.522, 1.0, 1.0, 0.9)
+		var col_end=Color.from_hsv(1, 1.0, 1.0, 0.9)
+		mat.albedo_color=col_begin.lerp(col_end,hue_val)
+		light.light_color=col_begin.lerp(col_end,hue_val)
+		altar_animation.play("rotate")
+		$StaticBody3D/altar/AnimationPlayer2.play("shrink")
+	
 func _on_rescue_timer_timeout() -> void:
 	Global.attack_on_base=false

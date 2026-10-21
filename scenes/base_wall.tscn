@@ -9,7 +9,7 @@
 size = Vector3(2, 4, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lxn0i"]
-size = Vector3(2, 4, 4)
+size = Vector3(2, 4, 1.2)
 
 [node name="base_wall" type="StaticBody3D" unique_id=734140346 groups=["base"]]
 collision_layer = 4
@@ -34,6 +34,7 @@ collision_layer = 64
 script = ExtResource("2_tv6fm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="area" unique_id=189690167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.9)
 shape = SubResource("BoxShape3D_lxn0i")
 
 [node name="wall_animated" parent="." unique_id=731919429 instance=ExtResource("4_pvnqg")]

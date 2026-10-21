@@ -25,7 +25,7 @@ material = SubResource("StandardMaterial3D_7r4gi")
 size = Vector3(1000, 4, 1000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tlwt5"]
-size = Vector3(1000, 3, 1000)
+size = Vector3(1000, 4, 1000)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlwt5"]
 albedo_color = Color(0, 0, 0, 1)
@@ -85,6 +85,26 @@ size = Vector3(1, 0.5, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_036b0"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jhx03"]
+transparency = 1
+albedo_color = Color(0.6052332, 3.0873115, 0, 0.40392157)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_o8fc1"]
+material = SubResource("StandardMaterial3D_jhx03")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2v3k6"]
+transparency = 1
+albedo_color = Color(0, 2.7894626, 3.0873115, 0.40392157)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jhx03"]
+material = SubResource("StandardMaterial3D_2v3k6")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 10.0
+
 [node name="World" type="Node3D" unique_id=1978241428]
 script = ExtResource("1_7r4gi")
 person = ExtResource("2_w7kh3")
@@ -106,7 +126,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.092228, -1.6701336, -2.88
 mesh = SubResource("BoxMesh_f3sb7")
 
 [node name="set_target" type="Area3D" parent="Ground" unique_id=240993363]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 8
 collision_mask = 0
 
@@ -118,6 +137,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2
 
 [node name="Sword" parent="." unique_id=83097579 instance=ExtResource("7_xo05s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
+visible = false
 
 [node name="Walls" type="Node3D" parent="." unique_id=984571823]
 
@@ -497,6 +517,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.935, 53.009)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303, 3, 0)
 
 [node name="enemy_spawn_controller" parent="." unique_id=288827277 instance=ExtResource("13_jhx03")]
+
+[node name="player_indicator" type="MeshInstance3D" parent="." unique_id=615387616]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.7108727, -5.215097)
+visible = false
+mesh = SubResource("CylinderMesh_o8fc1")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="player_indicator" unique_id=1127893267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.40808678, 0)
+light_color = Color(0.16666675, 1, 0, 1)
+light_energy = 1.98
+omni_range = 11.684
+
+[node name="klick_indicator" type="MeshInstance3D" parent="." unique_id=2051103042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.7108727, -5.215097)
+visible = false
+mesh = SubResource("CylinderMesh_jhx03")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="klick_indicator" unique_id=252332439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.40808678, 0)
+light_color = Color(0, 1, 0.9666667, 1)
+light_energy = 1.98
+omni_range = 11.684
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="drag_ended" from="CanvasLayer/Controls/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]
