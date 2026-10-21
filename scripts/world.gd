@@ -44,6 +44,7 @@ extends Node3D
 @onready var player_spawner=$player_spawner
 @onready var player_indicator=$player_indicator
 @onready var klick_indicator=$klick_indicator
+@onready var fps_label=$CanvasLayer/Controls/VBoxContainer/FPS
 var trees=[]
 var start_base_health=8000
 var drawings=[]
@@ -185,7 +186,7 @@ func spawn_players():
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
 	#print(Engine.get_frames_per_second())
-	
+	fps_label.text=str(Engine.get_frames_per_second())
 	find_red_players()#
 	if !loose:
 		show_base_health()
@@ -245,6 +246,7 @@ func handle_movement():
 	if Input.is_action_pressed("down") and camera_pivot.position.y>15:
 		camera_pivot.position.y-=0.3
 	Global.camera_position=camera_pivot.position
+	
 func set_map_size():
 	wall_positions[0].x=size_slider.value
 	wall_positions[1].x=-size_slider.value

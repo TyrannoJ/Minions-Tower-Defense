@@ -325,6 +325,8 @@ func on_update_target(col,num):
 	#look_at(Global.target_pos)
 	#rotation.x=0
 	#rotation.z=0
+	
+
 func check_proximity(pos:Vector3):
 	
 	if position.x>=pos.x-0.5 and position.x<=pos.x+0.5 and position.z>=pos.z-0.5 and position.z<=pos.z+0.5:

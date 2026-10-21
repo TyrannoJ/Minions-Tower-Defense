@@ -16,7 +16,7 @@ signal add_enemy(pos)
 var red_coords=[]
 var camera_position:Vector3
 var show_name_tag=false
-
+var navigation_list=[]
 
 	
 func restart():

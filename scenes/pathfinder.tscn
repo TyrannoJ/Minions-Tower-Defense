@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://btgvb01m7i75d"]
+[gd_scene format=3 uid="uid://btgvb01m7i75d"]
 
 [ext_resource type="Script" uid="uid://deumovb63eq21" path="res://scripts/pathfinder.gd" id="1_4a7uq"]
 [ext_resource type="PackedScene" uid="uid://dgduckbm6xal" path="res://scenes/marker.tscn" id="2_62nn6"]
@@ -7,7 +7,7 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_4a7uq"]
 
-[node name="Pathfinder" type="CharacterBody3D"]
+[node name="Pathfinder" type="CharacterBody3D" unique_id=393543370]
 top_level = true
 visible = false
 collision_layer = 2
@@ -15,20 +15,20 @@ collision_mask = 4
 script = ExtResource("1_4a7uq")
 marker = ExtResource("2_62nn6")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1673803476]
 shape = SubResource("SphereShape3D_yq7pw")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=488104642]
 mesh = SubResource("SphereMesh_4a7uq")
 
-[node name="Vision" type="RayCast3D" parent="."]
+[node name="Vision" type="RayCast3D" parent="." unique_id=1156372597]
 target_position = Vector3(0, 0, -2)
 collision_mask = 4
 
-[node name="Vision_left" type="RayCast3D" parent="."]
+[node name="Vision_left" type="RayCast3D" parent="." unique_id=2075749235]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0004402399, 0)
 target_position = Vector3(-2, 0, 0)
 
-[node name="Vision_right" type="RayCast3D" parent="."]
+[node name="Vision_right" type="RayCast3D" parent="." unique_id=1637981628]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0022141933, 0)
 target_position = Vector3(2, 0, 0)

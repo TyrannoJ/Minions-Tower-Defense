@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://d34ijti0xkubl" path="res://scenes/enemy_spawner.tscn" id="11_e3hyu"]
 [ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="12_q5onr"]
 [ext_resource type="PackedScene" uid="uid://dh835ofscp3de" path="res://scenes/enemy_spawn_controller.tscn" id="13_jhx03"]
+[ext_resource type="PackedScene" uid="uid://dwwq0rklnydf2" path="res://scenes/navigation.tscn" id="14_o8fc1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
 size = Vector3(1000, 1, 1000)
@@ -427,6 +428,10 @@ value = 1.0
 layout_mode = 2
 text = "show name tag"
 
+[node name="FPS" type="Label" parent="CanvasLayer/Controls/VBoxContainer" unique_id=1810296198]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+
 [node name="loose_screen" type="Control" parent="CanvasLayer" unique_id=192368139]
 visible = false
 layout_mode = 3
@@ -539,6 +544,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.40808678, 0)
 light_color = Color(0, 1, 0.9666667, 1)
 light_energy = 1.98
 omni_range = 11.684
+
+[node name="navigation" parent="." unique_id=417204428 instance=ExtResource("14_o8fc1")]
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="drag_ended" from="CanvasLayer/Controls/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]

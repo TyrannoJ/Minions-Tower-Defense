@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://ci7mwjik5ugiy"]
+
+[ext_resource type="Script" uid="uid://d28mm11j5onuk" path="res://scenes/navigation_block.gd" id="1_8mdxv"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hhcb3"]
+size = Vector3(2, 1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
+size = Vector3(2, 1, 2)
+
+[node name="navigation_block" type="Area3D" unique_id=1512614933]
+collision_layer = 0
+collision_mask = 5
+script = ExtResource("1_8mdxv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=972095875]
+shape = SubResource("BoxShape3D_hhcb3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=544551108]
+material_override = SubResource("StandardMaterial3D_t4qo1")
+mesh = SubResource("BoxMesh_hhcb3")
+
+[node name="Timer" type="Timer" parent="." unique_id=1457617919]
+wait_time = 0.3
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

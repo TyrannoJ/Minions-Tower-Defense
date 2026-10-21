@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dwwq0rklnydf2"]
+
+[ext_resource type="Script" uid="uid://def5w7py5q3jd" path="res://scenes/navigation.gd" id="1_5y6w5"]
+[ext_resource type="PackedScene" uid="uid://ci7mwjik5ugiy" path="res://scenes/navigation_block.tscn" id="2_6a1pe"]
+
+[node name="navigation" type="Node3D" unique_id=417204428]
+script = ExtResource("1_5y6w5")
+block = ExtResource("2_6a1pe")
