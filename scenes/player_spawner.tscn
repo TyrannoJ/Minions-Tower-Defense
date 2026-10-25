@@ -40,6 +40,7 @@ one_shot = true
 autostart = true
 
 [node name="walls" type="Node3D" parent="." unique_id=887575117]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
 
 [node name="Area3D" type="Area3D" parent="walls" unique_id=869566928]
 transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)

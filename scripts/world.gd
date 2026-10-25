@@ -45,6 +45,7 @@ extends Node3D
 @onready var player_indicator=$player_indicator
 @onready var klick_indicator=$klick_indicator
 @onready var fps_label=$CanvasLayer/Controls/VBoxContainer/FPS
+@onready var navigation_indicator=$navigation_indicator
 var trees=[]
 var start_base_health=8000
 var drawings=[]
@@ -289,7 +290,7 @@ func _on_set_target_input_event(camera: Node, event: InputEvent, event_position:
 			
 		else:
 			Global.dragging=false
-			target_area.position.y=0
+			target_area.position.y=5
 			if !(event is InputEventMouseButton and event.is_pressed() and event.button_index==3):
 				player_indicator.hide()
 			
@@ -303,7 +304,7 @@ func _on_set_target_input_event(camera: Node, event: InputEvent, event_position:
 		else:
 			if !Global.dragging:
 				player_indicator.hide()
-				target_area.position.y=0
+				target_area.position.y=5
 		if event is InputEventMouseButton and event.is_pressed() and event.button_index==3:
 			set_mark_start_point(event_position)
 			
@@ -326,7 +327,8 @@ func _on_set_target_input_event(camera: Node, event: InputEvent, event_position:
 	
 func set_target(event_position):
 	click_marker.hide()
-	
+	navigation_indicator.position=event_position
+	navigation_indicator.position.y=2
 	var selected_color=[]
 	var selected_number=[]
 	for pe in red_persons:

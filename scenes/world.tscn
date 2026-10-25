@@ -106,6 +106,16 @@ top_radius = 0.3
 bottom_radius = 0.3
 height = 10.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8fc1"]
+transparency = 1
+albedo_color = Color(3.0873115, 0, 0, 0.40392157)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xo05s"]
+material = SubResource("StandardMaterial3D_o8fc1")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 10.0
+
 [node name="World" type="Node3D" unique_id=1978241428]
 script = ExtResource("1_7r4gi")
 person = ExtResource("2_w7kh3")
@@ -127,6 +137,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.092228, -1.6701336, -2.88
 mesh = SubResource("BoxMesh_f3sb7")
 
 [node name="set_target" type="Area3D" parent="Ground" unique_id=240993363]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 collision_layer = 8
 collision_mask = 0
 
@@ -519,7 +530,7 @@ mesh = SubResource("CylinderMesh_036b0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.935, 53.009)
 
 [node name="player_spawner" parent="." unique_id=1809576690 instance=ExtResource("12_q5onr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303, 7, 0)
 
 [node name="enemy_spawn_controller" parent="." unique_id=288827277 instance=ExtResource("13_jhx03")]
 
@@ -545,7 +556,18 @@ light_color = Color(0, 1, 0.9666667, 1)
 light_energy = 1.98
 omni_range = 11.684
 
+[node name="navigation_indicator" type="MeshInstance3D" parent="." unique_id=1036118127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.7108727, -5.215097)
+mesh = SubResource("CylinderMesh_xo05s")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="navigation_indicator" unique_id=1770362264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.40808678, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 1.98
+omni_range = 11.684
+
 [node name="navigation" parent="." unique_id=417204428 instance=ExtResource("14_o8fc1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="drag_ended" from="CanvasLayer/Controls/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]

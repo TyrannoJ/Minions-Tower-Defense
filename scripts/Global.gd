@@ -17,6 +17,7 @@ var red_coords=[]
 var camera_position:Vector3
 var show_name_tag=false
 var navigation_list=[]
+var navigation_block_list=[]
 
 	
 func restart():

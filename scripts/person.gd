@@ -37,6 +37,7 @@ var found_weapons=[]
 @onready var name_tag=$name_tag
 @onready var vision_attack=$vision_attack
 @onready var fight_area=$fight_area
+@onready var navigation_timer=$navigation_timer
 
 var show_location=false
 var pathfinding=false
@@ -48,6 +49,9 @@ var damaging=[]
 var to_base=false
 var near_enemys=[]
 var current_damage=0
+
+var new_pathfinding=false
+
 func _ready() -> void:
 	
 	
@@ -131,6 +135,8 @@ func move():
 	
 	if pathfinding:
 		handle_pathfinding()
+	elif new_pathfinding:
+		handle_new_pathfinding()
 	else:
 		direction()
 	
@@ -315,12 +321,13 @@ func on_update_target(col,num):
 			break
 			
 	if in_list:
-		
-		pathfinder.start_pathfinding()
-		end_pathfinding()
+		new_pathfinding=true
+		#pathfinder.start_pathfinding()
+		#end_pathfinding()
 		rot_timer.paused=true
-		pathfinding=true
-		stop=true
+		navigation_timer.start(0.5)
+		#pathfinding=true
+		#stop=true
 		
 	#look_at(Global.target_pos)
 	#rotation.x=0
@@ -498,3 +505,127 @@ func rotate_to_vector_better(vector:Vector3):
 		y_rot_tween=get_tree().create_tween()
 		y_rot_tween.tween_property($".", "rotation:y", ang+PI/2, 0.2)
 	#y_rot_tween.tween_callback($".".queue_free)
+	
+func handle_new_pathfinding():
+	var tar=Vector2(Global.target_pos.x,Global.target_pos.z)
+	var pos=Vector2(position.x,position.z)
+
+	var start_2_values=Vector2(floorf((pos.x)/2),floorf((pos.y)/2))
+	var tar_right=false
+	if tar.x>pos.x:
+		tar_right=true
+	else:
+		tar_right=false
+	var m=0
+	var t
+	if tar_right:
+		m=(tar.y-pos.y)/(tar.x-pos.x)
+	else:
+		m=(pos.y-tar.y)/(pos.x-tar.x)
+	t=pos.y-(m*pos.x)
+	$navigation_check_area.position.x=0.5*(tar.x+pos.x)
+	$navigation_check_area.position.z=0.5*(tar.y+pos.y)
+	$navigation_check_area.rotation.y=atan(-m)
+	$navigation_check_area.scale.x=(sqrt(pow(pos.x-tar.x,2)+pow(pos.y-tar.y,2)))-1
+	#print(str(m)+ " * x + "+str(t))
+	#print(pos)
+	#print(start_2_values)
+	#print(tar_right)
+	
+	#Global.navigation_block_list[int(block_two_values.x+60)][int(block_two_values.y+35)]
+	var areas=$navigation_check_area.get_overlapping_areas()
+	var direction=""
+	for area in areas:
+		if area==Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y-1+35)]:
+			direction="up"
+		elif area==Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+1+35)]:
+			direction="down"
+		elif area==Global.navigation_block_list[int(start_2_values.x+1+60)][int(start_2_values.y+35)]:
+			direction="right"
+		elif area==Global.navigation_block_list[int(start_2_values.x-1+60)][int(start_2_values.y+35)]:
+			direction="left"
+	
+	var block_value
+	#Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+35)].request()
+	print(direction)
+	match direction:
+		"up":
+			block_value=Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y-1+35)].request()
+		"down":
+			block_value=Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+1+35)].request()
+		"left":
+			block_value=Global.navigation_block_list[int(start_2_values.x-1+60)][int(start_2_values.y+35)].request()
+		"right":
+			block_value=Global.navigation_block_list[int(start_2_values.x+1+60)][int(start_2_values.y+35)].request()
+		_:
+			block_value=false
+	print(block_value)
+	if !block_value:
+		look_at(Global.target_pos)
+	else:
+		match direction:
+			"up":
+				look_at(Vector3((start_2_values.x+1)*2+1,3,(start_2_values.y)*2+1))
+			"down":
+				look_at(Vector3((start_2_values.x-1)*2+1,3,(start_2_values.y)*2+1))
+			"left":
+				look_at(Vector3((start_2_values.x)*2+1,3,(start_2_values.y-1)*2+1))
+			"right":
+				look_at(Vector3((start_2_values.x)*2+1,3,(start_2_values.y+1)*2+1))
+		
+	if check_proximity(Global.target_pos):
+		rot_timer.paused=false
+		new_pathfinding=false
+		navigation_timer.stop()
+	else:
+		navigation_timer.start(0.05)
+	#match direction:
+		#"up":
+			#if !block_value:
+				#look_at(Vector3((start_2_values.x)*2,3,(start_2_values.y-1)*2))
+		#"down":
+			#if !block_value:
+				#look_at(Vector3((start_2_values.x)*2,3,(start_2_values.y+1)*2))
+		#"left":
+			#if !block_value:
+				#look_at(Vector3((start_2_values.x)*2,3,(start_2_values.y)*2))
+		#"right":
+			#if !block_value:
+				#look_at(Vector3((start_2_values.x+2)*2,3,(start_2_values.y)*2))
+	#var block_coords=Vector2.ZERO
+	#var block_two_values=Vector2.ZERO
+	#var last_point_2_values=Vector2.ZERO	
+	#if tar_right:
+		#for x in range(pos.x*10,tar.x*10,1):
+			#var val=m*float(x)/10+t
+			#var point_2_values=Vector2(floorf(floorf(float(x)/10)/2),floorf(floorf(val)/2))
+			##print(float(x)/10)
+			#if last_point_2_values.x != point_2_values.x:
+				#block_coords.x=x
+				#block_coords.y=val
+				#block_two_values=point_2_values
+				#var block_value=Global.navigation_block_list[int(block_two_values.x+60)][int(block_two_values.y+35)].request()
+				##break
+			#last_point_2_values=point_2_values
+	#else:
+		#for x in range(pos.x*10,tar.x*10,-1):
+			#var val=m*float(x)/10+t
+			#var point_2_values=Vector2(floorf(floorf(float(x)/10)/2),floorf(floorf(val)/2))
+			#if last_point_2_values.x != point_2_values.x:
+				#block_coords.x=x
+				#block_coords.y=val
+				#block_two_values=point_2_values
+				#var block_value=Global.navigation_block_list[int(block_two_values.x+60)][int(block_two_values.y+35)].request()
+				##break
+			#last_point_2_values=point_2_values
+	#print(Global.navigation_list[int(block_two_values.x+60)][int(block_two_values.y+35)])
+	#print(block_two_values)
+	#Global.navigation_block_list[int(block_two_values.x+60)][int(block_two_values.y+35)].request()
+	#print("")
+	
+	
+	
+
+
+func _on_navigation_timer_timeout() -> void:
+	handle_new_pathfinding()
