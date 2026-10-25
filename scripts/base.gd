@@ -19,7 +19,7 @@ func _ready() -> void:
 			if abs(x)==8 and abs(z)==8:
 				var wa=wall_edge.instantiate()
 				add_child(wa)
-				wa.position=Vector3(x,-1,z)
+				wa.position=Vector3(x,-1.5,z)
 				if x==-8 and z==-8:
 					wa.rotation.y=PI/2
 				elif x==8 and z==-8:
@@ -31,7 +31,7 @@ func _ready() -> void:
 			elif abs(x)==8 and abs(z)!=8:
 				var wa=wall.instantiate()
 				add_child(wa)
-				wa.position=Vector3(x,-1,z)
+				wa.position=Vector3(x,-1.5,z)
 				if x==8:
 					wa.rotation.y=PI/2
 				elif x==-8:
@@ -39,7 +39,7 @@ func _ready() -> void:
 			elif abs(x)!=8 and abs(z)==8:
 				var wa=wall.instantiate()
 				add_child(wa)
-				wa.position=Vector3(x,-1,z)
+				wa.position=Vector3(x,-1.5,z)
 				if z==8:
 					wa.rotation.y=0
 				elif z==-8:

@@ -15,6 +15,7 @@ albedo_color = Color(1, 0, 0, 1)
 material = SubResource("StandardMaterial3D_4v2wv")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_asawu"]
+radius = 0.35
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_4v2wv"]
 
@@ -100,6 +101,15 @@ size = Vector3(5, 3, 3.3846436)
 [sub_resource type="BoxShape3D" id="BoxShape3D_t4qo1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ckxbf"]
+transparency = 1
+albedo_color = Color(0.0333333, 1, 0, 0.078431375)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hhcb3"]
+top_radius = 1.0
+bottom_radius = 1.0
+height = 0.5
 
 [node name="Person_Red" type="CharacterBody3D" unique_id=203047781 groups=["persons"]]
 collision_mask = 5
@@ -233,6 +243,13 @@ shape = SubResource("BoxShape3D_t4qo1")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="navigation_check_area" unique_id=417572796]
 visible = false
 mesh = SubResource("BoxMesh_hhcb3")
+
+[node name="center_visualizer" type="MeshInstance3D" parent="." unique_id=1631208941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.74227774, 0)
+top_level = true
+visible = false
+material_override = SubResource("StandardMaterial3D_ckxbf")
+mesh = SubResource("CylinderMesh_hhcb3")
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]
 [connection signal="input_event" from="Click_Check" to="." method="_on_click_check_input_event"]

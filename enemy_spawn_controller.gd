@@ -31,8 +31,8 @@ func add_spawner():
 
 
 func _on_timer_timeout() -> void:
-	timer.start(randi_range(20,25))
-	if len(spawners)<6:
+	timer.start(randi_range(35,50))
+	if len(spawners)<5:
 		add_spawner()
 		
 func reset():

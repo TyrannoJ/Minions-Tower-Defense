@@ -38,7 +38,9 @@ var found_weapons=[]
 @onready var vision_attack=$vision_attack
 @onready var fight_area=$fight_area
 @onready var navigation_timer=$navigation_timer
-
+@onready var center_visualizer=$center_visualizer
+var center:Vector3=Vector3.ZERO
+var has_center=false
 var show_location=false
 var pathfinding=false
 var next_pos=Vector3.ZERO
@@ -136,15 +138,18 @@ func move():
 	if pathfinding:
 		handle_pathfinding()
 	elif new_pathfinding:
+		has_center=false
+		center_visualizer.hide()
 		handle_new_pathfinding()
 	else:
 		direction()
-	
 	
 func direction():
 	if !dragged:
 		follow_persons()
 		evade_obstacles()
+		
+		
 	if not_rotating:
 		if check_rotation_conditions():
 			not_rotating=false
@@ -205,6 +210,25 @@ func direction():
 				look_at(Global.base)
 				rotation.z=0
 				rotation.x=0
+	if !dragged and color=="blue" and Global.containment:
+		if !has_center:
+			center=position
+			has_center=true
+			center_visualizer.position=center
+			center_visualizer.position.y=0.3
+			
+		else:
+			if Global.show_containment:
+				center_visualizer.show()
+			else:
+				center_visualizer.hide()
+			center_visualizer.scale.x=Global.containment_size
+			center_visualizer.scale.z=Global.containment_size
+			if center.distance_to(position) >Global.containment_size and near_enemys ==[]:
+				look_at(Vector3(center.x+randf_range(-2,2),center.y,center.z+randf_range(-2,2)))
+	else:
+		center_visualizer.hide()
+		has_center=false
 		
 
 func speed():
@@ -442,6 +466,9 @@ func get_damage(val,attacker):
 
 func follow_mouse():
 	if clicked and Global.current_tool==0 and Global.dragging:
+		has_center=false
+		center_visualizer.hide()
+		new_pathfinding=false
 		dragged=true
 		walk_to(Global.drag_pos)
 		rotation.x=0
@@ -507,6 +534,7 @@ func rotate_to_vector_better(vector:Vector3):
 	#y_rot_tween.tween_callback($".".queue_free)
 	
 func handle_new_pathfinding():
+	
 	var tar=Vector2(Global.target_pos.x,Global.target_pos.z)
 	var pos=Vector2(position.x,position.z)
 
@@ -562,6 +590,8 @@ func handle_new_pathfinding():
 	print(block_value)
 	if !block_value:
 		look_at(Global.target_pos)
+		rotation.x=0
+		rotation.z=0
 	else:
 		match direction:
 			"up":
@@ -572,7 +602,9 @@ func handle_new_pathfinding():
 				look_at(Vector3((start_2_values.x)*2+1,3,(start_2_values.y-1)*2+1))
 			"right":
 				look_at(Vector3((start_2_values.x)*2+1,3,(start_2_values.y+1)*2+1))
-		
+	rotation.x=0
+	rotation.z=0	
+	
 	if check_proximity(Global.target_pos):
 		rot_timer.paused=false
 		new_pathfinding=false
@@ -628,4 +660,9 @@ func handle_new_pathfinding():
 
 
 func _on_navigation_timer_timeout() -> void:
-	handle_new_pathfinding()
+	if dragged==true:
+		rot_timer.paused=false
+		new_pathfinding=false
+		navigation_timer.stop()
+	else:
+		handle_new_pathfinding()

@@ -18,6 +18,14 @@ var camera_position:Vector3
 var show_name_tag=false
 var navigation_list=[]
 var navigation_block_list=[]
+var containment_size:int=5
+var containment=true
+var player_number=2
+var enemy_number=0
+const MAX_PLAYERS=30
+const MAX_ENEMYS=40
+var score=0
+var show_containment=true
 
 	
 func restart():
@@ -29,4 +37,7 @@ func restart():
 	dragging=false
 	red_coords=[]
 	show_name_tag=false
+	containment_size=5
+	containment=true
+	score=0
 	

@@ -14,6 +14,7 @@ func _ready() -> void:
 func kill():
 	col.disabled=true
 	area.queue_free()
+	queue_free()
 
 func _process(delta: float) -> void:
 	

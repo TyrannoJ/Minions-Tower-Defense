@@ -19,10 +19,10 @@ extends Node3D
 @onready var wall_down=$Walls/Wall2
 @onready var wall_left=$Walls/Wall3
 @onready var wall_right=$Walls/Wall4
-@onready var size_slider=$CanvasLayer/Controls/VBoxContainer/Size_slider
-@onready var health_checkbox=$CanvasLayer/Controls/VBoxContainer/show_health
-@onready var show_name_tag=$CanvasLayer/Controls/VBoxContainer/show_name_tag
-@onready var time_slider=$CanvasLayer/Controls/VBoxContainer/Time_slider
+@onready var size_slider=$CanvasLayer/Controls/Panel/VBoxContainer/Size_slider
+@onready var health_checkbox=$CanvasLayer/Controls/Panel/VBoxContainer/show_health
+@onready var show_name_tag=$CanvasLayer/Controls/Panel/VBoxContainer/show_name_tag
+@onready var time_slider=$CanvasLayer/Controls/Panel/VBoxContainer/Time_slider
 @onready var real_drag_marker=$real_drag_marker
 @onready var target_area=$Ground/set_target
 @onready var loose_screen=$CanvasLayer/loose_screen
@@ -44,8 +44,14 @@ extends Node3D
 @onready var player_spawner=$player_spawner
 @onready var player_indicator=$player_indicator
 @onready var klick_indicator=$klick_indicator
-@onready var fps_label=$CanvasLayer/Controls/VBoxContainer/FPS
+@onready var fps_label=$CanvasLayer/Controls/Panel/VBoxContainer/FPS
 @onready var navigation_indicator=$navigation_indicator
+@onready var containment_slider=$CanvasLayer/Controls/Panel/VBoxContainer/containment_slider
+@onready var containment_box=$CanvasLayer/Controls/Panel/VBoxContainer/containment
+@onready var score_label=$CanvasLayer/Score
+@onready var control_panel=$CanvasLayer/Controls/Panel
+@onready var controls=$CanvasLayer/Controls
+
 var trees=[]
 var start_base_health=8000
 var drawings=[]
@@ -187,7 +193,11 @@ func spawn_players():
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
 	#print(Engine.get_frames_per_second())
-	fps_label.text=str(Engine.get_frames_per_second())
+	score_label.text=str(Global.score)
+	Global.containment_size=containment_slider.value
+	Global.player_number=len(blue_persons)
+	Global.enemy_number=len(red_persons)
+	fps_label.text="FPS: "+str(Engine.get_frames_per_second())
 	find_red_players()#
 	if !loose:
 		show_base_health()
@@ -329,6 +339,7 @@ func set_target(event_position):
 	click_marker.hide()
 	navigation_indicator.position=event_position
 	navigation_indicator.position.y=2
+	navigation_indicator.show()
 	var selected_color=[]
 	var selected_number=[]
 	for pe in red_persons:
@@ -484,6 +495,8 @@ func delete_player(color,number,attacker):
 		if p.unique_id==attacker:
 			p.kills+=1
 	if color=="red":
+		Global.score +=1
+		
 		if current_player==red_persons[number]:
 			reset_stat_board()
 		red_persons[number].queue_free()
@@ -602,3 +615,25 @@ func find_red_players():
 
 func _on_show_name_tag_toggled(toggled_on: bool) -> void:
 	Global.show_name_tag=toggled_on
+
+
+
+
+
+func _on_containment_toggled(toggled_on: bool) -> void:
+	Global.containment=toggled_on
+
+
+func _on_show_controls_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		control_panel.show()
+		controls.size.y=363
+	else:
+		control_panel.hide()
+		controls.size.y=0
+		
+		
+
+
+func _on_show_containment_toggled(toggled_on: bool) -> void:
+	Global.show_containment=toggled_on

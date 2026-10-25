@@ -4,6 +4,8 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_74qmu"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_27dp6"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_6jqeu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
@@ -26,7 +28,8 @@ script = ExtResource("1_6jqeu")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1041820217]
 shape = SubResource("BoxShape3D_74qmu")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2133839587]
+[node name="mesh" type="MeshInstance3D" parent="." unique_id=2133839587]
+material_override = SubResource("StandardMaterial3D_27dp6")
 mesh = SubResource("BoxMesh_6jqeu")
 
 [node name="number" type="MeshInstance3D" parent="." unique_id=1960935913]
@@ -43,7 +46,7 @@ autostart = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
 
 [node name="Area3D" type="Area3D" parent="walls" unique_id=869566928]
-transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
 collision_layer = 256
 collision_mask = 0
 
@@ -79,7 +82,7 @@ mesh = SubResource("BoxMesh_27dp6")
 shape = SubResource("BoxShape3D_hiofm")
 
 [node name="Area3D4" type="Area3D" parent="walls" unique_id=329327749]
-transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 collision_layer = 256
 collision_mask = 0
 
@@ -91,4 +94,6 @@ mesh = SubResource("BoxMesh_27dp6")
 shape = SubResource("BoxShape3D_hiofm")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
