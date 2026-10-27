@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://d2oqpfle8ufwf"]
+
+[ext_resource type="Script" uid="uid://yh5fpk6imku3" path="res://scripts/boulder.gd" id="1_475t6"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hhcb3"]
+radius = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xo5oh"]
+albedo_color = Color(0.42, 0.42, 0.42, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hhcb3"]
+material = SubResource("StandardMaterial3D_xo5oh")
+radius = 0.4
+height = 0.8
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t4qo1"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+use_rotation_3d = true
+rotation_3d_min = Vector3(-180, -180, -180)
+rotation_3d_max = Vector3(180, 180, 180)
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 15.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wofxo"]
+albedo_color = Color(0.46, 0.46, 0.46, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
+material = SubResource("StandardMaterial3D_wofxo")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8s2d5"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.21960784)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_t4qo1"]
+material = SubResource("StandardMaterial3D_8s2d5")
+height = 0.2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hhcb3"]
+height = 10.0
+
+[node name="Boulder" type="RigidBody3D" unique_id=428980633]
+collision_layer = 1024
+collision_mask = 4
+contact_monitor = true
+max_contacts_reported = 5
+linear_velocity = Vector3(0, 4, 20)
+linear_damp = 0.5
+script = ExtResource("1_475t6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=167931222]
+shape = SubResource("SphereShape3D_hhcb3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2018399402]
+mesh = SubResource("SphereMesh_hhcb3")
+
+[node name="destroy_timer" type="Timer" parent="." unique_id=171171295]
+one_shot = true
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=822481129]
+emitting = false
+amount = 60
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.7
+process_material = SubResource("ParticleProcessMaterial_t4qo1")
+draw_pass_1 = SubResource("BoxMesh_hhcb3")
+
+[node name="damage_area" type="Area3D" parent="." unique_id=1871817607]
+visible = false
+collision_layer = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="damage_area" unique_id=779366318]
+mesh = SubResource("CylinderMesh_t4qo1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="damage_area" unique_id=593443844]
+shape = SubResource("CylinderShape3D_hhcb3")
+
+[connection signal="timeout" from="destroy_timer" to="." method="_on_destroy_timer_timeout"]
+[connection signal="body_entered" from="damage_area" to="." method="_on_damage_area_body_entered"]

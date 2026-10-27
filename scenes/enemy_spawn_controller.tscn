@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dh835ofscp3de"]
 
-[ext_resource type="Script" uid="uid://b26ov5qelklr" path="res://enemy_spawn_controller.gd" id="1_whu1s"]
+[ext_resource type="Script" uid="uid://b26ov5qelklr" path="res://scripts/enemy_spawn_controller.gd" id="1_whu1s"]
 [ext_resource type="PackedScene" uid="uid://d34ijti0xkubl" path="res://scenes/enemy_spawner.tscn" id="2_vdmx2"]
 
 [node name="enemy_spawn_controller" type="Node3D" unique_id=288827277]

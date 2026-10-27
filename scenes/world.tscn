@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="12_q5onr"]
 [ext_resource type="PackedScene" uid="uid://dh835ofscp3de" path="res://scenes/enemy_spawn_controller.tscn" id="13_jhx03"]
 [ext_resource type="PackedScene" uid="uid://dwwq0rklnydf2" path="res://scenes/navigation.tscn" id="14_o8fc1"]
+[ext_resource type="PackedScene" uid="uid://db8ouqlu70tlh" path="res://scenes/catapult.tscn" id="15_xo05s"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
 size = Vector3(1000, 1, 1000)
@@ -636,6 +637,9 @@ omni_range = 11.684
 
 [node name="navigation" parent="." unique_id=417204428 instance=ExtResource("14_o8fc1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="catapult" parent="." unique_id=1284938642 instance=ExtResource("15_xo05s")]
+transform = Transform3D(0.68242645, 0, -0.7309543, 0, 1, 0, 0.7309543, 0, 0.68242645, -16.00944, 0.42742348, 0)
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="toggled" from="CanvasLayer/Controls/show_controls" to="." method="_on_show_controls_toggled"]
