@@ -23,15 +23,16 @@ func add_spawner():
 	spa.position=possible[rand]
 	
 	filled[rand]=true
-	spa.initialize(rand)
+	spa.initialize(rand,len(spawners))
 	positions.append(spa.position)
 	spawners.append(spa)
 	add_child(spa)
 	
-
+func start():
+	timer.start()
 
 func _on_timer_timeout() -> void:
-	timer.start(randi_range(35,50))
+	timer.start(randi_range(25,35))
 	if len(spawners)<5:
 		add_spawner()
 		
@@ -41,3 +42,9 @@ func reset():
 	positions=[]
 	for i in range(0,len(filled)):
 		filled[i]=false
+	timer.start(5)
+	
+func delete_spawner(number):
+	
+	var spa=spawners.pop_at(number)
+	spa.queue_free()

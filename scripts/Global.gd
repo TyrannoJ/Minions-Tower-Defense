@@ -26,6 +26,7 @@ const MAX_PLAYERS=30
 const MAX_ENEMYS=40
 var score=0
 var show_containment=true
+var explanations=false
 
 	
 func restart():

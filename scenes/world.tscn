@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="7_xo05s"]
 [ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
 [ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/control_area.tscn" id="8_w7kh3"]
-[ext_resource type="PackedScene" uid="uid://d34ijti0xkubl" path="res://scenes/enemy_spawner.tscn" id="11_e3hyu"]
 [ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="12_q5onr"]
 [ext_resource type="PackedScene" uid="uid://dh835ofscp3de" path="res://scenes/enemy_spawn_controller.tscn" id="13_jhx03"]
 [ext_resource type="PackedScene" uid="uid://dwwq0rklnydf2" path="res://scenes/navigation.tscn" id="14_o8fc1"]
@@ -70,6 +69,73 @@ border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Theme" id="Theme_h5ip5"]
 Panel/styles/panel = SubResource("StyleBoxFlat_40w10")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xo05s"]
+bg_color = Color(0.40653744, 0.5993741, 0.7615953, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1cd7d"]
+bg_color = Color(0.32941177, 0.5176471, 0.6745098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lakw3"]
+bg_color = Color(0.485781, 0.66855747, 0.82442594, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dss4m"]
+bg_color = Color(0.17000002, 0.6403333, 1, 0.2784314)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7t5mc"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_lakw3"]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_xo05s")
+Button/styles/normal = SubResource("StyleBoxFlat_1cd7d")
+Button/styles/pressed = SubResource("StyleBoxFlat_lakw3")
+Label/font_sizes/font_size = 40
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_dss4m")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_7t5mc")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_036b0"]
 height = 0.1
@@ -410,7 +476,7 @@ anchors_preset = 0
 offset_left = 961.0
 offset_top = 5.0
 offset_right = 1193.0
-offset_bottom = 368.0
+offset_bottom = 415.0
 theme = SubResource("Theme_h5ip5")
 
 [node name="show_controls" type="CheckBox" parent="CanvasLayer/Controls" unique_id=724899178]
@@ -498,9 +564,15 @@ button_pressed = true
 text = "show
  containment"
 
+[node name="show_explanations" type="CheckBox" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=735132177]
+layout_mode = 2
+text = "show
+ explanations"
+
 [node name="FPS" type="Label" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1810296198]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "30"
 
 [node name="loose_screen" type="Control" parent="CanvasLayer" unique_id=192368139]
 visible = false
@@ -518,41 +590,54 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = ExtResource("8_dss4m")
+theme = SubResource("Theme_lakw3")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/loose_screen" unique_id=454615560]
-layout_mode = 0
-offset_left = -348.5
-offset_top = -138.5
-offset_right = 798.5
-offset_bottom = 510.5
-color = Color(0, 0, 0, 0.16078432)
-
-[node name="Label" type="Label" parent="CanvasLayer/loose_screen" unique_id=895346383]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -77.0
-offset_right = 77.0
-offset_bottom = 48.0
-grow_horizontal = 2
-text = "You Loose"
-
-[node name="restart" type="Button" parent="CanvasLayer/loose_screen" unique_id=512167444]
+[node name="Panel" type="Panel" parent="CanvasLayer/loose_screen" unique_id=1000948592]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -56.5
-offset_top = -25.0
-offset_right = 56.5
-offset_bottom = 25.0
+offset_left = -146.0
+offset_top = -87.5
+offset_right = 154.0
+offset_bottom = 165.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Restart"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/loose_screen/Panel" unique_id=523639990]
+layout_mode = 0
+offset_right = 299.0
+offset_bottom = 255.0
+
+[node name="title" type="Label" parent="CanvasLayer/loose_screen/Panel/VBoxContainer" unique_id=405589678]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "YOU LOST"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/loose_screen/Panel/VBoxContainer" unique_id=1520479922]
+layout_mode = 2
+
+[node name="restart" type="Button" parent="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer" unique_id=609363981]
+layout_mode = 2
+text = "Start Game"
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/loose_screen/Panel/VBoxContainer" unique_id=20233110]
+layout_mode = 2
+
+[node name="quit_loose" type="Button" parent="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer3" unique_id=978907222]
+layout_mode = 2
+text = "Quit game"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/loose_screen/Panel/VBoxContainer" unique_id=997759706]
+layout_mode = 2
+
+[node name="final_score_label" type="Label" parent="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer2" unique_id=731002685]
+layout_mode = 2
+text = "score: 100"
+horizontal_alignment = 1
 
 [node name="Score" type="Label" parent="CanvasLayer" unique_id=1838531]
 offset_left = 24.0
@@ -562,6 +647,75 @@ offset_bottom = 99.0
 theme_override_font_sizes/font_size = 60
 text = "0
 "
+
+[node name="menu" type="Control" parent="CanvasLayer" unique_id=1508576279]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1082.0
+offset_top = -733.0
+offset_right = 1064.0
+offset_bottom = 686.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_lakw3")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/menu" unique_id=1058967438]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -146.0
+offset_top = -87.5
+offset_right = 154.0
+offset_bottom = 165.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/menu/Panel" unique_id=1235402543]
+layout_mode = 0
+offset_right = 299.0
+offset_bottom = 255.0
+
+[node name="title" type="Label" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=1545588556]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Menu"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=63534811]
+layout_mode = 2
+
+[node name="start" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer" unique_id=757052794]
+layout_mode = 2
+text = "Start Game"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=406678960]
+layout_mode = 2
+
+[node name="help" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer2" unique_id=742536147]
+layout_mode = 2
+text = "How to play?"
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=922341507]
+layout_mode = 2
+
+[node name="quit" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer3" unique_id=148196966]
+layout_mode = 2
+text = "Quit game"
+
+[node name="explanations" type="Label" parent="CanvasLayer" unique_id=1565595972]
+offset_left = 3.0
+offset_top = 598.0
+offset_right = 60.0
+offset_bottom = 640.0
+theme_override_font_sizes/font_size = 30
+text = "Haa"
 
 [node name="click_marker" type="StaticBody3D" parent="." unique_id=1864312677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
@@ -593,9 +747,6 @@ mesh = SubResource("BoxMesh_gbfbk")
 [node name="real_drag_marker" type="MeshInstance3D" parent="." unique_id=396510350]
 visible = false
 mesh = SubResource("CylinderMesh_036b0")
-
-[node name="enemy spawner" parent="." unique_id=2055623077 instance=ExtResource("11_e3hyu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.935, 53.009)
 
 [node name="player_spawner" parent="." unique_id=1809576690 instance=ExtResource("12_q5onr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303, 7, 0)
@@ -648,4 +799,9 @@ transform = Transform3D(0.68242645, 0, -0.7309543, 0, 1, 0, 0.7309543, 0, 0.6824
 [connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/show_name_tag" to="." method="_on_show_name_tag_toggled"]
 [connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/containment" to="." method="_on_containment_toggled"]
 [connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/show_containment" to="." method="_on_show_containment_toggled"]
-[connection signal="pressed" from="CanvasLayer/loose_screen/restart" to="." method="_on_restart_pressed"]
+[connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/show_explanations" to="." method="_on_show_explanations_toggled"]
+[connection signal="pressed" from="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer3/quit_loose" to="." method="_on_quit_loose_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer2/help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer3/quit" to="." method="_on_quit_pressed"]

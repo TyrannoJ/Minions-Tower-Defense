@@ -21,6 +21,14 @@ size = Vector3(1, 0.2, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_hiofm"]
 size = Vector3(1, 5, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ckxbf"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_t4qo1"]
+material = SubResource("StandardMaterial3D_ckxbf")
+text = "click to spawn new minions"
+font_size = 70
+
 [node name="player_spawner" type="Area3D" unique_id=1809576690]
 collision_layer = 8
 script = ExtResource("1_6jqeu")
@@ -40,7 +48,6 @@ mesh = SubResource("TextMesh_hhcb3")
 [node name="Timer" type="Timer" parent="." unique_id=1829903370]
 wait_time = 2.0
 one_shot = true
-autostart = true
 
 [node name="walls" type="Node3D" parent="." unique_id=887575117]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
@@ -92,6 +99,10 @@ mesh = SubResource("BoxMesh_27dp6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D4" unique_id=1323836915]
 shape = SubResource("BoxShape3D_hiofm")
+
+[node name="explain" type="MeshInstance3D" parent="." unique_id=1279639541]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.012308598, 1.118931, -1.1756184)
+mesh = SubResource("TextMesh_t4qo1")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

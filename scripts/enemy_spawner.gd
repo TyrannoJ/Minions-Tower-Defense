@@ -4,8 +4,10 @@ extends Node3D
 @export var weapon:PackedScene
 @onready var spawn_timer=$spawn_timer
 var pos_number
-func initialize(num):
-	pos_number=num
+var number
+func initialize(pos,num):
+	pos_number=pos
+	number=num
 func _on_spawn_timer_timeout() -> void:
 	spawn_timer.start(randf_range(25,35))
 	spawn_enemys()

@@ -76,13 +76,30 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_t4qo1"]
-size = Vector3(5, 10, 5.1622314)
+size = Vector3(5, 7.7045135, 5.1622314)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8s2d5"]
 albedo_color = Color(0, 0.1333332, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
 material = SubResource("StandardMaterial3D_8s2d5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ckxbf"]
+transparency = 1
+albedo_color = Color(0, 0, 1, 0.0627451)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t4qo1"]
+material = SubResource("StandardMaterial3D_ckxbf")
+size = Vector3(5, 7.732422, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pa6a7"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_dtymq"]
+material = SubResource("StandardMaterial3D_pa6a7")
+text = "hold F to load
+mouse wheel to rotate"
+font_size = 70
 
 [node name="catapult" type="CharacterBody3D" unique_id=1284938642]
 collision_layer = 0
@@ -119,12 +136,23 @@ libraries/ = SubResource("AnimationLibrary_6qrlm")
 collision_layer = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="click" unique_id=878688727]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.8261776, -0.86714995)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6784344, -0.86714995)
 shape = SubResource("BoxShape3D_t4qo1")
 
 [node name="marker" type="MeshInstance3D" parent="." unique_id=834242413]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7893212, 0.4532659, -2.6266227)
+visible = false
 mesh = SubResource("BoxMesh_hhcb3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1879447826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6662111, -0.9258283)
+visible = false
+mesh = SubResource("BoxMesh_t4qo1")
+
+[node name="explain" type="MeshInstance3D" parent="." unique_id=1482358877]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.012308598, 3.4666846, -3.0734568)
+top_level = true
+mesh = SubResource("TextMesh_dtymq")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="input_event" from="click" to="." method="_on_click_input_event"]

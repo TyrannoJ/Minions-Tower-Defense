@@ -79,6 +79,14 @@ albedo_color = Color(0.37, 0.37, 0.37, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
 size = Vector3(16, 0.1, 16)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pa6a7"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_h5ip5"]
+material = SubResource("StandardMaterial3D_pa6a7")
+text = "Defend this"
+font_size = 70
+
 [node name="base" type="Area3D" unique_id=1270803802 groups=["targets"]]
 collision_layer = 64
 collision_mask = 0
@@ -137,6 +145,11 @@ omni_range = 12.148771
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7167163, 0)
 material_override = SubResource("StandardMaterial3D_40w10")
 mesh = SubResource("BoxMesh_hhcb3")
+
+[node name="explain" type="MeshInstance3D" parent="." unique_id=192209134]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.012308598, 4.2712364, -2.34757)
+top_level = true
+mesh = SubResource("TextMesh_h5ip5")
 
 [connection signal="timeout" from="rescue_timer" to="." method="_on_rescue_timer_timeout"]
 

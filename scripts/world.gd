@@ -51,7 +51,10 @@ extends Node3D
 @onready var score_label=$CanvasLayer/Score
 @onready var control_panel=$CanvasLayer/Controls/Panel
 @onready var controls=$CanvasLayer/Controls
-
+@onready var menu=$CanvasLayer/menu
+@onready var show_explanations=$CanvasLayer/Controls/Panel/VBoxContainer/show_explanations
+@onready var final_score_label=$CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer2/final_score_label
+@onready var explanations=$CanvasLayer/explanations
 var trees=[]
 var start_base_health=8000
 var drawings=[]
@@ -207,6 +210,10 @@ func _process(delta: float) -> void:
 	if current_player != null:
 		
 		show_player_stats()
+	if Global.explanations:
+		explanations.show()
+	else:
+		explanations.hide()
 	handle_movement()
 	handle_tools()
 	#set_map_size()
@@ -315,6 +322,7 @@ func _on_set_target_input_event(camera: Node, event: InputEvent, event_position:
 			if !Global.dragging:
 				player_indicator.hide()
 				target_area.position.y=5
+				explanations.text=""
 		if event is InputEventMouseButton and event.is_pressed() and event.button_index==3:
 			set_mark_start_point(event_position)
 			
@@ -372,6 +380,7 @@ func set_mark_start_point(event_position):
 
 	
 func start_marking(event_position):
+	explanations.text="mark players"
 	if klick_pos==Vector3.ZERO:
 		klick_pos=event_position
 		klick_indicator.position=klick_pos
@@ -421,7 +430,7 @@ func set_area_start_point(event_position):
 	control_areas.append(ar)
 	
 func start_dragging(event_position):
-	
+	explanations.text="players follow you"
 	real_drag_marker.position=event_position
 	Global.drag_pos=real_drag_marker.position
 	real_drag_marker.position.y=5
@@ -563,6 +572,7 @@ func base_killed():
 	loose=true
 	show_loose_screen()
 func show_loose_screen():
+	final_score_label.text="Score: "+str(Global.score)
 	loose_screen.show()
 
 
@@ -577,7 +587,7 @@ func _on_restart_pressed() -> void:
 	current_player=null
 	spawn_players()
 	spawn_obstacles()
-	spawn_weapons()
+	#spawn_weapons()
 	health_checkbox.button_pressed=false
 	time_slider.value=1
 	size_slider.value=40
@@ -637,3 +647,26 @@ func _on_show_controls_toggled(toggled_on: bool) -> void:
 
 func _on_show_containment_toggled(toggled_on: bool) -> void:
 	Global.show_containment=toggled_on
+
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()
+
+
+func _on_start_pressed() -> void:
+	player_spawner.start()
+	enemy_spawns.start()
+	menu.hide()
+
+
+func _on_help_pressed() -> void:
+	show_explanations.button_pressed=true
+	Global.explanations=true
+
+
+func _on_show_explanations_toggled(toggled_on: bool) -> void:
+	Global.explanations=toggled_on
+
+
+func _on_quit_loose_pressed() -> void:
+	get_tree().quit()

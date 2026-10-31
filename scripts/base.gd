@@ -12,7 +12,9 @@ var start_health=8000
 @onready var mat=$StaticBody3D/altar/Cube_006.get_active_material(0)
 @onready var light=$OmniLight3D
 @onready var main=$StaticBody3D
+@onready var explanations=$explain
 var dead=false
+
 func _ready() -> void:
 	for x in range(-8,10,2):
 		for z in range(-8,10,2):
@@ -68,6 +70,10 @@ func get_damage(val):
 func _process(delta: float) -> void:
 	
 	if !dead:
+		if Global.explanations:
+			explanations.show()
+		else:
+			explanations.hide()
 		var hue_val = 1-health/start_health
 		var col_begin=Color.from_hsv(0.522, 1.0, 1.0, 0.9)
 		var col_end=Color.from_hsv(1, 1.0, 1.0, 0.9)

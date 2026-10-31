@@ -56,7 +56,7 @@ albedo_color = Color(0.7666664, 0, 1, 0.39607844)
 
 [sub_resource type="BoxMesh" id="BoxMesh_r7rx5"]
 material = SubResource("StandardMaterial3D_aoiax")
-size = Vector3(1.2, 2, 1.2)
+size = Vector3(0.9834412, 2, 0.76656497)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g6f2d"]
 render_priority = 0
@@ -175,6 +175,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.33276367, -1.4382831)
 shape = SubResource("BoxShape3D_3qlke")
 
 [node name="clicked" type="MeshInstance3D" parent="." unique_id=1605485960]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02047427, 0, -0.034959495)
 visible = false
 mesh = SubResource("BoxMesh_r7rx5")
 

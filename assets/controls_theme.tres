@@ -1,5 +1,8 @@
 [gd_resource type="Theme" format=3 uid="uid://1hyjkilq2l3q"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhcb3"]
+bg_color = Color(0.9830788, 0.2983006, 0.6064656, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_036b0"]
 bg_color = Color(0.44099998, 0.7284667, 0.98, 0.36862746)
 border_width_left = 3
@@ -33,6 +36,7 @@ corner_radius_bottom_left = 5
 
 [resource]
 default_font_size = 30
+Button/styles/normal = SubResource("StyleBoxFlat_hhcb3")
 Label/styles/normal = SubResource("StyleBoxFlat_036b0")
 Panel/styles/panel = SubResource("StyleBoxFlat_dwbse")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_gbfbk")
