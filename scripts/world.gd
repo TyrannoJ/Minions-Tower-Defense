@@ -592,7 +592,9 @@ func _on_restart_pressed() -> void:
 	time_slider.value=1
 	size_slider.value=40
 	enemy_spawns.reset()
-	player_spawner.number=0
+	#player_spawner.number=0
+	player_spawner.start()
+	enemy_spawns.start()
 	reset_stat_board()
 func reset_stat_board():
 	name_label.text=""

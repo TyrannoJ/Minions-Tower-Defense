@@ -6,6 +6,18 @@ This is a strategy game made in Godot, where you have to defend your castle agai
 
 You can play the game  [here on itch.io](https://tyrannoj.itch.io/minions-tower-defense). The rules are there too
 
+## Features
+- menu to start/quit game
+- controls tab to change settings
+- custom pathfinding for your minions
+- Your minions can follow your mouse
+- a spawner where you can respawn your minions
+- spawners on which enemys spawn (who are placed randomly on the field over time)
+- a base with walls that can be attacked
+- a catapult which you can turn, load and shoot enemys with
+- custom blender models and animations for the players, base and catapult
+
+
 ## What are the best features?
 - The two path finding programs that both kinda work 
 - one of them sends litlle pathfinders out to find the way
