@@ -32,6 +32,7 @@ func _process(delta: float) -> void:
 
 func start():
 	timer.start()
+	#number=20
 
 func _on_mouse_entered() -> void:
 	mat.albedo_color=Color.from_hsv(0.61, 0.753, 1.0, 1.0)

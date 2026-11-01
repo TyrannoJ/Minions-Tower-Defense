@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bgsjwc8js887t" path="res://scripts/enemy_spawner.gd" id="1_xl0gr"]
 [ext_resource type="PackedScene" uid="uid://by56u258h7le5" path="res://scenes/person.tscn" id="2_ih16b"]
 [ext_resource type="PackedScene" uid="uid://drkudlhdt224y" path="res://scenes/weapon.tscn" id="3_31irv"]
+[ext_resource type="Script" uid="uid://ciubg6ulicyqq" path="res://scenes/spawner_damage.gd" id="4_ih16b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
 transparency = 1
@@ -17,6 +18,23 @@ size = Vector3(1, 0.2, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ckxbf"]
 size = Vector3(1, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_31irv"]
+size = Vector3(12, 5.2250977, 12)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7rx5"]
+albedo_color = Color(0, 0, 1.1169488, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ih16b"]
+material = SubResource("StandardMaterial3D_r7rx5")
+size = Vector3(2, 0.2, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hoeld"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_31irv"]
+material = SubResource("StandardMaterial3D_hoeld")
+size = Vector3(2, 0.2, 0.5)
 
 [node name="enemy spawner" type="Node3D" unique_id=2055623077]
 script = ExtResource("1_xl0gr")
@@ -79,5 +97,22 @@ mesh = SubResource("BoxMesh_t4qo1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D4" unique_id=84665185]
 shape = SubResource("BoxShape3D_ckxbf")
+
+[node name="area" type="Area3D" parent="." unique_id=855844515 groups=["enemy_targets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07439828, 1)
+collision_layer = 64
+script = ExtResource("4_ih16b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area" unique_id=533353049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23706055, -0.9)
+shape = SubResource("BoxShape3D_31irv")
+
+[node name="Health_bar" type="MeshInstance3D" parent="." unique_id=2080836415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.3097124, 0)
+mesh = SubResource("BoxMesh_ih16b")
+
+[node name="anti_health_bar" type="MeshInstance3D" parent="." unique_id=1683919816]
+transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.31, 0)
+mesh = SubResource("BoxMesh_31irv")
 
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]

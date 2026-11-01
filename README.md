@@ -26,3 +26,8 @@ You can play the game  [here on itch.io](https://tyrannoj.itch.io/minions-tower-
 - The self made models and animations for the players
 - That I find it fun
 - That I made most of it myself, I just used AI to look for special methods, cause it's a little faster than the docs
+
+## To do (for future reference)
+- make people not get stuck
+- let pathfinding check if it can get into somewhere
+- look for shortest path

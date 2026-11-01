@@ -59,7 +59,7 @@ var trees=[]
 var start_base_health=8000
 var drawings=[]
 var loose=false
-var player_number=2
+var player_number=1
 var current_unique_id=player_number
 var blue_persons=[]
 var red_persons=[]
@@ -196,6 +196,7 @@ func spawn_players():
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
 	#print(Engine.get_frames_per_second())
+	hide_navigation_indicator()
 	score_label.text=str(Global.score)
 	Global.containment_size=containment_slider.value
 	Global.player_number=len(blue_persons)
@@ -337,11 +338,14 @@ func _on_set_target_input_event(camera: Node, event: InputEvent, event_position:
 
 
 
-	
-
-	
-		
-
+func hide_navigation_indicator():
+	var hiding=true
+	for pe in blue_persons:
+		if pe.new_pathfinding:
+			hiding=false
+	if hiding:
+		navigation_indicator.hide()
+			
 	
 func set_target(event_position):
 	click_marker.hide()

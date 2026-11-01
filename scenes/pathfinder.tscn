@@ -9,7 +9,6 @@
 
 [node name="Pathfinder" type="CharacterBody3D" unique_id=393543370]
 top_level = true
-visible = false
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_4a7uq")

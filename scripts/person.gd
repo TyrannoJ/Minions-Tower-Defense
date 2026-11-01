@@ -22,6 +22,8 @@ var dragged=false
 var not_rotating=false
 var stop=false
 var found_weapons=[]
+var pathfinding_positions=[]
+var current_pathfining_position=0
 @onready var pathfinder=$Pathfinder
 @onready var rot_timer=$Rotation_timer
 @onready var weapon_red=$sword_red
@@ -81,11 +83,14 @@ func _physics_process(delta: float) -> void:
 	if color=="blue":
 		pass
 		#print(str(number)+" "+str(not_rotating)+" "+str(vision.is_colliding())+" "+str(dragged)+" "+str(to_base))
-	
+	#print(rot_timer.paused)
+	#print(new_pathfinding)
 	current_damage=DPS/Engine.get_frames_per_second()
 	name_tag.rotation.y=-rotation.y
 	name_tag.rotation.x=-PI/2
-	
+	if new_pathfinding:
+		if Input.is_action_just_pressed("trigger_navigation"):
+			longer_new_navigation()
 	
 		
 	follow_area.color=color
@@ -140,7 +145,9 @@ func move():
 	elif new_pathfinding:
 		has_center=false
 		center_visualizer.hide()
-		handle_new_pathfinding()
+		#handle_new_pathfinding()
+		if pathfinding_positions !=[]:
+			follow_pathfinding_positions()
 	else:
 		direction()
 	
@@ -239,7 +246,7 @@ func speed():
 		
 	else:
 		Speed+=0.2
-	if stop:
+	if stop :
 		character.animations.play("stand")
 		Speed=0
 		velocity=Vector3.ZERO
@@ -338,6 +345,7 @@ func _on_rotation_timer_timeout() -> void:
 	#print(rad_to_deg(rotation.y))
 
 func on_update_target(col,num):
+	
 	var in_list=false
 	for i in range(0,len(col)):
 		if col[i]==color and num[i]==number:
@@ -345,11 +353,15 @@ func on_update_target(col,num):
 			break
 			
 	if in_list:
+		#stop=true
 		new_pathfinding=true
+		pathfinding_positions=[]
+		
+		longer_new_navigation()
 		#pathfinder.start_pathfinding()
 		#end_pathfinding()
 		rot_timer.paused=true
-		navigation_timer.start(0.5)
+		#navigation_timer.start(0.5)
 		#pathfinding=true
 		#stop=true
 		
@@ -447,6 +459,18 @@ func attack_players():
 					da.get_damage(current_damage)
 				else:
 					stop=false
+	if color=="blue":
+		if damaging !=[]:
+			for da in damaging:
+				
+				if da.is_in_group("enemy_targets") and has_weapon:
+					
+					if !character.godot_animations.is_playing():
+						character.godot_animations.play("hit")
+					stop=true
+					da.get_damage(current_damage)
+				else:
+					stop=false
 					
 func get_damage(val,attacker):
 	health-=val
@@ -469,6 +493,7 @@ func follow_mouse():
 		has_center=false
 		center_visualizer.hide()
 		new_pathfinding=false
+		rot_timer.paused=false
 		dragged=true
 		walk_to(Global.drag_pos)
 		rotation.x=0
@@ -534,7 +559,7 @@ func rotate_to_vector_better(vector:Vector3):
 	#y_rot_tween.tween_callback($".".queue_free)
 	
 func handle_new_pathfinding():
-	
+	print("b")
 	var tar=Vector2(Global.target_pos.x,Global.target_pos.z)
 	var pos=Vector2(position.x,position.z)
 
@@ -575,7 +600,7 @@ func handle_new_pathfinding():
 	
 	var block_value
 	#Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+35)].request()
-	print(direction)
+	#print(direction)
 	match direction:
 		"up":
 			block_value=Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y-1+35)].request()
@@ -587,7 +612,8 @@ func handle_new_pathfinding():
 			block_value=Global.navigation_block_list[int(start_2_values.x+1+60)][int(start_2_values.y+35)].request()
 		_:
 			block_value=false
-	print(block_value)
+	#print(block_value)
+	var positions=[]
 	if !block_value:
 		look_at(Global.target_pos)
 		rotation.x=0
@@ -611,6 +637,9 @@ func handle_new_pathfinding():
 		navigation_timer.stop()
 	else:
 		navigation_timer.start(0.05)
+	
+	
+	
 	#match direction:
 		#"up":
 			#if !block_value:
@@ -657,12 +686,192 @@ func handle_new_pathfinding():
 	
 	
 	
+func longer_new_navigation():
+	var tar=Vector2(Global.target_pos.x,Global.target_pos.z)
+	var pos=Vector2(position.x,position.z)
+	pathfinding_positions=[]
+	var start_2_values=Vector2(floorf((pos.x)/2),floorf((pos.y)/2))
+	var end_2_values=Vector2(floorf((tar.x)/2),floorf((tar.y)/2))
+	pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+	current_pathfining_position=0
+	var right_list=[]
+	var positions=[]
+	var right_mode=false
+	var current_list=[]
+	print("-------------")
+	
+	while true:
+		if tar.x != Global.target_pos.x and tar.y != Global.target_pos.z:
+			pathfinding_positions=[]
+			break
+		print("")
+		
+		$pos_visualizer.position=Vector3(pos.x,3,pos.y)
+		print(start_2_values)
+		print(pos)
+		var tar_right=false
+		if tar.x>pos.x:
+			tar_right=true
+		else:
+			tar_right=false
+		var m=0
+		
+		if tar_right:
+			m=(tar.y-pos.y)/(tar.x-pos.x)
+		else:
+			m=(pos.y-tar.y)/(pos.x-tar.x)
+		
+		$navigation_check_area.position.x=0.5*(tar.x+pos.x)
+		$navigation_check_area.position.z=0.5*(tar.y+pos.y)
+		$navigation_check_area.rotation.y=atan(-m)
+		$navigation_check_area.scale.x=(sqrt(pow(pos.x-tar.x,2)+pow(pos.y-tar.y,2)))-0.5
+		#print(str(m)+ " * x + "+str(t))
+		#print(pos)
+		#print(start_2_values)
+		#print(tar_right)
+		
+		#Global.navigation_block_list[int(block_two_values.x+60)][int(block_two_values.y+35)]
+		#var areas=$navigation_check_area.get_overlapping_areas()
+		await get_tree().physics_frame
+		await get_tree().physics_frame
+		#await get_tree().physics_frame
+		#await get_tree().physics_frame
+		var direction=""
+		#for area in areas:
+			#area.look()
+		if Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y-1+35)].is_touching($navigation_check_area):
+			direction="up"
+		if Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+1+35)].is_touching($navigation_check_area):
+			direction="down"
+		if Global.navigation_block_list[int(start_2_values.x+1+60)][int(start_2_values.y+35)].is_touching($navigation_check_area):
+			direction="right"
+		if Global.navigation_block_list[int(start_2_values.x-1+60)][int(start_2_values.y+35)].is_touching($navigation_check_area):
+			direction="left"
+		
+		
+		var block_value
+		#Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+35)].request()
+		print(direction)
+		match direction:
+			"up":
+				block_value=Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y-1+35)].request()
+				#print("1")
+			"down":
+				block_value=Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+1+35)].request()
+				#print("2")
+			"left":
+				block_value=Global.navigation_block_list[int(start_2_values.x-1+60)][int(start_2_values.y+35)].request()
+				#print("3")
+			"right":
+				block_value=Global.navigation_block_list[int(start_2_values.x+1+60)][int(start_2_values.y+35)].request()
+				#print("4")
+			_:
+				block_value=false
+		print(block_value)
+		print(right_mode)
+		
+		if !block_value or (abs(start_2_values.x-end_2_values.x)<=1 and abs(start_2_values.y-end_2_values.y)<=1) :
+			match direction:
+				"up":
+					start_2_values.y-=1
+					positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+					pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+				"down":
+					start_2_values.y+=1
+					positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+					pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+				"left":
+					start_2_values.x-=1
+					positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+					pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+				"right":
+					start_2_values.x+=1
+					positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+					pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+			pathfinding_positions.append(start_2_values)
+			current_list.append(start_2_values)
+		else:
+			if right_mode:
+				match direction:
+					"up":
+						start_2_values.x+=1
+						pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+					"down":
+						start_2_values.x-=1
+						positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+						pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+					"left":
+						start_2_values.y-=1
+						positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+						pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+					"right":
+						start_2_values.y+=1
+						positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+						pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+			else:
+				match direction:
+					"up":
+						start_2_values.x-=1
+						pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+					"down":
+						start_2_values.x+=1
+						positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+						pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+					"left":
+						start_2_values.y+=1
+						positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+						pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+					"right":
+						start_2_values.y-=1
+						positions.append(Vector3((start_2_values.x)*2+1,3,(start_2_values.y)*2+1))
+						pos=Vector2((start_2_values.x)*2+1,(start_2_values.y)*2+1)
+			pathfinding_positions.append(start_2_values)
+			current_list.append(start_2_values)
+			right_list.append(right_mode)
+			
+		for j in range(0,len(current_list)-1):
+			if current_list[j]==start_2_values:
+				right_mode =!right_mode
+				current_list=[]
+				break
+		if start_2_values==end_2_values or (abs(start_2_values.x-end_2_values.x)<=1 and abs(start_2_values.y-end_2_values.y)<=1): #a littl cheating but naja
+			$pos_visualizer.hide()
+			$navigation_check_area.hide()
+			break
+			
+		#await get_tree().create_timer(0.2).timeout
+		
+	
+	current_pathfining_position=0
+	
 
-
+func follow_pathfinding_positions():
+	if dragged==true:
+		rot_timer.paused=false
+		new_pathfinding=false
+		print("a")
+		
+	var x=(pathfinding_positions[current_pathfining_position].x)*2+1
+	var y=(pathfinding_positions[current_pathfining_position].y)*2+1
+	#print(x)
+	#print(y)
+	look_at(Vector3(x,3,y))
+	rotation.x=0
+	rotation.z=0
+	var current_2_value=Vector2(floorf((position.x)/2),floorf((position.z)/2))
+	if current_2_value==pathfinding_positions[current_pathfining_position]:
+		current_pathfining_position+=1
+		if current_pathfining_position==len(pathfinding_positions):
+			new_pathfinding=false
+			pathfinding_positions=[]
+			rot_timer.paused=false
+		
 func _on_navigation_timer_timeout() -> void:
 	if dragged==true:
 		rot_timer.paused=false
 		new_pathfinding=false
 		navigation_timer.stop()
 	else:
-		handle_new_pathfinding()
+		pass
+		#longer_new_navigation()
+		#handle_new_pathfinding()
