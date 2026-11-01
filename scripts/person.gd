@@ -88,9 +88,9 @@ func _physics_process(delta: float) -> void:
 	current_damage=DPS/Engine.get_frames_per_second()
 	name_tag.rotation.y=-rotation.y
 	name_tag.rotation.x=-PI/2
-	if new_pathfinding:
-		if Input.is_action_just_pressed("trigger_navigation"):
-			longer_new_navigation()
+	#if new_pathfinding:
+		#if Input.is_action_just_pressed("trigger_navigation"):
+			#longer_new_navigation()
 	
 		
 	follow_area.color=color
@@ -698,17 +698,17 @@ func longer_new_navigation():
 	var positions=[]
 	var right_mode=false
 	var current_list=[]
-	print("-------------")
+	#print("-------------")
 	
 	while true:
 		if tar.x != Global.target_pos.x and tar.y != Global.target_pos.z:
 			pathfinding_positions=[]
 			break
-		print("")
+		#print("")
 		
 		$pos_visualizer.position=Vector3(pos.x,3,pos.y)
-		print(start_2_values)
-		print(pos)
+		#print(start_2_values)
+		#print(pos)
 		var tar_right=false
 		if tar.x>pos.x:
 			tar_right=true
@@ -751,7 +751,7 @@ func longer_new_navigation():
 		
 		var block_value
 		#Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+35)].request()
-		print(direction)
+		#print(direction)
 		match direction:
 			"up":
 				block_value=Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y-1+35)].request()
@@ -767,8 +767,8 @@ func longer_new_navigation():
 				#print("4")
 			_:
 				block_value=false
-		print(block_value)
-		print(right_mode)
+		#print(block_value)
+		#print(right_mode)
 		
 		if !block_value or (abs(start_2_values.x-end_2_values.x)<=1 and abs(start_2_values.y-end_2_values.y)<=1) :
 			match direction:

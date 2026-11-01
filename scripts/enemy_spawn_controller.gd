@@ -30,8 +30,8 @@ func add_spawner():
 	add_child(spa)
 	
 func start():
-	pass
-	#timer.start()
+	#pass
+	timer.start(5)
 	#var spa=enemy_spawner.instantiate()
 	#
 	#spa.position=Vector3(0,3,20)
@@ -53,7 +53,7 @@ func reset():
 	positions=[]
 	for i in range(0,len(filled)):
 		filled[i]=false
-	timer.start(5)
+	#timer.start(5)
 	
 func delete_spawner(number):
 	

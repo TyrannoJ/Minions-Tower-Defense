@@ -717,6 +717,53 @@ offset_bottom = 640.0
 theme_override_font_sizes/font_size = 30
 text = "Haa"
 
+[node name="Loading_screen" type="Control" parent="CanvasLayer" unique_id=2039070855]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1576.5
+offset_top = -849.5
+offset_right = 1576.5
+offset_bottom = 849.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Loading_screen" unique_id=632550342]
+layout_mode = 0
+offset_top = -60.0
+offset_right = 3344.0
+offset_bottom = 1883.0
+color = Color(0.42, 0.42, 0.42, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Loading_screen" unique_id=688122663]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -381.0
+offset_top = -68.5
+offset_right = 381.0
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Loading_screen/VBoxContainer" unique_id=151873807]
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "Loading Please wait"
+horizontal_alignment = 1
+
+[node name="load_label" type="Label" parent="CanvasLayer/Loading_screen/VBoxContainer" unique_id=1013628828]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "loading game..."
+horizontal_alignment = 1
+
 [node name="click_marker" type="StaticBody3D" parent="." unique_id=1864312677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
 visible = false
@@ -792,6 +839,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 [node name="catapult" parent="." unique_id=1284938642 instance=ExtResource("15_xo05s")]
 transform = Transform3D(0.68242645, 0, -0.7309543, 0, 1, 0, 0.7309543, 0, 0.68242645, -16.00944, 0.42742348, 0)
 
+[node name="load_timer" type="Timer" parent="." unique_id=1321267931]
+wait_time = 0.3
+one_shot = true
+autostart = true
+
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="toggled" from="CanvasLayer/Controls/show_controls" to="." method="_on_show_controls_toggled"]
 [connection signal="drag_ended" from="CanvasLayer/Controls/Panel/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]
@@ -805,3 +857,4 @@ transform = Transform3D(0.68242645, 0, -0.7309543, 0, 1, 0, 0.7309543, 0, 0.6824
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer/start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer2/help" to="." method="_on_help_pressed"]
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer3/quit" to="." method="_on_quit_pressed"]
+[connection signal="timeout" from="load_timer" to="." method="_on_load_timer_timeout"]

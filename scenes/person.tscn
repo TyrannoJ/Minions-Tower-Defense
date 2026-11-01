@@ -241,6 +241,7 @@ shape = SubResource("BoxShape3D_hhcb3")
 [node name="navigation_check_area" type="Area3D" parent="." unique_id=769696342]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.2, 0, 2, 0)
 top_level = true
+visible = false
 collision_layer = 2
 collision_mask = 512
 
@@ -259,6 +260,7 @@ mesh = SubResource("CylinderMesh_hhcb3")
 
 [node name="pos_visualizer" type="MeshInstance3D" parent="." unique_id=114597254]
 top_level = true
+visible = false
 mesh = SubResource("CylinderMesh_t4qo1")
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]

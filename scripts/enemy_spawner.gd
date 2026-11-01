@@ -29,7 +29,7 @@ func spawn_enemys():
 			Global.add_enemy.emit(spawn_location)
 func _process(delta: float) -> void:
 	health=damage_area.health
-	print(health)
+	#print(health)
 	var sca:float=float(health/2000)
 	
 	anti_health_bar.scale.x=1-sca

@@ -42,3 +42,6 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	mat.albedo_color=Color.from_hsv(1,0,1)
 	pass # Replace with function body.
+
+func reset():
+	number=0

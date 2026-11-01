@@ -55,6 +55,9 @@ extends Node3D
 @onready var show_explanations=$CanvasLayer/Controls/Panel/VBoxContainer/show_explanations
 @onready var final_score_label=$CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer2/final_score_label
 @onready var explanations=$CanvasLayer/explanations
+@onready var navigation=$navigation
+@onready var loading_screen=$CanvasLayer/Loading_screen
+@onready var load_label=$CanvasLayer/Loading_screen/VBoxContainer/load_label
 var trees=[]
 var start_base_health=8000
 var drawings=[]
@@ -107,8 +110,27 @@ func _ready() -> void:
 	spawn_players()
 	spawn_obstacles()
 	#spawn_weapons()
-	add_trees()
 	
+func _on_load_timer_timeout() -> void:
+	
+	load_label.text="loading trees..."
+	#print("Loading trees...")
+	
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
+	await add_trees()
+	print("Loading navigation...")
+	load_label.text="loading navigation..."
+	
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
+	await navigation.create_grid()
+	
+	loading_screen.hide()
+	print("done")
+
 func add_trees():
 	if trees !=[]:
 		for tre in trees:
@@ -126,6 +148,7 @@ func add_trees():
 			var factor=2
 			tre.position=Vector3(randf_range(x*factor+1,x*factor-1),2,randf_range(y*factor+1,y*factor-1))
 			trees.append(tre)
+	return true
 func add_base():
 	if base !=null:
 		base.queue_free()
@@ -596,8 +619,9 @@ func _on_restart_pressed() -> void:
 	time_slider.value=1
 	size_slider.value=40
 	enemy_spawns.reset()
+	player_spawner.reset()
 	#player_spawner.number=0
-	player_spawner.start()
+	#player_spawner.start()
 	enemy_spawns.start()
 	reset_stat_board()
 func reset_stat_board():
@@ -643,7 +667,7 @@ func _on_containment_toggled(toggled_on: bool) -> void:
 func _on_show_controls_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		control_panel.show()
-		controls.size.y=363
+		controls.size.y=420
 	else:
 		control_panel.hide()
 		controls.size.y=0

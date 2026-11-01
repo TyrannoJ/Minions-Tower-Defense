@@ -1,6 +1,9 @@
 extends Node3D
 @export var block:PackedScene
 func _ready() -> void:
+	pass
+
+func create_grid():
 	for x in range(0,240,2):
 		Global.navigation_list.append([])
 		Global.navigation_block_list.append([])
@@ -11,3 +14,4 @@ func _ready() -> void:
 			blo.position=Vector3(x-120,2,z-70)
 			Global.navigation_list[(x/2)].append(true)
 			Global.navigation_block_list[(x/2)].append(blo)
+	return true
