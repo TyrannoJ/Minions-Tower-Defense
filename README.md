@@ -4,7 +4,7 @@ This is a strategy game made in Godot, where you have to defend your castle agai
 
 ## Where can you play it
 
-You can play the game  [here on itch.io](https://tyrannoj.itch.io/minions-tower-defense). The rules are there too
+You can play the game  [here on itch.io](https://tyrannoj.itch.io/minions-tower-defense). The instructions are there or down below
 
 ## Features
 - menu to start/quit game
@@ -35,20 +35,20 @@ Your job is to defend your castle from the red minions by controlling your minio
 - T - speed up time
 - R - keep the marked players when marking new ones
 - F - hold to load catapult, release to fire
-- mouse wheel - rotate catapult 
+- scroll - rotate catapult 
 
 ### How to play
 
 - Just press start game, how to play enables a few in game explanations (but not too many as they are all here)
-- You can mark your minions (the blue ones) with mouse button
+- You can mark your minions (the blue ones) with holding the scrool wheel and dragging
 - If you hold left mouse button the marked minions will run to your mouse position
-- If you tap right mouse button the minions will pathfin to this point (Note: this is new and can produce errors but should work well)
-- If you don't do anything with your minions, they walk around randomly in a confined space, called containment
-- If your people see the red people on close range, they will attack them
-- The enemy will first destroy your castle walls and then the cristal in the middle (you can see its Health on the top)
+- If you tap right mouse button the minions will pathfind to this point (Note: this is new and can produce errors but should work well)
+- If you don't do anything with your minions, they walk around randomly in a confined space, called containment (shown as a green circle)
+- If your people see the red people on close range, they will attack them and vice versa
+- The enemy will first destroy your castle walls and then the crystal in the middle (you can see its Health on the top)
 - Enemys spawn on the outer parts of the border at their spawners, which gradually appear more and more
 - You get points by killing enemys or destroying enemy spanwers (which is experimental), they are shown top left
-- You can click on the white cube right of the castle to spawn blue minions, you have to drag them out 
+- You can click on the white cube right of the castle to spawn blue minions, you have to mark them and drag them out 
 - You have a catapult, with which you can fire on enemys, it takes like half their hp, it doesn't affect your guys
 - Sometimes the restart button lags and doesnt respawn enemys, if this happens you have to restart the game, I'll fix that in later versions
 - just press the quit button on the end or alt+f4 to quit if you've had enough
