@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b7tqmg6hyvvtd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sgi2l"]
+size = Vector3(1, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ckxbf"]
+albedo_color = Color(0.42963597, 0.25309387, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qibgr"]
+material = SubResource("StandardMaterial3D_ckxbf")
+size = Vector3(1, 0.5, 0.5)
+
+[node name="fence_extension" type="StaticBody3D" unique_id=2014133102]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=487638686]
+shape = SubResource("BoxShape3D_sgi2l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2113142471]
+mesh = SubResource("BoxMesh_qibgr")

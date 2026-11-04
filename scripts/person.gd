@@ -249,7 +249,7 @@ func speed():
 	if stop :
 		character.animations.play("stand")
 		Speed=0
-		velocity=Vector3.ZERO
+		#velocity=Vector3.ZERO
 	else:
 		character.animations.play("Walk")
 	character.animations.speed_scale=Speed*4
@@ -301,7 +301,7 @@ func handle_pathfinding():
 			
 			rotation.x=0
 			rotation.z=0
-			stop=false
+			#stop=false
 			if next_index <len(pathfinder.markers):
 				pathfinder.markers[next_index].queue_free()
 			next_index+=1
@@ -460,6 +460,7 @@ func attack_players():
 				else:
 					stop=false
 	if color=="blue":
+		stop=false
 		if damaging !=[]:
 			for da in damaging:
 				
@@ -468,9 +469,11 @@ func attack_players():
 					if !character.godot_animations.is_playing():
 						character.godot_animations.play("hit")
 					stop=true
+					
 					da.get_damage(current_damage)
-				else:
-					stop=false
+				
+					
+					
 					
 func get_damage(val,attacker):
 	health-=val

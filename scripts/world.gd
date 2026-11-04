@@ -3,7 +3,7 @@ extends Node3D
 @export var person:PackedScene
 @export var obstacle_wall:PackedScene
 @export var weapon:PackedScene
-@onready var camera =$Camerapivot/Camera3D
+@onready var camera:Camera3D =$Camerapivot/Camera3D
 @onready var camera_pivot =$Camerapivot
 @onready var character_view=$CanvasLayer/character_view
 @onready var name_label=$CanvasLayer/character_view/Panel/character_view/Name_Label
@@ -58,6 +58,8 @@ extends Node3D
 @onready var navigation=$navigation
 @onready var loading_screen=$CanvasLayer/Loading_screen
 @onready var load_label=$CanvasLayer/Loading_screen/VBoxContainer/load_label
+@export var fence:PackedScene
+const RAY_LENGTH=1000
 var trees=[]
 var start_base_health=8000
 var drawings=[]
@@ -76,13 +78,14 @@ var release_pos:Vector3
 var start_size=30
 var weapons=[]
 var obstacles=[]
-var tools=["normal","draw","areas"]
+
+var tools=["normal mode","build mode"]
 var wall_positions=[Vector3(start_size,2.5,0),Vector3(-start_size,2.5,0),Vector3(0,2.5,start_size),Vector3(0,2.5,-start_size)]
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority(): return
 	
-	if event is InputEventMouseMotion:
+	
 		#camera_pivot.rotate_y(-event.relative.x * sensitivity)
 		#if -event.relative.x>0:
 			#if $Animated_Bayer/AnimationPlayer.current_animation=="Idle":
@@ -90,8 +93,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		#camera.rotate_x(-event.relative.y * sensitivity)
 		
 		
-		camera.rotation.x = clamp(camera.rotation.x, -PI,PI)
-		camera.rotation.y = clamp(camera.rotation.y, -PI,PI)
+		#camera.rotation.x = clamp(camera.rotation.x, -PI,PI)
+		#camera.rotation.y = clamp(camera.rotation.y, -PI,PI)
+	if Global.current_tool==1:
+		if event is InputEventMouseMotion and event.button_mask==1:
+			var pos=get_mouse_raycast().position
+			if get_mouse_raycast().collider.is_in_group("floor"):
+				var fence_pos=Vector3(2*floorf(pos.x/2),pos.y,2*floorf(pos.z/2))
+				var placable=true
+				for f in Global.fences:
+					if f.position==fence_pos:
+						placable=false
+				if placable:
+					var fe=fence.instantiate()
+					add_child(fe)
+					Global.fences.append(fe)
+					fe.position=fence_pos
+					Global.fence_built.emit(fence_pos)
+					
+		
 
 func _ready() -> void:
 	#var walls=[wall_up,wall_down,wall_left,wall_right]
@@ -109,6 +129,8 @@ func _ready() -> void:
 	Global.base=base.global_position
 	spawn_players()
 	spawn_obstacles()
+	loading_screen.show()
+	menu.show()
 	#spawn_weapons()
 	
 func _on_load_timer_timeout() -> void:
@@ -219,6 +241,10 @@ func spawn_players():
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
 	#print(Engine.get_frames_per_second())
+	if Global.current_tool==0:
+		target_area.position.y=5
+	else:
+		target_area.position.y=0
 	hide_navigation_indicator()
 	score_label.text=str(Global.score)
 	Global.containment_size=containment_slider.value
@@ -242,6 +268,8 @@ func _process(delta: float) -> void:
 	handle_tools()
 	#set_map_size()
 	handle_time()
+	
+	
 func handle_time():
 	if Input.is_action_pressed("time_up"):
 		time_slider.value+=0.01
@@ -270,6 +298,10 @@ func handle_tools():
 		Global.current_tool=1
 	if Input.is_action_just_pressed("tool3"):
 		Global.current_tool=2
+	if Global.current_tool==0:
+		tool_label.text="normal mode"
+	else:
+		tool_label.text="build mode"
 		
 	
 	
@@ -306,11 +338,17 @@ func set_map_size():
 func _on_set_target_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
 	
 	if Global.current_tool==1:
-		target_area.position.y=5
-		if event is InputEventMouseMotion and event.button_mask==1:
-			draw(event_position)
+		if event is InputEventMouseButton and event.is_pressed() and event.button_index==1:
+			
+			#target_area.position.y=5
+			#if event is InputEventMouseMotion and event.button_mask==1:
+				#draw(event_position)
+			var fe=fence.instantiate()
+			add_child(fe)
+			fe.position=Vector3(floorf(event_position.x),2,floorf(event_position.z))
+			print("b")
 	if Global.current_tool==2:
-		
+		target_area.position.y=5
 		#target_area.position.y=3
 		if event is InputEventMouseButton and event.is_pressed() and event.button_index==1:
 			set_area_start_point(event_position)
@@ -700,3 +738,14 @@ func _on_show_explanations_toggled(toggled_on: bool) -> void:
 
 func _on_quit_loose_pressed() -> void:
 	get_tree().quit()
+
+func get_mouse_raycast() -> Dictionary:
+	var mouse_pos := get_viewport().get_mouse_position()
+
+	var origin := camera.project_ray_origin(mouse_pos)
+	var end := origin + camera.project_ray_normal(mouse_pos) * 1000.0
+
+	var query := PhysicsRayQueryParameters3D.create(origin, end)
+	query.collision_mask = 1 << 3 | 1<<2 # only layer 4
+	query.collide_with_areas = true
+	return get_world_3d().direct_space_state.intersect_ray(query)

@@ -34,6 +34,7 @@ size = Vector3(3.8496094, 4.6918945, 3.192871)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h5ip5"]
 transparency = 1
 albedo_color = Color(0, 2.8711097, 3.2944162, 1)
+emission_energy_multiplier = 10.0
 
 [sub_resource type="Animation" id="Animation_h5ip5"]
 length = 0.001
@@ -137,8 +138,7 @@ libraries/ = SubResource("AnimationLibrary_xvvcp")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=92109729]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.674209, 0)
-light_color = Color(0, 0.9666667, 1, 1)
-light_energy = 6.986
+light_energy = 7.0
 omni_range = 12.148771
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=377121126]

@@ -32,16 +32,16 @@ func add_spawner():
 func start():
 	#pass
 	timer.start(5)
-	#var spa=enemy_spawner.instantiate()
-	#
-	#spa.position=Vector3(0,3,20)
-	#
-	#
-	#spa.initialize(1,len(spawners))
-	#spa.killed.connect(delete_spawner)
-	#positions.append(spa.position)
-	#spawners.append(spa)
-	#add_child(spa)
+	var spa=enemy_spawner.instantiate()
+	
+	spa.position=Vector3(0,3,20)
+	
+	
+	spa.initialize(1,len(spawners))
+	spa.killed.connect(delete_spawner)
+	positions.append(spa.position)
+	spawners.append(spa)
+	add_child(spa)
 func _on_timer_timeout() -> void:
 	timer.start(randi_range(25,35))
 	if len(spawners)<5:

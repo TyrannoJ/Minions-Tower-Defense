@@ -20,21 +20,21 @@ size = Vector3(1, 0.2, 1)
 size = Vector3(1, 5, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_31irv"]
-size = Vector3(12, 5.2250977, 12)
+size = Vector3(13, 5.225, 13)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7rx5"]
-albedo_color = Color(0, 0, 1.1169488, 1)
+albedo_color = Color(1.1169488, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ih16b"]
 material = SubResource("StandardMaterial3D_r7rx5")
-size = Vector3(2, 0.2, 0.5)
+size = Vector3(4, 0.2, 0.7)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hoeld"]
 albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_31irv"]
 material = SubResource("StandardMaterial3D_hoeld")
-size = Vector3(2, 0.2, 0.5)
+size = Vector3(4, 0.2, 0.7)
 
 [node name="enemy spawner" type="Node3D" unique_id=2055623077]
 script = ExtResource("1_xl0gr")
@@ -52,7 +52,7 @@ autostart = true
 
 [node name="Area3D" type="Area3D" parent="walls" unique_id=1316509118]
 transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
-collision_layer = 32
+collision_layer = 0
 collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D" unique_id=1067569152]
@@ -64,7 +64,7 @@ shape = SubResource("BoxShape3D_ckxbf")
 
 [node name="Area3D2" type="Area3D" parent="walls" unique_id=1088144582]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10, 5, 0, 0)
-collision_layer = 32
+collision_layer = 0
 collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D2" unique_id=752818317]
@@ -76,7 +76,7 @@ shape = SubResource("BoxShape3D_ckxbf")
 
 [node name="Area3D3" type="Area3D" parent="walls" unique_id=1676586403]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10, -5, 0, 0)
-collision_layer = 32
+collision_layer = 0
 collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D3" unique_id=1773719626]
@@ -88,7 +88,7 @@ shape = SubResource("BoxShape3D_ckxbf")
 
 [node name="Area3D4" type="Area3D" parent="walls" unique_id=284437702]
 transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
-collision_layer = 32
+collision_layer = 0
 collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D4" unique_id=1282362785]

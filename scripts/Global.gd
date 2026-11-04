@@ -27,6 +27,8 @@ const MAX_ENEMYS=40
 var score=0
 var show_containment=true
 var explanations=false
+var fences=[]
+signal fence_built(position:Vector3)
 
 	
 func restart():

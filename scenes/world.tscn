@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="7_xo05s"]
 [ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
 [ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/control_area.tscn" id="8_w7kh3"]
+[ext_resource type="PackedScene" uid="uid://d3fmpm8m3rgj2" path="res://scenes/build_fence.tscn" id="9_xo05s"]
 [ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="12_q5onr"]
 [ext_resource type="PackedScene" uid="uid://dh835ofscp3de" path="res://scenes/enemy_spawn_controller.tscn" id="13_jhx03"]
 [ext_resource type="PackedScene" uid="uid://dwwq0rklnydf2" path="res://scenes/navigation.tscn" id="14_o8fc1"]
@@ -203,6 +204,7 @@ wall_piece = ExtResource("5_jhx03")
 base_scene = ExtResource("6_o8fc1")
 tree = ExtResource("7_7r4gi")
 control_area = ExtResource("8_w7kh3")
+fence = ExtResource("9_xo05s")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=46194837]
 collision_layer = 4
@@ -214,8 +216,7 @@ shape = SubResource("BoxShape3D_gv5m4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.092228, -1.6701336, -2.8805618)
 mesh = SubResource("BoxMesh_f3sb7")
 
-[node name="set_target" type="Area3D" parent="Ground" unique_id=240993363]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+[node name="set_target" type="Area3D" parent="Ground" unique_id=240993363 groups=["floor"]]
 collision_layer = 8
 collision_mask = 0
 
@@ -407,7 +408,6 @@ offset_bottom = 52.0
 theme = SubResource("Theme_gbfbk")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/ToolBar" unique_id=100940752]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -416,46 +416,48 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ToolBar/Panel" unique_id=1395801063]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
 
 [node name="Tool_Label" type="Label" parent="CanvasLayer/ToolBar/Panel/HBoxContainer" unique_id=428301771]
-visible = false
 layout_mode = 2
+horizontal_alignment = 1
 
 [node name="red_label" type="Label" parent="CanvasLayer/ToolBar" unique_id=1175373018]
 layout_mode = 0
-offset_left = 5.0
-offset_top = 50.0
-offset_right = 45.0
-offset_bottom = 105.0
+offset_left = 1.0
+offset_top = 95.0
+offset_right = 41.0
+offset_bottom = 150.0
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 
 [node name="blue_label" type="Label" parent="CanvasLayer/ToolBar" unique_id=92440136]
 layout_mode = 0
-offset_left = 643.0
-offset_top = 50.0
-offset_right = 683.0
-offset_bottom = 105.0
+offset_left = 639.0
+offset_top = 95.0
+offset_right = 679.0
+offset_bottom = 150.0
 theme_override_colors/font_color = Color(0.0333333, 0, 1, 1)
 
 [node name="anti_health_bar" type="ColorRect" parent="CanvasLayer/ToolBar" unique_id=1660463709]
 layout_mode = 0
-offset_top = 15.0
-offset_right = 40.0
-offset_bottom = 35.0
+offset_left = -4.0
+offset_top = 60.0
+offset_right = 36.0
+offset_bottom = 80.0
 color = Color(0, 0, 0, 1)
 
 [node name="health_bar" type="ColorRect" parent="CanvasLayer/ToolBar" unique_id=7762231]
 layout_mode = 0
-offset_top = 15.0
-offset_right = 690.0
-offset_bottom = 35.0
+offset_left = -4.0
+offset_top = 60.0
+offset_right = 686.0
+offset_bottom = 80.0
 color = Color(0, 0, 1, 1)
 
 [node name="base_health" type="Label" parent="CanvasLayer/ToolBar" unique_id=1662216208]
@@ -463,10 +465,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -19.5
-offset_top = 39.0
-offset_right = 20.5
-offset_bottom = 94.0
+offset_left = -23.5
+offset_top = 84.0
+offset_right = 16.5
+offset_bottom = 139.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 1, 1)
 
@@ -649,6 +651,7 @@ text = "0
 "
 
 [node name="menu" type="Control" parent="CanvasLayer" unique_id=1508576279]
+visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -718,6 +721,7 @@ theme_override_font_sizes/font_size = 30
 text = "Haa"
 
 [node name="Loading_screen" type="Control" parent="CanvasLayer" unique_id=2039070855]
+visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5

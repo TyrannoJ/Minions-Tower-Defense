@@ -74,9 +74,13 @@ func _process(delta: float) -> void:
 			explanations.show()
 		else:
 			explanations.hide()
+		
 		var hue_val = 1-health/start_health
 		var col_begin=Color.from_hsv(0.522, 1.0, 1.0, 0.9)
 		var col_end=Color.from_hsv(1, 1.0, 1.0, 0.9)
+		mat.emission_enabled=true
+		mat.emission=col_begin.lerp(col_end,hue_val)
+		mat.emission_energy_multiplier=10
 		mat.albedo_color=col_begin.lerp(col_end,hue_val)
 		light.light_color=col_begin.lerp(col_end,hue_val)
 		altar_animation.play("rotate")

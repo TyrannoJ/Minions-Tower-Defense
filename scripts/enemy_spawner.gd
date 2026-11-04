@@ -33,10 +33,9 @@ func _process(delta: float) -> void:
 	var sca:float=float(health/2000)
 	
 	anti_health_bar.scale.x=1-sca
-	health_bar.position.x=-(1-sca)
+	health_bar.position.x=-(2-sca*2)
 	health_bar.scale.x=sca
-	
-	anti_health_bar.position.x=sca
+	anti_health_bar.position.x=sca*2
 func spawn_weapon():
 	var we=weapon.instantiate()
 	add_child(we)
