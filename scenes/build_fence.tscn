@@ -27,7 +27,7 @@ shape = SubResource("BoxShape3D_t4qo1")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=316338023]
 mesh = SubResource("BoxMesh_hhcb3")
 
-[node name="area" type="Area3D" parent="." unique_id=1540147966 groups=["enemy_targets"]]
+[node name="area" type="Area3D" parent="." unique_id=1540147966 groups=["targets"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07439828, 1)
 collision_layer = 64
 script = ExtResource("3_sojmb")

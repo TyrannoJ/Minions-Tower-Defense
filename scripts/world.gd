@@ -58,6 +58,7 @@ extends Node3D
 @onready var navigation=$navigation
 @onready var loading_screen=$CanvasLayer/Loading_screen
 @onready var load_label=$CanvasLayer/Loading_screen/VBoxContainer/load_label
+@onready var build_position_mesh=$build_position
 @export var fence:PackedScene
 const RAY_LENGTH=1000
 var trees=[]
@@ -95,21 +96,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		#camera.rotation.x = clamp(camera.rotation.x, -PI,PI)
 		#camera.rotation.y = clamp(camera.rotation.y, -PI,PI)
-	if Global.current_tool==1:
-		if event is InputEventMouseMotion and event.button_mask==1:
-			var pos=get_mouse_raycast().position
-			if get_mouse_raycast().collider.is_in_group("floor"):
-				var fence_pos=Vector3(2*floorf(pos.x/2),pos.y,2*floorf(pos.z/2))
-				var placable=true
-				for f in Global.fences:
-					if f.position==fence_pos:
-						placable=false
-				if placable:
-					var fe=fence.instantiate()
-					add_child(fe)
-					Global.fences.append(fe)
-					fe.position=fence_pos
-					Global.fence_built.emit(fence_pos)
+	
 					
 		
 
@@ -239,12 +226,35 @@ func spawn_players():
 		#red_persons[i].initialize(i,"red",Vector3(randi_range(-10,-20),2,randi_range(-13,13)),unique_id)
 		unique_id+=1
 func _process(delta: float) -> void:
+	
+	if Global.current_tool==1:
+		#print(get_mouse_raycast().position.y)
+		
+		build_position_mesh.position=Vector3(2*floorf((get_mouse_raycast().position.x+1)/2),-0.4,2*floorf((get_mouse_raycast().position.z+1)/2))
+	
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			var pos=get_mouse_raycast().position
+			if get_mouse_raycast().collider.is_in_group("floor"):
+				var fence_pos=Vector3(2*floorf((pos.x+1)/2),1,2*floorf((pos.z+1)/2))
+				var placable=true
+				for f in Global.fences:
+					if f.position==fence_pos:
+						placable=false
+				if placable:
+					
+					var fe=fence.instantiate()
+					add_child(fe)
+					Global.fences.append(fe)
+					fe.position=fence_pos
+					Global.fence_built.emit(fence_pos)
 	#print(target_area.position.y)
 	#print(Engine.get_frames_per_second())
 	if Global.current_tool==0:
 		target_area.position.y=5
+		build_position_mesh.hide()
 	else:
 		target_area.position.y=0
+		build_position_mesh.show()
 	hide_navigation_indicator()
 	score_label.text=str(Global.score)
 	Global.containment_size=containment_slider.value

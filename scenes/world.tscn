@@ -195,6 +195,14 @@ top_radius = 0.3
 bottom_radius = 0.3
 height = 10.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xo05s"]
+transparency = 1
+albedo_color = Color(0, 0.10000014, 1, 0.4509804)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
+material = SubResource("StandardMaterial3D_xo05s")
+size = Vector3(2, 1, 2)
+
 [node name="World" type="Node3D" unique_id=1978241428]
 script = ExtResource("1_7r4gi")
 person = ExtResource("2_w7kh3")
@@ -207,13 +215,14 @@ control_area = ExtResource("8_w7kh3")
 fence = ExtResource("9_xo05s")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=46194837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 collision_layer = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=80798511]
 shape = SubResource("BoxShape3D_gv5m4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1432988841]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.092228, -1.6701336, -2.8805618)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.092, 0, -2.881)
 mesh = SubResource("BoxMesh_f3sb7")
 
 [node name="set_target" type="Area3D" parent="Ground" unique_id=240993363 groups=["floor"]]
@@ -847,6 +856,9 @@ transform = Transform3D(0.68242645, 0, -0.7309543, 0, 1, 0, 0.7309543, 0, 0.6824
 wait_time = 0.3
 one_shot = true
 autostart = true
+
+[node name="build_position" type="MeshInstance3D" parent="." unique_id=1771922612]
+mesh = SubResource("BoxMesh_hhcb3")
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="toggled" from="CanvasLayer/Controls/show_controls" to="." method="_on_show_controls_toggled"]

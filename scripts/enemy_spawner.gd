@@ -10,8 +10,10 @@ signal killed(number)
 var pos_number
 var number
 var health=2000
+var start_health=2000
 func _ready() -> void:
 	damage_area.kill.connect(kill)
+	damage_area.initialize(start_health)
 func initialize(pos,num):
 	pos_number=pos
 	number=num
@@ -30,7 +32,7 @@ func spawn_enemys():
 func _process(delta: float) -> void:
 	health=damage_area.health
 	#print(health)
-	var sca:float=float(health/2000)
+	var sca:float=float(health/start_health)
 	
 	anti_health_bar.scale.x=1-sca
 	health_bar.position.x=-(2-sca*2)
