@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" uid="uid://b26ov5qelklr" path="res://scripts/enemy_spawn_controller.gd" id="1_whu1s"]
 [ext_resource type="PackedScene" uid="uid://d34ijti0xkubl" path="res://scenes/enemy_spawner.tscn" id="2_vdmx2"]
+[ext_resource type="PackedScene" uid="uid://bo4iakl2j5hyj" path="res://scenes/score_number.tscn" id="3_vdmx2"]
 
 [node name="enemy_spawn_controller" type="Node3D" unique_id=288827277]
 script = ExtResource("1_whu1s")
 enemy_spawner = ExtResource("2_vdmx2")
+score_number = ExtResource("3_vdmx2")
 
 [node name="Timer" type="Timer" parent="." unique_id=1391527518]
 wait_time = 5.0

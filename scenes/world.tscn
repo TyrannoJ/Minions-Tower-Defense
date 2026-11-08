@@ -11,6 +11,7 @@
 [ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
 [ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/control_area.tscn" id="8_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://d3fmpm8m3rgj2" path="res://scenes/build_fence.tscn" id="9_xo05s"]
+[ext_resource type="PackedScene" uid="uid://bo4iakl2j5hyj" path="res://scenes/score_number.tscn" id="11_lakw3"]
 [ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="12_q5onr"]
 [ext_resource type="Texture2D" uid="uid://dfjriu7f8ov38" path="res://assets/pixil-frame-0 (1).png" id="13_7t5mc"]
 [ext_resource type="PackedScene" uid="uid://dh835ofscp3de" path="res://scenes/enemy_spawn_controller.tscn" id="13_jhx03"]
@@ -276,6 +277,84 @@ ProgressBar/styles/fill = SubResource("StyleBoxFlat_kpybi")
 selected/base_type = &"Button"
 selected/styles/normal = SubResource("StyleBoxFlat_7iits")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37qwj"]
+bg_color = Color(0.40653744, 0.5993741, 0.7615953, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_navra"]
+bg_color = Color(0.32941177, 0.5176471, 0.6745098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_luhhm"]
+bg_color = Color(0.485781, 0.66855747, 0.82442594, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhcb3"]
+bg_color = Color(0.16862746, 0.6392157, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.3574095, 0.5937832, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fh13f"]
+bg_color = Color(0.17000002, 0.6403333, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rup4s"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_4kbfs"]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_37qwj")
+Button/styles/normal = SubResource("StyleBoxFlat_navra")
+Button/styles/pressed = SubResource("StyleBoxFlat_luhhm")
+Label/font_sizes/font_size = 20
+Label/styles/normal = SubResource("StyleBoxFlat_hhcb3")
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_fh13f")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_rup4s")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tcf07"]
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_036b0"]
 height = 0.1
 
@@ -352,6 +431,7 @@ tree = ExtResource("7_7r4gi")
 control_area = ExtResource("8_w7kh3")
 fence = ExtResource("9_xo05s")
 catapult = ExtResource("15_xo05s")
+score_number = ExtResource("11_lakw3")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=46194837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
@@ -752,17 +832,26 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -146.0
-offset_top = -87.5
-offset_right = 154.0
-offset_bottom = 165.5
+offset_left = -237.0
+offset_top = -126.5
+offset_right = 237.0
+offset_bottom = 126.5
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/loose_screen/Panel" unique_id=523639990]
-layout_mode = 0
-offset_right = 299.0
-offset_bottom = 255.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.5
+offset_top = -127.5
+offset_right = 230.5
+offset_bottom = 127.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="title" type="Label" parent="CanvasLayer/loose_screen/Panel/VBoxContainer" unique_id=405589678]
 layout_mode = 2
@@ -789,7 +878,7 @@ layout_mode = 2
 
 [node name="final_score_label" type="Label" parent="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer2" unique_id=731002685]
 layout_mode = 2
-text = "score: 100"
+text = "time survived: 1 m 12 s"
 horizontal_alignment = 1
 
 [node name="Score" type="Label" parent="CanvasLayer" unique_id=1838531]
@@ -824,17 +913,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -146.0
-offset_top = -87.5
-offset_right = 154.0
-offset_bottom = 165.5
+offset_left = -150.0
+offset_top = -133.5
+offset_right = 150.0
+offset_bottom = 133.5
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/menu/Panel" unique_id=1235402543]
 layout_mode = 0
 offset_right = 299.0
-offset_bottom = 255.0
+offset_bottom = 269.0
 
 [node name="title" type="Label" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=1545588556]
 layout_mode = 2
@@ -856,12 +945,38 @@ layout_mode = 2
 layout_mode = 2
 text = "How to play?"
 
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=1408482604]
+visible = false
+layout_mode = 2
+
+[node name="tutorial" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer4" unique_id=222924480]
+layout_mode = 2
+text = "Tutorial"
+
+[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=1334609180]
+layout_mode = 2
+
+[node name="inputs" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer5" unique_id=1200149466]
+layout_mode = 2
+text = "Controls"
+
 [node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=922341507]
 layout_mode = 2
 
 [node name="quit" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer3" unique_id=148196966]
 layout_mode = 2
 text = "Quit game"
+
+[node name="close_menu" type="Button" parent="CanvasLayer/menu/Panel" unique_id=1588160523]
+visible = false
+custom_minimum_size = Vector2(30, 0)
+custom_maximum_size = Vector2(-1, 30)
+layout_mode = 0
+offset_left = 260.0
+offset_top = 9.0
+offset_right = 290.0
+offset_bottom = 39.0
+text = "X"
 
 [node name="explanations" type="Label" parent="CanvasLayer" unique_id=1565595972]
 offset_left = 3.0
@@ -870,54 +985,6 @@ offset_right = 60.0
 offset_bottom = 640.0
 theme_override_font_sizes/font_size = 30
 text = "Haa"
-
-[node name="Loading_screen" type="Control" parent="CanvasLayer" unique_id=2039070855]
-visible = false
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -1576.5
-offset_top = -849.5
-offset_right = 1576.5
-offset_bottom = 849.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Loading_screen" unique_id=632550342]
-layout_mode = 0
-offset_top = -60.0
-offset_right = 3344.0
-offset_bottom = 1883.0
-color = Color(0.42, 0.42, 0.42, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Loading_screen" unique_id=688122663]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -381.0
-offset_top = -68.5
-offset_right = 381.0
-offset_bottom = 68.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/Loading_screen/VBoxContainer" unique_id=151873807]
-layout_mode = 2
-theme_override_font_sizes/font_size = 80
-text = "Loading Please wait"
-horizontal_alignment = 1
-
-[node name="load_label" type="Label" parent="CanvasLayer/Loading_screen/VBoxContainer" unique_id=1013628828]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "loading game..."
-horizontal_alignment = 1
 
 [node name="build_bar" type="Control" parent="CanvasLayer" unique_id=1283429307]
 layout_mode = 3
@@ -986,6 +1053,237 @@ texture_filter = 1
 position = Vector2(34.999996, 39.499996)
 scale = Vector2(5, 5)
 texture = ExtResource("14_lakw3")
+
+[node name="inputs" type="Control" parent="CanvasLayer" unique_id=1932602981]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -366.0
+offset_top = -267.0
+offset_right = 366.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_4kbfs")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/inputs" unique_id=118191691]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/inputs/Panel" unique_id=1119476819]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer" unique_id=1751658594]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tcf07")
+text = "Controls"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/inputs/Panel/VBoxContainer" unique_id=1559651875]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/inputs/Panel/VBoxContainer/MarginContainer" unique_id=1076568822]
+visible = false
+layout_mode = 2
+theme_override_colors/table_border = Color(0, 0.1333332, 1, 1)
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+bbcode_enabled = true
+text = "[table=2]
+[cell][b]WASD[/b][/cell][cell]move yourself around[/cell]
+
+[cell][b]Q[/b][/cell][cell]move yourself up[/cell]
+[cell][b]E[/b][/cell][cell]move yourself down[/cell]
+[cell][b]drag with mouse wheel[/b][/cell][cell]mark minions[/cell]
+[cell][b]drag with left mouse button[/b][/cell][cell]marked minions follow you [/cell]
+[cell][b]right mouse button[/b][/cell][cell]set target for marked minions[/cell]
+[cell][b]Y[/b][/cell][cell]slow time[/cell]
+[cell][b]T[/b][/cell][cell]speed up time[/cell]
+[cell][b]R[/b][/cell][cell]keep the marked players when marking new ones[/cell]
+[cell][b]F[/b][/cell][cell]hold to load catapult, release to fire[/cell]
+[cell][b]mouse wheel[/b][/cell][cell]rotate catapult[/cell]
+[/table]"
+fit_content = true
+scroll_active = false
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/inputs/Panel/VBoxContainer" unique_id=855932914]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1382239790]
+layout_mode = 2
+text = "WASD"
+
+[node name="Label2" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=62324162]
+layout_mode = 2
+text = "move yourself around"
+
+[node name="Label3" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1841307352]
+layout_mode = 2
+text = "Q"
+
+[node name="Label4" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1539850742]
+layout_mode = 2
+text = "move yourself up"
+
+[node name="Label5" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1056489134]
+layout_mode = 2
+text = "E"
+
+[node name="Label6" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1064502985]
+layout_mode = 2
+text = "move yourself down"
+
+[node name="Label7" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1553604103]
+layout_mode = 2
+text = "drag with mouse wheel"
+
+[node name="Label8" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1531685841]
+layout_mode = 2
+text = "mark minions"
+
+[node name="Label9" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1878523857]
+layout_mode = 2
+text = "drag with left mouse button"
+
+[node name="Label10" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=133090502]
+layout_mode = 2
+text = "marked minions follow you "
+
+[node name="Label11" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=863339110]
+layout_mode = 2
+text = "right mouse button"
+
+[node name="Label12" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1706795109]
+layout_mode = 2
+text = "set target for marked minions"
+
+[node name="Label13" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=161872143]
+layout_mode = 2
+text = "Y"
+
+[node name="Label14" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1990885457]
+layout_mode = 2
+text = "slow time"
+
+[node name="Label15" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1680907942]
+layout_mode = 2
+text = "T"
+
+[node name="Label16" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1911202110]
+layout_mode = 2
+text = "speed up time"
+
+[node name="Label17" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1891642360]
+layout_mode = 2
+text = "R"
+
+[node name="Label18" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=312021017]
+layout_mode = 2
+text = "keep the marked players
+ when marking new ones"
+
+[node name="Label19" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=2098212806]
+layout_mode = 2
+text = "F"
+
+[node name="Label20" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=638495822]
+layout_mode = 2
+text = "hold to load catapult, release to fire"
+
+[node name="Label21" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1855638913]
+layout_mode = 2
+text = "mouse wheel"
+
+[node name="Label22" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=260764768]
+layout_mode = 2
+text = "rotate catapult "
+
+[node name="close_inputs" type="Button" parent="CanvasLayer/inputs/Panel" unique_id=982444841]
+custom_minimum_size = Vector2(30, 0)
+custom_maximum_size = Vector2(-1, 30)
+layout_mode = 0
+offset_left = 683.0
+offset_top = 18.0
+offset_right = 713.0
+offset_bottom = 48.0
+text = "X"
+
+[node name="round" type="Label" parent="CanvasLayer" unique_id=1205366307]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -55.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Round: 1"
+
+[node name="Loading_screen" type="Control" parent="CanvasLayer" unique_id=2039070855]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1576.5
+offset_top = -849.5
+offset_right = 1576.5
+offset_bottom = 849.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Loading_screen" unique_id=632550342]
+layout_mode = 0
+offset_top = -60.0
+offset_right = 3344.0
+offset_bottom = 1883.0
+color = Color(0.42, 0.42, 0.42, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Loading_screen" unique_id=688122663]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -381.0
+offset_top = -68.5
+offset_right = 381.0
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Loading_screen/VBoxContainer" unique_id=151873807]
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "Loading Please wait"
+horizontal_alignment = 1
+
+[node name="load_label" type="Label" parent="CanvasLayer/Loading_screen/VBoxContainer" unique_id=1013628828]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "loading game..."
+horizontal_alignment = 1
 
 [node name="click_marker" type="StaticBody3D" parent="." unique_id=1864312677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
@@ -1082,7 +1380,11 @@ mesh = SubResource("BoxMesh_hhcb3")
 [connection signal="pressed" from="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer3/quit_loose" to="." method="_on_quit_loose_pressed"]
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer/start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer2/help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer4/tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer5/inputs" to="." method="_on_inputs_pressed"]
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer3/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/close_menu" to="." method="_on_close_menu_pressed"]
 [connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/fence_button" to="." method="_on_fence_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button" to="." method="_on_catapult_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/inputs/Panel/close_inputs" to="." method="_on_close_inputs_pressed"]
 [connection signal="timeout" from="load_timer" to="." method="_on_load_timer_timeout"]

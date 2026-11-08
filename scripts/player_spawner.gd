@@ -1,7 +1,7 @@
 extends Area3D
 
 @onready var timer=$Timer
-var number=0
+var number=3
 @onready var number_mesh=$number
 @onready var button_mesh=$mesh
 @onready var mat=$mesh.get_active_material(0)

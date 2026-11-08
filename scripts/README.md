@@ -84,3 +84,9 @@ Your job is to defend your castle from the red minions by controlling your minio
 - look for shortest path
 - tutorial
 - less loading
+- score show on kill
+- more like phases (rounds)
+- marker for landing boulder
+- arrows to enemy bases
+- put everything on ground
+- check if score number works on enemy spawners 

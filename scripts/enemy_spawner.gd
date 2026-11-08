@@ -6,7 +6,7 @@ extends Node3D
 @onready var damage_area=$area
 @onready var health_bar=$Health_bar
 @onready var anti_health_bar=$anti_health_bar
-signal killed(number)
+signal killed(num)
 var pos_number
 var number
 var health=2000
@@ -30,6 +30,7 @@ func spawn_enemys():
 			spawn_location.x+=2
 			Global.add_enemy.emit(spawn_location)
 func _process(delta: float) -> void:
+	#print(pos_number)
 	health=damage_area.health
 	#print(health)
 	var sca:float=float(health/start_health)
@@ -44,5 +45,6 @@ func spawn_weapon():
 	we.position=Vector3(randf_range(-2,2),-2,randf_range(-2,2))
 func kill():
 	Global.score+=10
-	killed.emit(number)
+	
+	killed.emit(pos_number)
 	queue_free()

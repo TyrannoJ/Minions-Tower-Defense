@@ -3,6 +3,7 @@ extends StaticBody3D
 @onready var damage_area=$area
 var start_health=50
 @onready var middle_mesh=$MeshInstance3D
+@onready var delete_area=$delete_area
 func _ready() -> void:
 	Global.fence_built.connect(check_fence_proximity)
 	damage_area.initialize(start_health)
@@ -40,6 +41,9 @@ func check_fence_proximity(pos):
 func _process(delta: float) -> void:
 	middle_mesh.scale.x=damage_area.health/start_health
 	middle_mesh.scale.z=damage_area.health/start_health
+	if Global.object_under_mouse==delete_area and Global.delete_mode=="fence":
+		Global.score+=1
+		on_kill()
 func on_kill():
 	var fe = Global.fences.find(self)
 	Global.fences.pop_at(fe)

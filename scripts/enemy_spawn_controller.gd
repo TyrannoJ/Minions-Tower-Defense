@@ -1,6 +1,7 @@
 extends Node3D
 @export var enemy_spawner:PackedScene
 @onready var timer=$Timer
+@export var score_number:PackedScene
 var grace_area=30
 var positions=[]
 var spawner_size=15
@@ -56,7 +57,19 @@ func reset():
 	timer.start(5)
 	
 func delete_spawner(number):
-	
+	filled[number]=false
 	var spa=spawners.pop_at(number)
+	#print(number)
+	var pos=possible[number]
+	print(pos)
 	print(number)
+	var sco=score_number.instantiate()
+	sco.position=Vector3(pos.x,10,pos.z)
+	sco.initialize(10,Color.RED)
+	add_child(sco)
+	var tween=get_tree().create_tween()
+	tween.tween_property(sco,"scale",Vector3(8,8,8),0.2)
+	await tween.finished
+	await get_tree().create_timer(0.3).timeout
+	sco.queue_free()
 	

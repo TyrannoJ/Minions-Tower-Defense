@@ -24,14 +24,15 @@ var player_number=2
 var enemy_number=0
 const MAX_PLAYERS=30
 const MAX_ENEMYS=40
-var score=1000
+var score=100
 var show_containment=true
 var explanations=false
 var fences=[]
 signal fence_built(position:Vector3)
 var catapults=[]
 var object_under_mouse
-
+var delete_mode=""
+var enemys_to_spawn=0
 func restart():
 	target_pos=Vector3.ZERO
 	current_tool=0
@@ -44,4 +45,5 @@ func restart():
 	containment_size=5
 	containment=true
 	score=0
+	enemys_to_spawn=0
 	

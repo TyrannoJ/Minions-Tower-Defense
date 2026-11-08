@@ -65,6 +65,12 @@ extends Node3D
 @onready var tool_bar=$CanvasLayer/ToolBar
 @onready var fence_button=$CanvasLayer/build_bar/Panel/HBoxContainer/fence_button
 @onready var catapult_button=$CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button
+@onready var close_menu=$CanvasLayer/menu/Panel/close_menu
+@onready var inputs=$CanvasLayer/inputs
+@onready var round_label=$CanvasLayer/round
+@export var score_number:PackedScene
+var round_number=1
+
 var time_survived=0
 var build_mode=0
 const RAY_LENGTH=1000
@@ -235,9 +241,15 @@ func spawn_players():
 		#red_persons[i].initialize(i,"red",Vector3(randi_range(-10,-20),2,randi_range(-13,13)),unique_id)
 		unique_id+=1
 func _process(delta: float) -> void:
+	round_label.text="Round: "+str(round_number)
+	if Input.is_action_just_pressed("menu"):
+		close_menu.show()
+		menu.show()
 	if get_mouse_raycast() !={}:
 		Global.object_under_mouse=get_mouse_raycast().collider
-	print(Global.object_under_mouse)
+	else:
+		Global.object_under_mouse=null
+
 	if loose==false:
 		time_survived+=delta
 	score_label.text=str(Global.score)
@@ -571,7 +583,7 @@ func all_players():
 		result.append(blu)
 	return result
 	
-func delete_player(color,number,attacker):
+func delete_player(color,number,attacker,pos):
 	
 	for p in all_players():
 		if p.unique_id==attacker:
@@ -584,6 +596,16 @@ func delete_player(color,number,attacker):
 		red_persons[number].queue_free()
 		red_persons.pop_at(number)
 		generate_new_numbers_red()
+		var sco=score_number.instantiate()
+		sco.position=Vector3(pos.x,6,pos.z)
+		sco.initialize(1,Color.RED)
+		add_child(sco)
+		var tween=get_tree().create_tween()
+		tween.tween_property(sco,"scale",Vector3(8,8,8),0.2)
+		
+		await tween.finished
+		await get_tree().create_timer(0.3).timeout
+		sco.queue_free()
 	elif color=="blue":
 		if current_player==blue_persons[number]:
 			reset_stat_board()
@@ -621,13 +643,15 @@ func add_player(pos):
 func add_enemy(pos):
 	if len(all_players())<70:
 		var blu=person.instantiate()
-		
+		Global.enemys_to_spawn-=1
 		red_persons.append(blu)
 		
 		add_child(red_persons[len(red_persons)-1])
 		red_persons[len(red_persons)-1].initialize(len(red_persons)-1,"red",pos,current_unique_id)
 		current_unique_id+=1
 		red_persons[len(red_persons)-1].killed.connect(delete_player)
+		if Global.enemys_to_spawn <=0:
+			start_new_round()
 		
 		
 		
@@ -738,6 +762,7 @@ func _on_quit_pressed() -> void:
 
 func _on_start_pressed() -> void:
 	time_survived=0
+	Global.enemys_to_spawn=10
 	player_spawner.start()
 	enemy_spawns.start()
 	menu.hide()
@@ -763,9 +788,9 @@ func get_mouse_raycast() -> Dictionary:
 
 	var query := PhysicsRayQueryParameters3D.create(origin, end)
 	if Global.current_tool==1:
-		query.collision_mask =  1 << 3 |1 << 11  # only layer 4
+		query.collision_mask =  1 << 3 # only layer 4
 	elif Global.current_tool==0:
-		query.collision_mask =  1 << 11 # only layer 4
+		query.collision_mask =  1 << 11 
 	query.collide_with_areas = true
 	
 	return get_world_3d().direct_space_state.intersect_ray(query)
@@ -774,6 +799,7 @@ func handle_building():
 	#print(get_mouse_raycast().collider)
 	#print(get_mouse_raycast().position.y)
 	var mouse_position=get_viewport().get_mouse_position()
+	var mat=build_position_mesh.get_active_material(0)
 	
 	if build_mode==0:
 		fence_button.theme_type_variation= "selected"
@@ -785,8 +811,8 @@ func handle_building():
 	for control in important_controls:
 		if mouse_position.y>control.position.y and mouse_position.y<control.position.y+control.size.y and mouse_position.x<control.position.x+build_bar.size.x and mouse_position.x>control.position.x:
 			on_controls=true
-	if !get_mouse_raycast().collider.is_in_group("floor"):
-		on_controls=true
+	
+		
 	if !on_controls:
 		build_position_mesh.show()
 		if build_mode==0:
@@ -795,6 +821,7 @@ func handle_building():
 			build_position_mesh.position=Vector3(2*floorf((get_mouse_raycast().position.x+1)/2),-0.4,2*floorf((get_mouse_raycast().position.z+1)/2))
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
+				Global.delete_mode=""
 				var pos=get_mouse_raycast().position
 				#if get_mouse_raycast().collider.is_in_group("floor"):
 				var fence_pos=Vector3(2*floorf((pos.x+1)/2),1,2*floorf((pos.z+1)/2))
@@ -802,6 +829,8 @@ func handle_building():
 				for f in Global.fences:
 					if f.position==fence_pos:
 						placable=false
+				if !get_mouse_raycast().collider.is_in_group("floor"):
+					placable=false
 				if Global.score <=0:
 					placable=false
 					score_label.add_theme_color_override("font_color", Color.RED)
@@ -816,6 +845,12 @@ func handle_building():
 					fe.position=fence_pos
 					Global.fence_built.emit(fence_pos)
 					Global.score-=1
+			elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+				mat.albedo_color=Color.from_hsv(0.0, 0.83, 0.86, 0.502)
+				Global.delete_mode="fence"
+			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
+				Global.delete_mode=""
 		elif build_mode==1:
 			build_position_mesh.scale.x=3
 			build_position_mesh.scale.z=3
@@ -824,11 +859,13 @@ func handle_building():
 				
 				var pos=get_mouse_raycast().position
 				
-				var catapult_pos=Vector3(6*floorf((pos.x+3)/6),1,6*floorf((pos.z+3)/6))
+				var catapult_pos=Vector3(6*floorf((pos.x+3)/6),0.5,6*floorf((pos.z+3)/6))
 				var placable=true
 				for c in Global.catapults:
 					if c.position==catapult_pos:
 						placable=false
+				if !get_mouse_raycast().collider.is_in_group("floor"):
+					placable=false
 				if Global.score <=9:
 					placable=false
 					score_label.add_theme_color_override("font_color", Color.RED)
@@ -843,16 +880,41 @@ func handle_building():
 					ca.position=catapult_pos
 					#Global.fence_built.emit(fence_pos)
 					Global.score-=10
+			elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+				mat.albedo_color=Color.from_hsv(0.0, 0.83, 0.86, 0.502)
+				Global.delete_mode="catapult"
+			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
+				Global.delete_mode=""
 	else:
 		build_position_mesh.hide()
 		
 
 func _on_fence_button_pressed() -> void:
 	build_mode=0
-	
-	
 
 
 func _on_catapult_button_pressed() -> void:
 	build_mode=1
+
+
+
+func _on_tutorial_pressed() -> void:
+	pass
+	#start_tutorial()
+
+
+func _on_close_menu_pressed() -> void:
+	menu.hide()
+
+
+func _on_inputs_pressed() -> void:
+	inputs.show()
+
+func _on_close_inputs_pressed() -> void:
+	inputs.hide()
+	
+func start_new_round():
+	round_number+=1
+	Global.enemys_to_spawn=10
 	

@@ -12,6 +12,7 @@ func instantiate(rot,strength):
 	linear_velocity=Vector3.ZERO
 	direction=Vector3(sin(rot),0.5,cos(rot))
 	direction=direction.normalized()
+	print(direction)
 	linear_velocity=direction*strength
 	damage_area.scale.y=0.01
 	#angular_velocity=Vector3(randf_range(-10*PI,10*PI),0,0)

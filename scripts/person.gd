@@ -479,7 +479,7 @@ func get_damage(val,attacker):
 	health-=val
 	if health <=0:
 		if !has_killed_emitted:
-			killed.emit(color,number,attacker)
+			killed.emit(color,number,attacker,position)
 			has_killed_emitted=true
 		
 	var sca:float=float(health/100) 
