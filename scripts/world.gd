@@ -60,6 +60,13 @@ extends Node3D
 @onready var load_label=$CanvasLayer/Loading_screen/VBoxContainer/load_label
 @onready var build_position_mesh=$build_position
 @export var fence:PackedScene
+@onready var build_bar=$CanvasLayer/build_bar
+@export var catapult:PackedScene
+@onready var tool_bar=$CanvasLayer/ToolBar
+@onready var fence_button=$CanvasLayer/build_bar/Panel/HBoxContainer/fence_button
+@onready var catapult_button=$CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button
+var time_survived=0
+var build_mode=0
 const RAY_LENGTH=1000
 var trees=[]
 var start_base_health=8000
@@ -79,7 +86,7 @@ var release_pos:Vector3
 var start_size=30
 var weapons=[]
 var obstacles=[]
-
+var important_controls=[]
 var tools=["normal mode","build mode"]
 var wall_positions=[Vector3(start_size,2.5,0),Vector3(-start_size,2.5,0),Vector3(0,2.5,start_size),Vector3(0,2.5,-start_size)]
 
@@ -101,6 +108,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 
 func _ready() -> void:
+	important_controls=[tool_bar,controls,build_bar]
 	#var walls=[wall_up,wall_down,wall_left,wall_right]
 	#for wa in walls:
 	#	wa.scale.z=start_size*2
@@ -139,6 +147,7 @@ func _on_load_timer_timeout() -> void:
 	
 	loading_screen.hide()
 	print("done")
+	
 
 func add_trees():
 	if trees !=[]:
@@ -226,37 +235,25 @@ func spawn_players():
 		#red_persons[i].initialize(i,"red",Vector3(randi_range(-10,-20),2,randi_range(-13,13)),unique_id)
 		unique_id+=1
 func _process(delta: float) -> void:
-	
-	if Global.current_tool==1:
-		#print(get_mouse_raycast().position.y)
-		
-		build_position_mesh.position=Vector3(2*floorf((get_mouse_raycast().position.x+1)/2),-0.4,2*floorf((get_mouse_raycast().position.z+1)/2))
-	
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-			var pos=get_mouse_raycast().position
-			if get_mouse_raycast().collider.is_in_group("floor"):
-				var fence_pos=Vector3(2*floorf((pos.x+1)/2),1,2*floorf((pos.z+1)/2))
-				var placable=true
-				for f in Global.fences:
-					if f.position==fence_pos:
-						placable=false
-				if placable:
-					
-					var fe=fence.instantiate()
-					add_child(fe)
-					Global.fences.append(fe)
-					fe.position=fence_pos
-					Global.fence_built.emit(fence_pos)
+	if get_mouse_raycast() !={}:
+		Global.object_under_mouse=get_mouse_raycast().collider
+	print(Global.object_under_mouse)
+	if loose==false:
+		time_survived+=delta
+	score_label.text=str(Global.score)
 	#print(target_area.position.y)
 	#print(Engine.get_frames_per_second())
 	if Global.current_tool==0:
 		target_area.position.y=5
 		build_position_mesh.hide()
-	else:
+		build_bar.hide()
+	elif Global.current_tool==1:
+		build_bar.show()
 		target_area.position.y=0
-		build_position_mesh.show()
+		handle_building()
+		#build_position_mesh.show()
 	hide_navigation_indicator()
-	score_label.text=str(Global.score)
+	
 	Global.containment_size=containment_slider.value
 	Global.player_number=len(blue_persons)
 	Global.enemy_number=len(red_persons)
@@ -306,6 +303,7 @@ func handle_tools():
 		Global.current_tool=0
 	if Input.is_action_just_pressed("tool2"):
 		Global.current_tool=1
+		build_mode=0
 	if Input.is_action_just_pressed("tool3"):
 		Global.current_tool=2
 	if Global.current_tool==0:
@@ -647,7 +645,9 @@ func base_killed():
 	loose=true
 	show_loose_screen()
 func show_loose_screen():
-	final_score_label.text="Score: "+str(Global.score)
+	var minutes=floorf(time_survived/60)
+	var seconds=int(time_survived)%60
+	final_score_label.text="Time Survived: "+str(minutes)+"m" + str(seconds)+"s"
 	loose_screen.show()
 
 
@@ -670,8 +670,13 @@ func _on_restart_pressed() -> void:
 	player_spawner.reset()
 	#player_spawner.number=0
 	#player_spawner.start()
-	enemy_spawns.start()
+	for fe in Global.fences:
+		fe.queue_free()
+	Global.fences.clear()
+	#enemy_spawns.start()
 	reset_stat_board()
+	time_survived=0
+	
 func reset_stat_board():
 	name_label.text=""
 	color_label.text=""
@@ -732,6 +737,7 @@ func _on_quit_pressed() -> void:
 
 
 func _on_start_pressed() -> void:
+	time_survived=0
 	player_spawner.start()
 	enemy_spawns.start()
 	menu.hide()
@@ -756,6 +762,97 @@ func get_mouse_raycast() -> Dictionary:
 	var end := origin + camera.project_ray_normal(mouse_pos) * 1000.0
 
 	var query := PhysicsRayQueryParameters3D.create(origin, end)
-	query.collision_mask = 1 << 3 | 1<<2 # only layer 4
+	if Global.current_tool==1:
+		query.collision_mask =  1 << 3 |1 << 11  # only layer 4
+	elif Global.current_tool==0:
+		query.collision_mask =  1 << 11 # only layer 4
 	query.collide_with_areas = true
+	
 	return get_world_3d().direct_space_state.intersect_ray(query)
+	
+func handle_building():
+	#print(get_mouse_raycast().collider)
+	#print(get_mouse_raycast().position.y)
+	var mouse_position=get_viewport().get_mouse_position()
+	
+	if build_mode==0:
+		fence_button.theme_type_variation= "selected"
+		catapult_button.theme_type_variation= ""
+	elif build_mode==1:
+		catapult_button.theme_type_variation= "selected"
+		fence_button.theme_type_variation= ""
+	var on_controls=false
+	for control in important_controls:
+		if mouse_position.y>control.position.y and mouse_position.y<control.position.y+control.size.y and mouse_position.x<control.position.x+build_bar.size.x and mouse_position.x>control.position.x:
+			on_controls=true
+	if !get_mouse_raycast().collider.is_in_group("floor"):
+		on_controls=true
+	if !on_controls:
+		build_position_mesh.show()
+		if build_mode==0:
+			build_position_mesh.scale.x=1
+			build_position_mesh.scale.z=1
+			build_position_mesh.position=Vector3(2*floorf((get_mouse_raycast().position.x+1)/2),-0.4,2*floorf((get_mouse_raycast().position.z+1)/2))
+			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+				
+				var pos=get_mouse_raycast().position
+				#if get_mouse_raycast().collider.is_in_group("floor"):
+				var fence_pos=Vector3(2*floorf((pos.x+1)/2),1,2*floorf((pos.z+1)/2))
+				var placable=true
+				for f in Global.fences:
+					if f.position==fence_pos:
+						placable=false
+				if Global.score <=0:
+					placable=false
+					score_label.add_theme_color_override("font_color", Color.RED)
+					await get_tree().create_timer(0.2).timeout
+					score_label.add_theme_color_override("font_color", Color.WHITE)
+					
+				if placable:
+					
+					var fe=fence.instantiate()
+					add_child(fe)
+					Global.fences.append(fe)
+					fe.position=fence_pos
+					Global.fence_built.emit(fence_pos)
+					Global.score-=1
+		elif build_mode==1:
+			build_position_mesh.scale.x=3
+			build_position_mesh.scale.z=3
+			build_position_mesh.position=Vector3(6*floorf((get_mouse_raycast().position.x+3)/6),-0.4,6*floorf((get_mouse_raycast().position.z+3)/6))
+			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+				
+				var pos=get_mouse_raycast().position
+				
+				var catapult_pos=Vector3(6*floorf((pos.x+3)/6),1,6*floorf((pos.z+3)/6))
+				var placable=true
+				for c in Global.catapults:
+					if c.position==catapult_pos:
+						placable=false
+				if Global.score <=9:
+					placable=false
+					score_label.add_theme_color_override("font_color", Color.RED)
+					await get_tree().create_timer(0.2).timeout
+					score_label.add_theme_color_override("font_color", Color.WHITE)
+					
+				if placable:
+					
+					var ca=catapult.instantiate()
+					add_child(ca)
+					Global.catapults.append(ca)
+					ca.position=catapult_pos
+					#Global.fence_built.emit(fence_pos)
+					Global.score-=10
+	else:
+		build_position_mesh.hide()
+		
+
+func _on_fence_button_pressed() -> void:
+	build_mode=0
+	
+	
+
+
+func _on_catapult_button_pressed() -> void:
+	build_mode=1
+	

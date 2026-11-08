@@ -5,6 +5,8 @@ extends CharacterBody3D
 @onready var godot_animations=$AnimationPlayer
 @onready var marker_mesh=$marker
 @onready var explain=$explain
+@onready var damage_area=$damage_area
+@onready var click_area=$click
 var controlled=false
 var loading=false
 var load_value=0
@@ -12,14 +14,21 @@ func _ready() -> void:
 	explain.position=position
 	explain.position.y=5
 	explain.position.z-=2
+	damage_area.initialize(1000)
+	damage_area.kill.connect(kill)
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.is_pressed():
-		if event.button_index==MOUSE_BUTTON_WHEEL_UP:
-			rotation.y+=PI/50
-		elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN:
-			rotation.y-=PI/50
+	if controlled:
+		if event is InputEventMouseButton and event.is_pressed():
+			if event.button_index==MOUSE_BUTTON_WHEEL_UP:
+				rotation.y+=PI/50
+			elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN:
+				rotation.y-=PI/50
 
 func _process(delta: float) -> void:
+	controlled=false
+	if click_area == Global.object_under_mouse:
+		controlled=true
+	#print(damage_area.health)
 	if Global.explanations:
 		explain.show()
 	else:
@@ -29,19 +38,20 @@ func _process(delta: float) -> void:
 		marker_mesh.show()
 	else:
 		marker_mesh.hide()
-	if Input.is_action_pressed("catapult"):#is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and controlled :
-		if !loading:
-			loading=true
-			load_value=0
-		else:
-			if load_value <20:
-				load_value+=5/Engine.get_frames_per_second()
-				animations.play("fire")
-				animations.pause()
-				animations.seek(1-load_value/20)
-	if Input.is_action_just_released("catapult"):
-		#loading=false
-		fire()
+	if controlled:
+		if Input.is_action_pressed("catapult"):#is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and controlled :
+			if !loading:
+				loading=true
+				load_value=0
+			else:
+				if load_value <20:
+					load_value+=5/Engine.get_frames_per_second()
+					animations.play("fire")
+					animations.pause()
+					animations.seek(1-load_value/20)
+		if Input.is_action_just_released("catapult"):
+			#loading=false
+			fire()
 
 
 	
@@ -70,7 +80,8 @@ func fire():
 	go_to_start()
 	await animations.animation_finished
 	
-
+func kill():
+	queue_free()
 #func _on_click_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
 	#if event is InputEventMouseButton and event.is_released() and event.button_index==2:
 		#if loading:

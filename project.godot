@@ -164,3 +164,4 @@ trigger_navigation={
 3d_physics/layer_9="start_chamber"
 3d_physics/layer_10="navigation"
 3d_physics/layer_11="boulders"
+3d_physics/layer_12="mouse_control"

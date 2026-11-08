@@ -53,7 +53,7 @@ func reset():
 	positions=[]
 	for i in range(0,len(filled)):
 		filled[i]=false
-	#timer.start(5)
+	timer.start(5)
 	
 func delete_spawner(number):
 	

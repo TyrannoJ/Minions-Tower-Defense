@@ -12,12 +12,14 @@
 [ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/control_area.tscn" id="8_w7kh3"]
 [ext_resource type="PackedScene" uid="uid://d3fmpm8m3rgj2" path="res://scenes/build_fence.tscn" id="9_xo05s"]
 [ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="12_q5onr"]
+[ext_resource type="Texture2D" uid="uid://dfjriu7f8ov38" path="res://assets/pixil-frame-0 (1).png" id="13_7t5mc"]
 [ext_resource type="PackedScene" uid="uid://dh835ofscp3de" path="res://scenes/enemy_spawn_controller.tscn" id="13_jhx03"]
+[ext_resource type="Texture2D" uid="uid://cppxs8a5sqnrg" path="res://assets/pixil-frame-0 (2).png" id="14_lakw3"]
 [ext_resource type="PackedScene" uid="uid://dwwq0rklnydf2" path="res://scenes/navigation.tscn" id="14_o8fc1"]
 [ext_resource type="PackedScene" uid="uid://db8ouqlu70tlh" path="res://scenes/catapult.tscn" id="15_xo05s"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
-size = Vector3(1000, 1, 1000)
+size = Vector3(1000, 3.9, 1000)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7r4gi"]
 albedo_color = Color(0.26606768, 0.48477095, 0.15379554, 1)
@@ -138,6 +140,142 @@ MarginContainer/constants/margin_right = 10
 Panel/styles/panel = SubResource("StyleBoxFlat_dss4m")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_7t5mc")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctatt"]
+bg_color = Color(0.40653744, 0.5993741, 0.7615953, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgqkh"]
+bg_color = Color(0.32941177, 0.5176471, 0.6745098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_munwf"]
+bg_color = Color(0.485781, 0.66855747, 0.82442594, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ts3gi"]
+bg_color = Color(0.17000002, 0.6403333, 1, 0.2784314)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0nbtd"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_37qwj"]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_ctatt")
+Button/styles/normal = SubResource("StyleBoxFlat_xgqkh")
+Button/styles/pressed = SubResource("StyleBoxFlat_munwf")
+Label/font_sizes/font_size = 40
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_ts3gi")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_0nbtd")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pm21f"]
+bg_color = Color(0.40653744, 0.5993741, 0.7615953, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2lf6f"]
+bg_color = Color(0.67, 0.67, 0.67, 0.14509805)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7iits"]
+bg_color = Color(0.23780002, 0.54830664, 0.82, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oo54l"]
+bg_color = Color(0.1, 0.1, 0.1, 0.2784314)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kpybi"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_ctatt"]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_pm21f")
+Button/styles/normal = SubResource("StyleBoxFlat_2lf6f")
+Button/styles/pressed = SubResource("StyleBoxFlat_7iits")
+Label/font_sizes/font_size = 40
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_oo54l")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_kpybi")
+selected/base_type = &"Button"
+selected/styles/normal = SubResource("StyleBoxFlat_7iits")
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_036b0"]
 height = 0.1
 
@@ -213,6 +351,7 @@ base_scene = ExtResource("6_o8fc1")
 tree = ExtResource("7_7r4gi")
 control_area = ExtResource("8_w7kh3")
 fence = ExtResource("9_xo05s")
+catapult = ExtResource("15_xo05s")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=46194837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
@@ -410,10 +549,13 @@ show_percentage = false
 
 [node name="ToolBar" type="Control" parent="CanvasLayer" unique_id=1269353350]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 229.0
-offset_right = 916.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -343.5
+offset_right = 343.5
 offset_bottom = 52.0
+grow_horizontal = 2
 theme = SubResource("Theme_gbfbk")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/ToolBar" unique_id=100940752]
@@ -673,7 +815,7 @@ offset_right = 1064.0
 offset_bottom = 686.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_lakw3")
+theme = SubResource("Theme_37qwj")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/menu" unique_id=1058967438]
 layout_mode = 1
@@ -777,6 +919,74 @@ theme_override_font_sizes/font_size = 50
 text = "loading game..."
 horizontal_alignment = 1
 
+[node name="build_bar" type="Control" parent="CanvasLayer" unique_id=1283429307]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -139.92398
+offset_top = -67.70404
+offset_right = 139.92398
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_ctatt")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/build_bar" unique_id=798363286]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -83.5
+offset_top = -87.0
+offset_right = 83.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/build_bar/Panel" unique_id=2076456539]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -35.0
+offset_right = 74.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="fence_button" type="Button" parent="CanvasLayer/build_bar/Panel/HBoxContainer" unique_id=229125733]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+text = "
+"
+alignment = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/build_bar/Panel/HBoxContainer/fence_button" unique_id=834097703]
+texture_filter = 1
+position = Vector2(35.5, 40)
+scale = Vector2(5, 5)
+texture = ExtResource("13_7t5mc")
+
+[node name="catapult_button" type="Button" parent="CanvasLayer/build_bar/Panel/HBoxContainer" unique_id=1238077989]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+text = "
+
+"
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button" unique_id=782100634]
+texture_filter = 1
+position = Vector2(34.999996, 39.499996)
+scale = Vector2(5, 5)
+texture = ExtResource("14_lakw3")
+
 [node name="click_marker" type="StaticBody3D" parent="." unique_id=1864312677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
 visible = false
@@ -873,4 +1083,6 @@ mesh = SubResource("BoxMesh_hhcb3")
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer/start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer2/help" to="." method="_on_help_pressed"]
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer3/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/fence_button" to="." method="_on_fence_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button" to="." method="_on_catapult_button_pressed"]
 [connection signal="timeout" from="load_timer" to="." method="_on_load_timer_timeout"]
