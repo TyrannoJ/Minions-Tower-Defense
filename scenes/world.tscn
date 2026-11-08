@@ -1063,9 +1063,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -366.0
-offset_top = -267.0
+offset_top = -313.0
 offset_right = 366.0
-offset_bottom = 250.0
+offset_bottom = 313.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_4kbfs")
@@ -1163,7 +1163,8 @@ text = "drag with left mouse button"
 
 [node name="Label10" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=133090502]
 layout_mode = 2
-text = "marked minions follow you "
+text = "marked minions follow you 
+build mode: build selected object"
 
 [node name="Label11" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=863339110]
 layout_mode = 2
@@ -1171,7 +1172,8 @@ text = "right mouse button"
 
 [node name="Label12" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1706795109]
 layout_mode = 2
-text = "set target for marked minions"
+text = "set target for marked minions
+build mode: delete objects"
 
 [node name="Label13" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=161872143]
 layout_mode = 2
@@ -1213,6 +1215,22 @@ text = "mouse wheel"
 [node name="Label22" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=260764768]
 layout_mode = 2
 text = "rotate catapult "
+
+[node name="Label23" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1439766156]
+layout_mode = 2
+text = "1"
+
+[node name="Label24" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1239459567]
+layout_mode = 2
+text = "go to normal mode"
+
+[node name="Label25" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1170855283]
+layout_mode = 2
+text = "2"
+
+[node name="Label26" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=786489226]
+layout_mode = 2
+text = "go to build mode"
 
 [node name="close_inputs" type="Button" parent="CanvasLayer/inputs/Panel" unique_id=982444841]
 custom_minimum_size = Vector2(30, 0)

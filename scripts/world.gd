@@ -69,6 +69,7 @@ extends Node3D
 @onready var inputs=$CanvasLayer/inputs
 @onready var round_label=$CanvasLayer/round
 @export var score_number:PackedScene
+@onready var start_button=$CanvasLayer/menu/Panel/VBoxContainer/MarginContainer/start
 var round_number=1
 
 var time_survived=0
@@ -245,6 +246,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
 		close_menu.show()
 		menu.show()
+		start_button.disabled=true
+		
 	if get_mouse_raycast() !={}:
 		Global.object_under_mouse=get_mouse_raycast().collider
 	else:
