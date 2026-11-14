@@ -1,0 +1,1408 @@
+[gd_scene format=3 uid="uid://cn2m7d2ji4wye"]
+
+[ext_resource type="Script" uid="uid://dvnlk6fsggwvk" path="res://scripts/world.gd" id="1_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://by56u258h7le5" path="res://scenes/person.tscn" id="2_w7kh3"]
+[ext_resource type="PackedScene" uid="uid://qa5h70ybtd6w" path="res://scenes/obstacle_wall.tscn" id="3_e3hyu"]
+[ext_resource type="PackedScene" uid="uid://drkudlhdt224y" path="res://scenes/weapon.tscn" id="4_q5onr"]
+[ext_resource type="PackedScene" uid="uid://v1u3ltbpyuh5" path="res://scenes/custom_wall.tscn" id="5_jhx03"]
+[ext_resource type="PackedScene" uid="uid://ba6ranqlu2t2m" path="res://scenes/base.tscn" id="6_o8fc1"]
+[ext_resource type="PackedScene" uid="uid://cwihb43aoxqge" path="res://scenes/tree.tscn" id="7_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="7_xo05s"]
+[ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
+[ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/control_area.tscn" id="8_w7kh3"]
+[ext_resource type="PackedScene" uid="uid://d3fmpm8m3rgj2" path="res://scenes/build_fence.tscn" id="9_xo05s"]
+[ext_resource type="PackedScene" uid="uid://bo4iakl2j5hyj" path="res://scenes/score_number.tscn" id="11_lakw3"]
+[ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="12_q5onr"]
+[ext_resource type="Texture2D" uid="uid://dfjriu7f8ov38" path="res://assets/pixil-frame-0 (1).png" id="13_7t5mc"]
+[ext_resource type="PackedScene" uid="uid://dh835ofscp3de" path="res://scenes/enemy_spawn_controller.tscn" id="13_jhx03"]
+[ext_resource type="Texture2D" uid="uid://cppxs8a5sqnrg" path="res://assets/pixil-frame-0 (2).png" id="14_lakw3"]
+[ext_resource type="PackedScene" uid="uid://dwwq0rklnydf2" path="res://scenes/navigation.tscn" id="14_o8fc1"]
+[ext_resource type="PackedScene" uid="uid://db8ouqlu70tlh" path="res://scenes/catapult.tscn" id="15_xo05s"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
+size = Vector3(1000, 3.9, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7r4gi"]
+albedo_color = Color(0.26606768, 0.48477095, 0.15379554, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_f3sb7"]
+material = SubResource("StandardMaterial3D_7r4gi")
+size = Vector3(1000, 4, 1000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tlwt5"]
+size = Vector3(1000, 4, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlwt5"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_aqk2v"]
+material = SubResource("StandardMaterial3D_tlwt5")
+size = Vector3(1, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_036b0"]
+size = Vector3(1, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dwbse"]
+size = Vector3(5, 10, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pkg7o"]
+size = Vector3(5, 10, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkg7o"]
+bg_color = Color(0.5376, 0.77695996, 0.96, 0.5372549)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Theme" id="Theme_gbfbk"]
+default_font_size = 40
+Panel/styles/panel = SubResource("StyleBoxFlat_pkg7o")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_40w10"]
+bg_color = Color(0.79, 0.79, 0.79, 0.1764706)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_h5ip5"]
+Panel/styles/panel = SubResource("StyleBoxFlat_40w10")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xo05s"]
+bg_color = Color(0.40653744, 0.5993741, 0.7615953, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1cd7d"]
+bg_color = Color(0.32941177, 0.5176471, 0.6745098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lakw3"]
+bg_color = Color(0.485781, 0.66855747, 0.82442594, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dss4m"]
+bg_color = Color(0.17000002, 0.6403333, 1, 0.2784314)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7t5mc"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_lakw3"]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_xo05s")
+Button/styles/normal = SubResource("StyleBoxFlat_1cd7d")
+Button/styles/pressed = SubResource("StyleBoxFlat_lakw3")
+Label/font_sizes/font_size = 40
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_dss4m")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_7t5mc")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctatt"]
+bg_color = Color(0.40653744, 0.5993741, 0.7615953, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgqkh"]
+bg_color = Color(0.32941177, 0.5176471, 0.6745098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_munwf"]
+bg_color = Color(0.485781, 0.66855747, 0.82442594, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ts3gi"]
+bg_color = Color(0.17000002, 0.6403333, 1, 0.2784314)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0nbtd"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_37qwj"]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_ctatt")
+Button/styles/normal = SubResource("StyleBoxFlat_xgqkh")
+Button/styles/pressed = SubResource("StyleBoxFlat_munwf")
+Label/font_sizes/font_size = 40
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_ts3gi")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_0nbtd")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pm21f"]
+bg_color = Color(0.40653744, 0.5993741, 0.7615953, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2lf6f"]
+bg_color = Color(0.67, 0.67, 0.67, 0.14509805)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7iits"]
+bg_color = Color(0.23780002, 0.54830664, 0.82, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oo54l"]
+bg_color = Color(0.1, 0.1, 0.1, 0.2784314)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kpybi"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_ctatt"]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_pm21f")
+Button/styles/normal = SubResource("StyleBoxFlat_2lf6f")
+Button/styles/pressed = SubResource("StyleBoxFlat_7iits")
+Label/font_sizes/font_size = 40
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_oo54l")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_kpybi")
+selected/base_type = &"Button"
+selected/styles/normal = SubResource("StyleBoxFlat_7iits")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37qwj"]
+bg_color = Color(0.40653744, 0.5993741, 0.7615953, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_navra"]
+bg_color = Color(0.32941177, 0.5176471, 0.6745098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_luhhm"]
+bg_color = Color(0.485781, 0.66855747, 0.82442594, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhcb3"]
+bg_color = Color(0.16862746, 0.6392157, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.3574095, 0.5937832, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fh13f"]
+bg_color = Color(0.17000002, 0.6403333, 1, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rup4s"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_4kbfs"]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_37qwj")
+Button/styles/normal = SubResource("StyleBoxFlat_navra")
+Button/styles/pressed = SubResource("StyleBoxFlat_luhhm")
+Label/font_sizes/font_size = 20
+Label/styles/normal = SubResource("StyleBoxFlat_hhcb3")
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_fh13f")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_rup4s")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tcf07"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_036b0"]
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_036b0"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dwbse"]
+material = SubResource("StandardMaterial3D_036b0")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_o8xsq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8xsq"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_74bdg"]
+material = SubResource("StandardMaterial3D_o8xsq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3hyu"]
+transparency = 1
+albedo_color = Color(0, 1, 0.98333335, 0.20784314)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gbfbk"]
+material = SubResource("StandardMaterial3D_e3hyu")
+size = Vector3(1, 0.5, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_036b0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jhx03"]
+transparency = 1
+albedo_color = Color(0.6052332, 3.0873115, 0, 0.40392157)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_o8fc1"]
+material = SubResource("StandardMaterial3D_jhx03")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2v3k6"]
+transparency = 1
+albedo_color = Color(0, 2.7894626, 3.0873115, 0.40392157)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jhx03"]
+material = SubResource("StandardMaterial3D_2v3k6")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8fc1"]
+transparency = 1
+albedo_color = Color(3.0873115, 0, 0, 0.40392157)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xo05s"]
+material = SubResource("StandardMaterial3D_o8fc1")
+top_radius = 0.3
+bottom_radius = 0.3
+height = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xo05s"]
+transparency = 1
+albedo_color = Color(0, 0.10000014, 1, 0.4509804)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
+material = SubResource("StandardMaterial3D_xo05s")
+size = Vector3(2, 1, 2)
+
+[node name="World" type="Node3D" unique_id=1978241428]
+script = ExtResource("1_7r4gi")
+person = ExtResource("2_w7kh3")
+obstacle_wall = ExtResource("3_e3hyu")
+weapon = ExtResource("4_q5onr")
+wall_piece = ExtResource("5_jhx03")
+base_scene = ExtResource("6_o8fc1")
+tree = ExtResource("7_7r4gi")
+control_area = ExtResource("8_w7kh3")
+fence = ExtResource("9_xo05s")
+catapult = ExtResource("15_xo05s")
+score_number = ExtResource("11_lakw3")
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=46194837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=80798511]
+shape = SubResource("BoxShape3D_gv5m4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1432988841]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.092, 0, -2.881)
+mesh = SubResource("BoxMesh_f3sb7")
+
+[node name="set_target" type="Area3D" parent="Ground" unique_id=240993363 groups=["floor"]]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/set_target" unique_id=1405770471]
+shape = SubResource("BoxShape3D_tlwt5")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=345759241]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 25.214771, 0)
+
+[node name="Sword" parent="." unique_id=83097579 instance=ExtResource("7_xo05s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
+visible = false
+
+[node name="Walls" type="Node3D" parent="." unique_id=984571823]
+
+[node name="Wall1" type="StaticBody3D" parent="Walls" unique_id=1224140026 groups=["walls"]]
+transform = Transform3D(240, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, -70)
+collision_layer = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall1" unique_id=1620947768]
+visible = false
+mesh = SubResource("BoxMesh_aqk2v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall1" unique_id=1494064584]
+shape = SubResource("BoxShape3D_036b0")
+
+[node name="up" type="VisibleOnScreenNotifier3D" parent="Walls/Wall1" unique_id=973988870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="Wall2" type="StaticBody3D" parent="Walls" unique_id=1939134685 groups=["walls"]]
+transform = Transform3D(240, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.5, 70)
+collision_layer = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall2" unique_id=807261109]
+visible = false
+mesh = SubResource("BoxMesh_aqk2v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall2" unique_id=234614238]
+shape = SubResource("BoxShape3D_036b0")
+
+[node name="down" type="VisibleOnScreenNotifier3D" parent="Walls/Wall2" unique_id=508385904]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="Wall3" type="StaticBody3D" parent="Walls" unique_id=837196928 groups=["walls"]]
+transform = Transform3D(-6.119594e-06, 0, 2, 0, 2, 0, -140, 0, -8.742278e-08, -120, 2.5, 0)
+collision_layer = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall3" unique_id=138057990]
+visible = false
+mesh = SubResource("BoxMesh_aqk2v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall3" unique_id=463733121]
+shape = SubResource("BoxShape3D_036b0")
+
+[node name="left" type="VisibleOnScreenNotifier3D" parent="Walls/Wall3" unique_id=2015159017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="Wall4" type="StaticBody3D" parent="Walls" unique_id=1286768155 groups=["walls"]]
+transform = Transform3D(-6.119594e-06, 0, 2, 0, 2, 0, -140, 0, -8.742278e-08, 120, 2.5, 0)
+collision_layer = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/Wall4" unique_id=1668814099]
+visible = false
+mesh = SubResource("BoxMesh_aqk2v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/Wall4" unique_id=2015634392]
+shape = SubResource("BoxShape3D_036b0")
+
+[node name="right" type="VisibleOnScreenNotifier3D" parent="Walls/Wall4" unique_id=854037997]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="obstacles" type="Node3D" parent="." unique_id=217127881]
+visible = false
+
+[node name="StaticBody3D" type="StaticBody3D" parent="obstacles" unique_id=533012948]
+transform = Transform3D(0.95607483, 0, 0.2931227, -0.19414851, 0.7491985, 0.6332519, -0.2196071, -0.6623455, 0.7162898, 0, 2.469444, -3.4499576)
+visible = false
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D" unique_id=1694387312]
+shape = SubResource("BoxShape3D_dwbse")
+disabled = true
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="obstacles/StaticBody3D" unique_id=609488208]
+shape = SubResource("BoxShape3D_dwbse")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D" unique_id=1789400509]
+mesh = SubResource("BoxMesh_pkg7o")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="obstacles" unique_id=659008222]
+transform = Transform3D(0.6109745, 0, -0.79165024, 0, 1, 0, 0.79165024, 0, 0.6109745, -9.24511, 2.469444, 10.545323)
+visible = false
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D2" unique_id=1068983403]
+shape = SubResource("BoxShape3D_dwbse")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D2" unique_id=956931806]
+mesh = SubResource("BoxMesh_pkg7o")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="obstacles" unique_id=2094514718]
+transform = Transform3D(0.058138967, 0, -0.99830854, 0, 1, 0, 0.99830854, 0, 0.058138967, 6.2804413, 2.469444, 5.9515142)
+visible = false
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D3" unique_id=460722510]
+shape = SubResource("BoxShape3D_dwbse")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D3" unique_id=408426332]
+mesh = SubResource("BoxMesh_pkg7o")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="obstacles" unique_id=2075186292]
+transform = Transform3D(0.6119136, 0, -0.79092467, 0, 1, 0, 0.79092467, 0, 0.6119136, -14.452997, 2.469444, -13.596018)
+visible = false
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="obstacles/StaticBody3D4" unique_id=677989900]
+shape = SubResource("BoxShape3D_dwbse")
+disabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="obstacles/StaticBody3D4" unique_id=987167981]
+mesh = SubResource("BoxMesh_pkg7o")
+
+[node name="Camerapivot" type="Marker3D" parent="." unique_id=1507521941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 45, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Camerapivot" unique_id=1430498056]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1247105778]
+
+[node name="character_view" type="Control" parent="CanvasLayer" unique_id=1196692845]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 58.0
+offset_top = -2.0
+offset_right = 226.0
+offset_bottom = 301.0
+theme = ExtResource("8_dss4m")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/character_view" unique_id=654524504]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 45.0
+offset_right = 140.0
+offset_bottom = 320.0
+
+[node name="character_view" type="VBoxContainer" parent="CanvasLayer/character_view/Panel" unique_id=1113250036]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = 7.0
+offset_right = -14.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="Name_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view" unique_id=1964693346]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="Color_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view" unique_id=1087223501]
+layout_mode = 2
+
+[node name="Weapon_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view" unique_id=694442557]
+layout_mode = 2
+
+[node name="Kill_Label" type="Label" parent="CanvasLayer/character_view/Panel/character_view" unique_id=1271757052]
+layout_mode = 2
+
+[node name="Health_bar" type="ProgressBar" parent="CanvasLayer/character_view/Panel/character_view" unique_id=857338949]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+show_percentage = false
+
+[node name="ToolBar" type="Control" parent="CanvasLayer" unique_id=1269353350]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -343.5
+offset_right = 343.5
+offset_bottom = 52.0
+grow_horizontal = 2
+theme = SubResource("Theme_gbfbk")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/ToolBar" unique_id=100940752]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ToolBar/Panel" unique_id=1395801063]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Tool_Label" type="Label" parent="CanvasLayer/ToolBar/Panel/HBoxContainer" unique_id=428301771]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="red_label" type="Label" parent="CanvasLayer/ToolBar" unique_id=1175373018]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 95.0
+offset_right = 41.0
+offset_bottom = 150.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+
+[node name="blue_label" type="Label" parent="CanvasLayer/ToolBar" unique_id=92440136]
+layout_mode = 0
+offset_left = 639.0
+offset_top = 95.0
+offset_right = 679.0
+offset_bottom = 150.0
+theme_override_colors/font_color = Color(0.0333333, 0, 1, 1)
+
+[node name="anti_health_bar" type="ColorRect" parent="CanvasLayer/ToolBar" unique_id=1660463709]
+layout_mode = 0
+offset_left = -4.0
+offset_top = 60.0
+offset_right = 36.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 1)
+
+[node name="health_bar" type="ColorRect" parent="CanvasLayer/ToolBar" unique_id=7762231]
+layout_mode = 0
+offset_left = -4.0
+offset_top = 60.0
+offset_right = 686.0
+offset_bottom = 80.0
+color = Color(0, 0, 1, 1)
+
+[node name="base_health" type="Label" parent="CanvasLayer/ToolBar" unique_id=1662216208]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -23.5
+offset_top = 84.0
+offset_right = 16.5
+offset_bottom = 139.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 1, 1)
+
+[node name="Controls" type="Control" parent="CanvasLayer" unique_id=2125183668]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 961.0
+offset_top = 5.0
+offset_right = 1193.0
+offset_bottom = 415.0
+theme = SubResource("Theme_h5ip5")
+
+[node name="show_controls" type="CheckBox" parent="CanvasLayer/Controls" unique_id=724899178]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+button_pressed = true
+text = "show controls"
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Controls" unique_id=1830870307]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.76000005
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 26.0
+offset_right = -5.200012
+offset_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Controls/Panel" unique_id=1862481191]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 4.0
+offset_right = 156.0
+offset_bottom = 226.0
+
+[node name="Headline" type="Label" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1020271091]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Controls"
+
+[node name="Label" type="Label" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1072200132]
+visible = false
+layout_mode = 2
+text = "Map size"
+
+[node name="Size_slider" type="HSlider" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1665136120]
+visible = false
+layout_mode = 2
+min_value = 30.0
+max_value = 500.0
+value = 40.0
+exp_edit = true
+
+[node name="show_health" type="CheckBox" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=987017346]
+layout_mode = 2
+text = "Show Health"
+
+[node name="Label2" type="Label" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1095341300]
+layout_mode = 2
+text = "Time scale"
+
+[node name="Time_slider" type="HSlider" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1181528617]
+custom_maximum_size = Vector2(130, -1)
+layout_mode = 2
+min_value = 0.05
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="show_name_tag" type="CheckBox" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=2103219265]
+layout_mode = 2
+text = "show name tag"
+
+[node name="containment" type="CheckBox" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=812023280]
+layout_mode = 2
+button_pressed = true
+text = "containment"
+
+[node name="Label3" type="Label" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1966567659]
+layout_mode = 2
+text = "containment size"
+
+[node name="containment_slider" type="HSlider" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1791683040]
+custom_maximum_size = Vector2(130, -1)
+layout_mode = 2
+min_value = 3.0
+max_value = 15.0
+step = 0.5
+value = 5.0
+
+[node name="show_containment" type="CheckBox" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=2145140598]
+layout_mode = 2
+button_pressed = true
+text = "show
+ containment"
+
+[node name="show_explanations" type="CheckBox" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=735132177]
+layout_mode = 2
+text = "show
+ explanations"
+
+[node name="FPS" type="Label" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1810296198]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "30"
+
+[node name="loose_screen" type="Control" parent="CanvasLayer" unique_id=192368139]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -224.5
+offset_top = -186.5
+offset_right = 224.5
+offset_bottom = 186.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_lakw3")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/loose_screen" unique_id=1000948592]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -237.0
+offset_top = -126.5
+offset_right = 237.0
+offset_bottom = 126.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/loose_screen/Panel" unique_id=523639990]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.5
+offset_top = -127.5
+offset_right = 230.5
+offset_bottom = 127.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="title" type="Label" parent="CanvasLayer/loose_screen/Panel/VBoxContainer" unique_id=405589678]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "YOU LOST"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/loose_screen/Panel/VBoxContainer" unique_id=1520479922]
+layout_mode = 2
+
+[node name="restart" type="Button" parent="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer" unique_id=609363981]
+layout_mode = 2
+text = "Start Game"
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/loose_screen/Panel/VBoxContainer" unique_id=20233110]
+layout_mode = 2
+
+[node name="quit_loose" type="Button" parent="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer3" unique_id=978907222]
+layout_mode = 2
+text = "Quit game"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/loose_screen/Panel/VBoxContainer" unique_id=997759706]
+layout_mode = 2
+
+[node name="final_score_label" type="Label" parent="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer2" unique_id=731002685]
+layout_mode = 2
+text = "time survived: 1 m 12 s"
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="CanvasLayer" unique_id=1838531]
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 138.0
+offset_bottom = 99.0
+theme_override_font_sizes/font_size = 60
+text = "0
+"
+
+[node name="menu" type="Control" parent="CanvasLayer" unique_id=1508576279]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1082.0
+offset_top = -733.0
+offset_right = 1064.0
+offset_bottom = 686.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_37qwj")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/menu" unique_id=1058967438]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -133.5
+offset_right = 150.0
+offset_bottom = 133.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/menu/Panel" unique_id=1235402543]
+layout_mode = 0
+offset_right = 299.0
+offset_bottom = 269.0
+
+[node name="title" type="Label" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=1545588556]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Menu"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=63534811]
+layout_mode = 2
+
+[node name="start" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer" unique_id=757052794]
+layout_mode = 2
+text = "Start Game"
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=406678960]
+layout_mode = 2
+
+[node name="help" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer2" unique_id=742536147]
+layout_mode = 2
+text = "How to play?"
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=1408482604]
+visible = false
+layout_mode = 2
+
+[node name="tutorial" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer4" unique_id=222924480]
+layout_mode = 2
+text = "Tutorial"
+
+[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=1334609180]
+layout_mode = 2
+
+[node name="inputs" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer5" unique_id=1200149466]
+layout_mode = 2
+text = "Controls"
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/menu/Panel/VBoxContainer" unique_id=922341507]
+layout_mode = 2
+
+[node name="quit" type="Button" parent="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer3" unique_id=148196966]
+layout_mode = 2
+text = "Quit game"
+
+[node name="close_menu" type="Button" parent="CanvasLayer/menu/Panel" unique_id=1588160523]
+visible = false
+custom_minimum_size = Vector2(30, 0)
+custom_maximum_size = Vector2(-1, 30)
+layout_mode = 0
+offset_left = 260.0
+offset_top = 9.0
+offset_right = 290.0
+offset_bottom = 39.0
+text = "X"
+
+[node name="explanations" type="Label" parent="CanvasLayer" unique_id=1565595972]
+offset_left = 3.0
+offset_top = 598.0
+offset_right = 60.0
+offset_bottom = 640.0
+theme_override_font_sizes/font_size = 30
+text = "Haa"
+
+[node name="build_bar" type="Control" parent="CanvasLayer" unique_id=1283429307]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -139.92398
+offset_top = -67.70404
+offset_right = 139.92398
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_ctatt")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/build_bar" unique_id=798363286]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -83.5
+offset_top = -87.0
+offset_right = 83.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/build_bar/Panel" unique_id=2076456539]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.0
+offset_top = -35.0
+offset_right = 74.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="fence_button" type="Button" parent="CanvasLayer/build_bar/Panel/HBoxContainer" unique_id=229125733]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+text = "
+"
+alignment = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/build_bar/Panel/HBoxContainer/fence_button" unique_id=834097703]
+texture_filter = 1
+position = Vector2(35.5, 40)
+scale = Vector2(5, 5)
+texture = ExtResource("13_7t5mc")
+
+[node name="catapult_button" type="Button" parent="CanvasLayer/build_bar/Panel/HBoxContainer" unique_id=1238077989]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+text = "
+
+"
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button" unique_id=782100634]
+texture_filter = 1
+position = Vector2(34.999996, 39.499996)
+scale = Vector2(5, 5)
+texture = ExtResource("14_lakw3")
+
+[node name="inputs" type="Control" parent="CanvasLayer" unique_id=1932602981]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -366.0
+offset_top = -313.0
+offset_right = 366.0
+offset_bottom = 313.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_4kbfs")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/inputs" unique_id=118191691]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/inputs/Panel" unique_id=1119476819]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer" unique_id=1751658594]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tcf07")
+text = "Controls"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/inputs/Panel/VBoxContainer" unique_id=1559651875]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/inputs/Panel/VBoxContainer/MarginContainer" unique_id=1076568822]
+visible = false
+layout_mode = 2
+theme_override_colors/table_border = Color(0, 0.1333332, 1, 1)
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+bbcode_enabled = true
+text = "[table=2]
+[cell][b]WASD[/b][/cell][cell]move yourself around[/cell]
+
+[cell][b]Q[/b][/cell][cell]move yourself up[/cell]
+[cell][b]E[/b][/cell][cell]move yourself down[/cell]
+[cell][b]drag with mouse wheel[/b][/cell][cell]mark minions[/cell]
+[cell][b]drag with left mouse button[/b][/cell][cell]marked minions follow you [/cell]
+[cell][b]right mouse button[/b][/cell][cell]set target for marked minions[/cell]
+[cell][b]Y[/b][/cell][cell]slow time[/cell]
+[cell][b]T[/b][/cell][cell]speed up time[/cell]
+[cell][b]R[/b][/cell][cell]keep the marked players when marking new ones[/cell]
+[cell][b]F[/b][/cell][cell]hold to load catapult, release to fire[/cell]
+[cell][b]mouse wheel[/b][/cell][cell]rotate catapult[/cell]
+[/table]"
+fit_content = true
+scroll_active = false
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/inputs/Panel/VBoxContainer" unique_id=855932914]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1382239790]
+layout_mode = 2
+text = "WASD"
+
+[node name="Label2" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=62324162]
+layout_mode = 2
+text = "move yourself around"
+
+[node name="Label3" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1841307352]
+layout_mode = 2
+text = "Q"
+
+[node name="Label4" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1539850742]
+layout_mode = 2
+text = "move yourself up"
+
+[node name="Label5" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1056489134]
+layout_mode = 2
+text = "E"
+
+[node name="Label6" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1064502985]
+layout_mode = 2
+text = "move yourself down"
+
+[node name="Label7" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1553604103]
+layout_mode = 2
+text = "drag with mouse wheel"
+
+[node name="Label8" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1531685841]
+layout_mode = 2
+text = "mark minions"
+
+[node name="Label9" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1878523857]
+layout_mode = 2
+text = "drag with left mouse button"
+
+[node name="Label10" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=133090502]
+layout_mode = 2
+text = "marked minions follow you 
+build mode: build selected object"
+
+[node name="Label11" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=863339110]
+layout_mode = 2
+text = "right mouse button"
+
+[node name="Label12" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1706795109]
+layout_mode = 2
+text = "set target for marked minions
+build mode: delete objects"
+
+[node name="Label13" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=161872143]
+layout_mode = 2
+text = "Y"
+
+[node name="Label14" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1990885457]
+layout_mode = 2
+text = "slow time"
+
+[node name="Label15" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1680907942]
+layout_mode = 2
+text = "T"
+
+[node name="Label16" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1911202110]
+layout_mode = 2
+text = "speed up time"
+
+[node name="Label17" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1891642360]
+layout_mode = 2
+text = "R"
+
+[node name="Label18" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=312021017]
+layout_mode = 2
+text = "keep the marked players
+ when marking new ones"
+
+[node name="Label19" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=2098212806]
+layout_mode = 2
+text = "F"
+
+[node name="Label20" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=638495822]
+layout_mode = 2
+text = "hold to load catapult, release to fire"
+
+[node name="Label21" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1855638913]
+layout_mode = 2
+text = "mouse wheel"
+
+[node name="Label22" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=260764768]
+layout_mode = 2
+text = "rotate catapult "
+
+[node name="Label23" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1439766156]
+layout_mode = 2
+text = "1"
+
+[node name="Label24" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1239459567]
+layout_mode = 2
+text = "go to normal mode"
+
+[node name="Label25" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=1170855283]
+layout_mode = 2
+text = "2"
+
+[node name="Label26" type="Label" parent="CanvasLayer/inputs/Panel/VBoxContainer/GridContainer" unique_id=786489226]
+layout_mode = 2
+text = "go to build mode"
+
+[node name="close_inputs" type="Button" parent="CanvasLayer/inputs/Panel" unique_id=982444841]
+custom_minimum_size = Vector2(30, 0)
+custom_maximum_size = Vector2(-1, 30)
+layout_mode = 0
+offset_left = 683.0
+offset_top = 18.0
+offset_right = 713.0
+offset_bottom = 48.0
+text = "X"
+
+[node name="round" type="Label" parent="CanvasLayer" unique_id=1205366307]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -170.0
+offset_top = -55.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Round: 1"
+
+[node name="Loading_screen" type="Control" parent="CanvasLayer" unique_id=2039070855]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1576.5
+offset_top = -849.5
+offset_right = 1576.5
+offset_bottom = 849.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Loading_screen" unique_id=632550342]
+layout_mode = 0
+offset_top = -60.0
+offset_right = 3344.0
+offset_bottom = 1883.0
+color = Color(0.42, 0.42, 0.42, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Loading_screen" unique_id=688122663]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -381.0
+offset_top = -68.5
+offset_right = 381.0
+offset_bottom = 68.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Loading_screen/VBoxContainer" unique_id=151873807]
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "Loading Please wait"
+horizontal_alignment = 1
+
+[node name="load_label" type="Label" parent="CanvasLayer/Loading_screen/VBoxContainer" unique_id=1013628828]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "loading game..."
+horizontal_alignment = 1
+
+[node name="click_marker" type="StaticBody3D" parent="." unique_id=1864312677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="click_marker" unique_id=1046974948]
+shape = SubResource("CylinderShape3D_036b0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="click_marker" unique_id=1148836537]
+mesh = SubResource("CylinderMesh_dwbse")
+
+[node name="release_marker" type="StaticBody3D" parent="." unique_id=1693512572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="release_marker" unique_id=1281478695]
+shape = SubResource("CylinderShape3D_o8xsq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="release_marker" unique_id=471960154]
+mesh = SubResource("CylinderMesh_74bdg")
+
+[node name="dragMmarker" type="MeshInstance3D" parent="." unique_id=1983778899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+visible = false
+mesh = SubResource("BoxMesh_gbfbk")
+
+[node name="real_drag_marker" type="MeshInstance3D" parent="." unique_id=396510350]
+visible = false
+mesh = SubResource("CylinderMesh_036b0")
+
+[node name="player_spawner" parent="." unique_id=1809576690 instance=ExtResource("12_q5onr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303, 7, 0)
+
+[node name="enemy_spawn_controller" parent="." unique_id=288827277 instance=ExtResource("13_jhx03")]
+
+[node name="player_indicator" type="MeshInstance3D" parent="." unique_id=615387616]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.7108727, -5.215097)
+visible = false
+mesh = SubResource("CylinderMesh_o8fc1")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="player_indicator" unique_id=1127893267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.40808678, 0)
+light_color = Color(0.16666675, 1, 0, 1)
+light_energy = 1.98
+omni_range = 11.684
+
+[node name="klick_indicator" type="MeshInstance3D" parent="." unique_id=2051103042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.7108727, -5.215097)
+visible = false
+mesh = SubResource("CylinderMesh_jhx03")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="klick_indicator" unique_id=252332439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.40808678, 0)
+light_color = Color(0, 1, 0.9666667, 1)
+light_energy = 1.98
+omni_range = 11.684
+
+[node name="navigation_indicator" type="MeshInstance3D" parent="." unique_id=1036118127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.7108727, -5.215097)
+visible = false
+mesh = SubResource("CylinderMesh_xo05s")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="navigation_indicator" unique_id=1770362264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.40808678, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 1.98
+omni_range = 11.684
+
+[node name="navigation" parent="." unique_id=417204428 instance=ExtResource("14_o8fc1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="catapult" parent="." unique_id=1284938642 instance=ExtResource("15_xo05s")]
+transform = Transform3D(0.68242645, 0, -0.7309543, 0, 1, 0, 0.7309543, 0, 0.68242645, -16.00944, 0.42742348, 0)
+
+[node name="load_timer" type="Timer" parent="." unique_id=1321267931]
+wait_time = 0.3
+one_shot = true
+autostart = true
+
+[node name="build_position" type="MeshInstance3D" parent="." unique_id=1771922612]
+mesh = SubResource("BoxMesh_hhcb3")
+
+[connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
+[connection signal="toggled" from="CanvasLayer/Controls/show_controls" to="." method="_on_show_controls_toggled"]
+[connection signal="drag_ended" from="CanvasLayer/Controls/Panel/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]
+[connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/show_health" to="." method="_on_show_health_toggled"]
+[connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/show_name_tag" to="." method="_on_show_name_tag_toggled"]
+[connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/containment" to="." method="_on_containment_toggled"]
+[connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/show_containment" to="." method="_on_show_containment_toggled"]
+[connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/show_explanations" to="." method="_on_show_explanations_toggled"]
+[connection signal="pressed" from="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer3/quit_loose" to="." method="_on_quit_loose_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer2/help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer4/tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer5/inputs" to="." method="_on_inputs_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer3/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="CanvasLayer/menu/Panel/close_menu" to="." method="_on_close_menu_pressed"]
+[connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/fence_button" to="." method="_on_fence_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button" to="." method="_on_catapult_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/inputs/Panel/close_inputs" to="." method="_on_close_inputs_pressed"]
+[connection signal="timeout" from="load_timer" to="." method="_on_load_timer_timeout"]

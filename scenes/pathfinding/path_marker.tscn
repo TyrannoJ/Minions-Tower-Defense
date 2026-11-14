@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bj8olj1bt0lxp"]
+
+[ext_resource type="Script" uid="uid://cvnlrbsad0n2r" path="res://scenes/builds/marker_area.gd" id="1_6rpve"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hhcb3"]
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
+transparency = 1
+albedo_color = Color(0.0333333, 0, 1, 0.5019608)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hhcb3"]
+material = SubResource("StandardMaterial3D_t4qo1")
+radius = 0.25
+height = 0.5
+
+[node name="path_marker" type="Area3D" unique_id=1543703205]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_6rpve")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=746052630]
+shape = SubResource("SphereShape3D_hhcb3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=697538305]
+mesh = SubResource("SphereMesh_hhcb3")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
