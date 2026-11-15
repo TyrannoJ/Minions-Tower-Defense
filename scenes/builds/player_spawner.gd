@@ -13,12 +13,12 @@ func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, n
 		
 		if number>0:
 			for i in range(0,number):
-				Global.add_player.emit(position)
+				Global.add_player.emit(Vector3(position.x,1,position.z))
 			number=0
 
 
 func _on_timer_timeout() -> void:
-	if Global.player_number+number < Global.MAX_PLAYERS and Global.player_number<Global.max_player_count:
+	if Global.player_number+number < Global.MAX_PLAYERS and Global.player_number+number<Global.max_player_count:
 		number+=1
 	timer.start(randf_range(1,2))
 
@@ -35,12 +35,12 @@ func start():
 	#number=20
 
 func _on_mouse_entered() -> void:
-	mat.albedo_color=Color.from_hsv(0.61, 0.753, 1.0, 1.0)
+	mat.albedo_color=Color.from_hsv(0.61, 0.753, 1.0, 0.5)
 	pass # Replace with function body.
 
 
 func _on_mouse_exited() -> void:
-	mat.albedo_color=Color.from_hsv(1,0,1)
+	mat.albedo_color=Color.from_hsv(1,0,1,0.5)
 	pass # Replace with function body.
 
 func reset():

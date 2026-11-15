@@ -79,6 +79,7 @@ process_material = SubResource("ParticleProcessMaterial_t4qo1")
 draw_pass_1 = SubResource("BoxMesh_hhcb3")
 
 [node name="damage_area" type="Area3D" parent="." unique_id=1871817607]
+top_level = true
 visible = false
 collision_layer = 0
 
@@ -89,6 +90,7 @@ mesh = SubResource("CylinderMesh_t4qo1")
 shape = SubResource("CylinderShape3D_hhcb3")
 
 [node name="damage_area2" type="Area3D" parent="." unique_id=1945517741]
+top_level = true
 visible = false
 collision_layer = 0
 
@@ -100,3 +102,4 @@ shape = SubResource("SphereShape3D_ckxbf")
 
 [connection signal="timeout" from="destroy_timer" to="." method="_on_destroy_timer_timeout"]
 [connection signal="body_entered" from="damage_area" to="." method="_on_damage_area_body_entered"]
+[connection signal="body_entered" from="damage_area2" to="." method="_on_damage_area_2_body_entered"]

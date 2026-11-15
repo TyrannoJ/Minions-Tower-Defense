@@ -1,23 +1,25 @@
 [gd_scene format=3 uid="uid://cn2m7d2ji4wye"]
 
-[ext_resource type="Script" uid="uid://dvnlk6fsggwvk" path="res://scripts/world.gd" id="1_7r4gi"]
-[ext_resource type="PackedScene" uid="uid://by56u258h7le5" path="res://scenes/person.tscn" id="2_w7kh3"]
-[ext_resource type="PackedScene" uid="uid://qa5h70ybtd6w" path="res://scenes/obstacle_wall.tscn" id="3_e3hyu"]
-[ext_resource type="PackedScene" uid="uid://drkudlhdt224y" path="res://scenes/weapon.tscn" id="4_q5onr"]
-[ext_resource type="PackedScene" uid="uid://v1u3ltbpyuh5" path="res://scenes/custom_wall.tscn" id="5_jhx03"]
-[ext_resource type="PackedScene" uid="uid://ba6ranqlu2t2m" path="res://scenes/base.tscn" id="6_o8fc1"]
-[ext_resource type="PackedScene" uid="uid://cwihb43aoxqge" path="res://scenes/tree.tscn" id="7_7r4gi"]
-[ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/sword_red.tscn" id="7_xo05s"]
-[ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://assets/controls_theme.tres" id="8_dss4m"]
-[ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/control_area.tscn" id="8_w7kh3"]
-[ext_resource type="PackedScene" uid="uid://d3fmpm8m3rgj2" path="res://scenes/build_fence.tscn" id="9_xo05s"]
-[ext_resource type="PackedScene" uid="uid://bo4iakl2j5hyj" path="res://scenes/score_number.tscn" id="11_lakw3"]
-[ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/player_spawner.tscn" id="12_q5onr"]
-[ext_resource type="Texture2D" uid="uid://dfjriu7f8ov38" path="res://assets/pixil-frame-0 (1).png" id="13_7t5mc"]
-[ext_resource type="PackedScene" uid="uid://dh835ofscp3de" path="res://scenes/enemy_spawn_controller.tscn" id="13_jhx03"]
-[ext_resource type="Texture2D" uid="uid://cppxs8a5sqnrg" path="res://assets/pixil-frame-0 (2).png" id="14_lakw3"]
-[ext_resource type="PackedScene" uid="uid://dwwq0rklnydf2" path="res://scenes/navigation.tscn" id="14_o8fc1"]
-[ext_resource type="PackedScene" uid="uid://db8ouqlu70tlh" path="res://scenes/catapult.tscn" id="15_xo05s"]
+[ext_resource type="Script" uid="uid://dvnlk6fsggwvk" path="res://scenes/terrain/world.gd" id="1_ooc7b"]
+[ext_resource type="PackedScene" uid="uid://by56u258h7le5" path="res://scenes/players/person.tscn" id="2_lckgc"]
+[ext_resource type="PackedScene" uid="uid://qa5h70ybtd6w" path="res://scenes/terrain/obstacle_wall.tscn" id="3_vptq5"]
+[ext_resource type="PackedScene" uid="uid://drkudlhdt224y" path="res://scenes/players/weapon.tscn" id="4_qk03d"]
+[ext_resource type="PackedScene" uid="uid://v1u3ltbpyuh5" path="res://scenes/old/custom_wall.tscn" id="5_eqexn"]
+[ext_resource type="PackedScene" uid="uid://ba6ranqlu2t2m" path="res://scenes/base/base.tscn" id="6_cdike"]
+[ext_resource type="PackedScene" uid="uid://cwihb43aoxqge" path="res://scenes/terrain/tree.tscn" id="7_c4qrx"]
+[ext_resource type="PackedScene" uid="uid://cyge7jtwsvial" path="res://scenes/old/control_area.tscn" id="8_ntyox"]
+[ext_resource type="PackedScene" uid="uid://d3fmpm8m3rgj2" path="res://scenes/builds/build_fence.tscn" id="9_61e7h"]
+[ext_resource type="PackedScene" uid="uid://db8ouqlu70tlh" path="res://scenes/builds/catapult.tscn" id="10_hg5nr"]
+[ext_resource type="PackedScene" uid="uid://bo4iakl2j5hyj" path="res://scenes/players/score_number.tscn" id="11_apphr"]
+[ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/players/sword_red.tscn" id="12_3cwei"]
+[ext_resource type="PackedScene" uid="uid://bl5u8xjoaiqae" path="res://scenes/controls/enemy_marker.tscn" id="12_lckgc"]
+[ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://scenes/controls/controls_theme.tres" id="13_ayjxr"]
+[ext_resource type="PackedScene" uid="uid://b0ufhh4hby0k0" path="res://scenes/builds/tower.tscn" id="13_vptq5"]
+[ext_resource type="Texture2D" uid="uid://dfjriu7f8ov38" path="res://scenes/controls/pixil-frame-0 (1).png" id="14_viyef"]
+[ext_resource type="Texture2D" uid="uid://cppxs8a5sqnrg" path="res://scenes/controls/pixil-frame-0 (2).png" id="15_cu54w"]
+[ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/builds/player_spawner.tscn" id="16_cu2ht"]
+[ext_resource type="PackedScene" uid="uid://dh835ofscp3de" path="res://scenes/enemy_builds/enemy_spawn_controller.tscn" id="17_lsqqx"]
+[ext_resource type="PackedScene" uid="uid://dwwq0rklnydf2" path="res://scenes/pathfinding/navigation.tscn" id="18_nd4ov"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gv5m4"]
 size = Vector3(1000, 3.9, 1000)
@@ -355,6 +357,73 @@ ProgressBar/styles/fill = SubResource("StyleBoxFlat_rup4s")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tcf07"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lckgc"]
+bg_color = Color(0.40653744, 0.5993741, 0.7615953, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vptq5"]
+bg_color = Color(0.32941177, 0.5176471, 0.6745098, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qk03d"]
+bg_color = Color(0.485781, 0.66855747, 0.82442594, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqexn"]
+bg_color = Color(1, 0.17000002, 0.17000002, 0.3764706)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cdike"]
+bg_color = Color(0.11199989, 0.84, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_c4qrx"]
+default_font_size = 30
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_lckgc")
+Button/styles/normal = SubResource("StyleBoxFlat_vptq5")
+Button/styles/pressed = SubResource("StyleBoxFlat_qk03d")
+Label/font_sizes/font_size = 40
+MarginContainer/constants/margin_bottom = 10
+MarginContainer/constants/margin_left = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_eqexn")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_cdike")
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_036b0"]
 height = 0.1
 
@@ -414,26 +483,28 @@ height = 10.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xo05s"]
 transparency = 1
-albedo_color = Color(0, 0.10000014, 1, 0.4509804)
+albedo_color = Color(0, 0.101960786, 1, 0.4509804)
 
 [sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
 material = SubResource("StandardMaterial3D_xo05s")
 size = Vector3(2, 1, 2)
 
 [node name="World" type="Node3D" unique_id=1978241428]
-script = ExtResource("1_7r4gi")
-person = ExtResource("2_w7kh3")
-obstacle_wall = ExtResource("3_e3hyu")
-weapon = ExtResource("4_q5onr")
-wall_piece = ExtResource("5_jhx03")
-base_scene = ExtResource("6_o8fc1")
-tree = ExtResource("7_7r4gi")
-control_area = ExtResource("8_w7kh3")
-fence = ExtResource("9_xo05s")
-catapult = ExtResource("15_xo05s")
-score_number = ExtResource("11_lakw3")
+script = ExtResource("1_ooc7b")
+person = ExtResource("2_lckgc")
+obstacle_wall = ExtResource("3_vptq5")
+weapon = ExtResource("4_qk03d")
+wall_piece = ExtResource("5_eqexn")
+base_scene = ExtResource("6_cdike")
+tree = ExtResource("7_c4qrx")
+control_area = ExtResource("8_ntyox")
+fence = ExtResource("9_61e7h")
+catapult = ExtResource("10_hg5nr")
+score_number = ExtResource("11_apphr")
+enemy_base_marker = ExtResource("12_lckgc")
+tower = ExtResource("13_vptq5")
 
-[node name="Ground" type="StaticBody3D" parent="." unique_id=46194837]
+[node name="Ground" type="StaticBody3D" parent="." unique_id=46194837 groups=["floor"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 collision_layer = 4
 
@@ -454,7 +525,7 @@ shape = SubResource("BoxShape3D_tlwt5")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=345759241]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 25.214771, 0)
 
-[node name="Sword" parent="." unique_id=83097579 instance=ExtResource("7_xo05s")]
+[node name="Sword" parent="." unique_id=83097579 instance=ExtResource("12_3cwei")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
 visible = false
 
@@ -587,7 +658,7 @@ offset_left = 58.0
 offset_top = -2.0
 offset_right = 226.0
 offset_bottom = 301.0
-theme = ExtResource("8_dss4m")
+theme = ExtResource("13_ayjxr")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/character_view" unique_id=654524504]
 layout_mode = 0
@@ -709,7 +780,7 @@ anchors_preset = 0
 offset_left = 961.0
 offset_top = 5.0
 offset_right = 1193.0
-offset_bottom = 415.0
+offset_bottom = 450.0
 theme = SubResource("Theme_h5ip5")
 
 [node name="show_controls" type="CheckBox" parent="CanvasLayer/Controls" unique_id=724899178]
@@ -800,7 +871,13 @@ text = "show
 [node name="show_explanations" type="CheckBox" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=735132177]
 layout_mode = 2
 text = "show
- explanations"
+explanations"
+
+[node name="round_infos" type="CheckBox" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1485051186]
+layout_mode = 2
+button_pressed = true
+text = "show round 
+infos"
 
 [node name="FPS" type="Label" parent="CanvasLayer/Controls/Panel/VBoxContainer" unique_id=1810296198]
 layout_mode = 2
@@ -979,6 +1056,7 @@ offset_bottom = 39.0
 text = "X"
 
 [node name="explanations" type="Label" parent="CanvasLayer" unique_id=1565595972]
+visible = false
 offset_left = 3.0
 offset_top = 598.0
 offset_right = 60.0
@@ -994,24 +1072,19 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -139.92398
-offset_top = -67.70404
-offset_right = 139.92398
+offset_top = -86.0
+offset_right = 139.92395
 grow_horizontal = 2
 grow_vertical = 0
 theme = SubResource("Theme_ctatt")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/build_bar" unique_id=798363286]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -83.5
-offset_top = -87.0
-offset_right = 83.5
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/build_bar/Panel" unique_id=2076456539]
 custom_minimum_size = Vector2(0, 50)
@@ -1039,7 +1112,7 @@ alignment = 2
 texture_filter = 1
 position = Vector2(35.5, 40)
 scale = Vector2(5, 5)
-texture = ExtResource("13_7t5mc")
+texture = ExtResource("14_viyef")
 
 [node name="catapult_button" type="Button" parent="CanvasLayer/build_bar/Panel/HBoxContainer" unique_id=1238077989]
 custom_minimum_size = Vector2(70, 70)
@@ -1052,7 +1125,11 @@ text = "
 texture_filter = 1
 position = Vector2(34.999996, 39.499996)
 scale = Vector2(5, 5)
-texture = ExtResource("14_lakw3")
+texture = ExtResource("15_cu54w")
+
+[node name="tower_button" type="Button" parent="CanvasLayer/build_bar/Panel/HBoxContainer" unique_id=1994267997]
+layout_mode = 2
+text = "Tower"
 
 [node name="inputs" type="Control" parent="CanvasLayer" unique_id=1932602981]
 visible = false
@@ -1243,6 +1320,7 @@ offset_bottom = 48.0
 text = "X"
 
 [node name="round" type="Label" parent="CanvasLayer" unique_id=1205366307]
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -1254,6 +1332,59 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 40
 text = "Round: 1"
+
+[node name="Round_infos" type="Control" parent="CanvasLayer" unique_id=1502007288]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -228.0
+offset_right = 269.0
+grow_vertical = 0
+theme = SubResource("Theme_c4qrx")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Round_infos" unique_id=1291715690]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Round_infos/MarginContainer" unique_id=1532452589]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Round_infos/MarginContainer/Panel" unique_id=966230379]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="round_number" type="Label" parent="CanvasLayer/Round_infos/MarginContainer/Panel/VBoxContainer" unique_id=620384919]
+layout_mode = 2
+text = "Round Infos"
+horizontal_alignment = 1
+
+[node name="enemys_to_spawn" type="Label" parent="CanvasLayer/Round_infos/MarginContainer/Panel/VBoxContainer" unique_id=912647695]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "2/3 enemys spawned"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="max_spawner_nr" type="Label" parent="CanvasLayer/Round_infos/MarginContainer/Panel/VBoxContainer" unique_id=1707855908]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "max spawners: 5"
+horizontal_alignment = 1
+
+[node name="max_players" type="Label" parent="CanvasLayer/Round_infos/MarginContainer/Panel/VBoxContainer" unique_id=1715488916]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "max players: 10"
+horizontal_alignment = 1
 
 [node name="Loading_screen" type="Control" parent="CanvasLayer" unique_id=2039070855]
 visible = false
@@ -1303,6 +1434,22 @@ theme_override_font_sizes/font_size = 50
 text = "loading game..."
 horizontal_alignment = 1
 
+[node name="round_change" type="Label" parent="CanvasLayer" unique_id=2101421554]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 100
+text = "Round 1"
+
 [node name="click_marker" type="StaticBody3D" parent="." unique_id=1864312677]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.1502495, 2.7252517, 0)
 visible = false
@@ -1334,10 +1481,10 @@ mesh = SubResource("BoxMesh_gbfbk")
 visible = false
 mesh = SubResource("CylinderMesh_036b0")
 
-[node name="player_spawner" parent="." unique_id=1809576690 instance=ExtResource("12_q5onr")]
+[node name="player_spawner" parent="." unique_id=1809576690 instance=ExtResource("16_cu2ht")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303, 7, 0)
 
-[node name="enemy_spawn_controller" parent="." unique_id=288827277 instance=ExtResource("13_jhx03")]
+[node name="enemy_spawn_controller" parent="." unique_id=288827277 instance=ExtResource("17_lsqqx")]
 
 [node name="player_indicator" type="MeshInstance3D" parent="." unique_id=615387616]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.7108727, -5.215097)
@@ -1372,10 +1519,10 @@ light_color = Color(1, 0, 0, 1)
 light_energy = 1.98
 omni_range = 11.684
 
-[node name="navigation" parent="." unique_id=417204428 instance=ExtResource("14_o8fc1")]
+[node name="navigation" parent="." unique_id=417204428 instance=ExtResource("18_nd4ov")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 
-[node name="catapult" parent="." unique_id=1284938642 instance=ExtResource("15_xo05s")]
+[node name="catapult" parent="." unique_id=1284938642 instance=ExtResource("10_hg5nr")]
 transform = Transform3D(0.68242645, 0, -0.7309543, 0, 1, 0, 0.7309543, 0, 0.68242645, -16.00944, 0.42742348, 0)
 
 [node name="load_timer" type="Timer" parent="." unique_id=1321267931]
@@ -1386,6 +1533,20 @@ autostart = true
 [node name="build_position" type="MeshInstance3D" parent="." unique_id=1771922612]
 mesh = SubResource("BoxMesh_hhcb3")
 
+[node name="ColorRect" type="ColorRect" parent="." unique_id=247442072]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="toggled" from="CanvasLayer/Controls/show_controls" to="." method="_on_show_controls_toggled"]
 [connection signal="drag_ended" from="CanvasLayer/Controls/Panel/VBoxContainer/Size_slider" to="." method="_on_size_slider_drag_ended"]
@@ -1394,6 +1555,7 @@ mesh = SubResource("BoxMesh_hhcb3")
 [connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/containment" to="." method="_on_containment_toggled"]
 [connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/show_containment" to="." method="_on_show_containment_toggled"]
 [connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/show_explanations" to="." method="_on_show_explanations_toggled"]
+[connection signal="toggled" from="CanvasLayer/Controls/Panel/VBoxContainer/round_infos" to="." method="_on_round_infos_toggled"]
 [connection signal="pressed" from="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="CanvasLayer/loose_screen/Panel/VBoxContainer/MarginContainer3/quit_loose" to="." method="_on_quit_loose_pressed"]
 [connection signal="pressed" from="CanvasLayer/menu/Panel/VBoxContainer/MarginContainer/start" to="." method="_on_start_pressed"]
@@ -1404,5 +1566,6 @@ mesh = SubResource("BoxMesh_hhcb3")
 [connection signal="pressed" from="CanvasLayer/menu/Panel/close_menu" to="." method="_on_close_menu_pressed"]
 [connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/fence_button" to="." method="_on_fence_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button" to="." method="_on_catapult_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/tower_button" to="." method="_on_tower_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/inputs/Panel/close_inputs" to="." method="_on_close_inputs_pressed"]
 [connection signal="timeout" from="load_timer" to="." method="_on_load_timer_timeout"]

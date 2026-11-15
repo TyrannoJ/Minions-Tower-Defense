@@ -6,9 +6,9 @@ extends Node3D
 @onready var damage_area=$area
 @onready var health_bar=$Health_bar
 @onready var anti_health_bar=$anti_health_bar
-signal killed(num)
+signal killed(pos,num)
 var pos_number
-var number
+var index_number
 var health=2000
 var start_health=2000
 func _ready() -> void:
@@ -16,10 +16,10 @@ func _ready() -> void:
 	damage_area.initialize(start_health)
 func initialize(pos,num):
 	pos_number=pos
-	number=num
+	index_number=num
 	
 func _on_spawn_timer_timeout() -> void:
-	spawn_timer.start(randf_range(25,35))
+	spawn_timer.start(randf_range(20,25))
 	spawn_enemys()
 	#spawn_weapon()
 func spawn_enemys():
@@ -39,6 +39,8 @@ func _process(delta: float) -> void:
 	health_bar.position.x=-(2-sca*2)
 	health_bar.scale.x=sca
 	anti_health_bar.position.x=sca*2
+	if Input.is_action_just_pressed("test"):
+		kill()
 func spawn_weapon():
 	var we=weapon.instantiate()
 	add_child(we)
@@ -46,5 +48,13 @@ func spawn_weapon():
 func kill():
 	Global.score+=10
 	
-	killed.emit(pos_number)
+	killed.emit(index_number,position)
 	queue_free()
+
+
+func _on_visible_on_screen_notifier_3d_screen_entered() -> void:
+	Global.visible_spawners[index_number]=true
+
+
+func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
+	Global.visible_spawners[index_number]=false

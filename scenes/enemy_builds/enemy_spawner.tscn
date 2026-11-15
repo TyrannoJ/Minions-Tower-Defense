@@ -115,4 +115,9 @@ mesh = SubResource("BoxMesh_ih16b")
 transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.31, 0)
 mesh = SubResource("BoxMesh_31irv")
 
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="." unique_id=1622920734]
+aabb = AABB(-3.4506457, -2.7364671, -3.0165875, 6.9012914, 5.4729342, 6.033175)
+
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]

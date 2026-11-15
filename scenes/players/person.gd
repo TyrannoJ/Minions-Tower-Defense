@@ -41,6 +41,8 @@ var current_pathfining_position=0
 @onready var fight_area=$fight_area
 @onready var navigation_timer=$navigation_timer
 @onready var center_visualizer=$center_visualizer
+@onready var pos_visualizer=$pos_visualizer
+@onready var navigation_check_area=$navigation_check_area
 var center:Vector3=Vector3.ZERO
 var has_center=false
 var show_location=false
@@ -53,22 +55,26 @@ var damaging=[]
 var to_base=false
 var near_enemys=[]
 var current_damage=0
-
+var physics_velocity:=Vector3.ZERO
+var movement_velocity:Vector3
 var new_pathfinding=false
+var thrown=false
+var throw_val:Vector3
 
 func _ready() -> void:
 	
 	
 	rotation.y=deg_to_rad(randf_range(-180,180))
-	velocity+=-global_transform.basis.z
+	#velocity+=-global_transform.basis.z
 	Global.update_target.connect(on_update_target)
+	#physics_velocity.y=5
 
 func initialize(num,col,pos,un):
 	number=num
 	color=col
 	position=pos
 	unique_id=un
-	position.y=2
+	position.y=1
 	name_mesh.text=str(number)
 	has_weapon=true
 	character.godot_animations.play("grab")
@@ -80,12 +86,13 @@ func initialize(num,col,pos,un):
 		character.make_red()
 		
 func _physics_process(delta: float) -> void:
+	#print(position.y)
 	if color=="blue":
 		pass
 		#print(str(number)+" "+str(not_rotating)+" "+str(vision.is_colliding())+" "+str(dragged)+" "+str(to_base))
 	#print(rot_timer.paused)
 	#print(new_pathfinding)
-	current_damage=DPS/Engine.get_frames_per_second()
+	current_damage=DPS*delta
 	name_tag.rotation.y=-rotation.y
 	name_tag.rotation.x=-PI/2
 	#if new_pathfinding:
@@ -110,17 +117,12 @@ func _physics_process(delta: float) -> void:
 		
 	handle_collisions()
 	
-	velocity.x=0
-	velocity.z=0
-	rotation.x=0
-	rotation.z=0
-	velocity+=-global_transform.basis.z*Speed
 	if color=="blue":
 		#print(rad_to_deg(rotation.y))
 		#print(dragged)
 		pass
 		
-	move_and_slide()
+	
 	rot_y_before=rotation.y
 	var in_area=false
 	var areas=check_area.get_overlapping_areas()
@@ -134,6 +136,32 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("stand") and clicked:
 		stop=!stop
 		not_rotating=true
+		
+	velocity=Vector3.ZERO	
+	movement_velocity=Vector3.ZERO
+	if !is_on_floor():
+		physics_velocity.y+=delta*get_gravity().y
+		#if physics_velocity.z>0:
+			#physics_velocity.z-=delta*10
+		#if physics_velocity.z<0:
+			#physics_velocity.z+=delta*10
+		#if physics_velocity.x>0:
+			#physics_velocity.x-=delta*10
+		#if physics_velocity.x<0:
+			#physics_velocity.x+=delta*10
+	else:
+		movement_velocity+=-global_transform.basis.z*Speed
+		if !thrown:
+			physics_velocity=Vector3.ZERO
+		else:
+			physics_velocity+=throw_val
+			thrown=false
+	
+	rotation.x=0
+	rotation.z=0
+	#if is_on_floor():
+	velocity=physics_velocity+movement_velocity
+	move_and_slide()
 		
 			
 		
@@ -222,7 +250,8 @@ func direction():
 			center=position
 			has_center=true
 			center_visualizer.position=center
-			center_visualizer.position.y=0.3
+			center_visualizer.position.y=-0.2
+			
 			
 		else:
 			if Global.show_containment:
@@ -709,7 +738,7 @@ func longer_new_navigation():
 			break
 		#print("")
 		
-		$pos_visualizer.position=Vector3(pos.x,3,pos.y)
+		pos_visualizer.position=Vector3(pos.x,3,pos.y)
 		#print(start_2_values)
 		#print(pos)
 		var tar_right=false
@@ -724,10 +753,10 @@ func longer_new_navigation():
 		else:
 			m=(pos.y-tar.y)/(pos.x-tar.x)
 		
-		$navigation_check_area.position.x=0.5*(tar.x+pos.x)
-		$navigation_check_area.position.z=0.5*(tar.y+pos.y)
-		$navigation_check_area.rotation.y=atan(-m)
-		$navigation_check_area.scale.x=(sqrt(pow(pos.x-tar.x,2)+pow(pos.y-tar.y,2)))-0.5
+		navigation_check_area.position.x=0.5*(tar.x+pos.x)
+		navigation_check_area.position.z=0.5*(tar.y+pos.y)
+		navigation_check_area.rotation.y=atan(-m)
+		navigation_check_area.scale.x=(sqrt(pow(pos.x-tar.x,2)+pow(pos.y-tar.y,2)))-0.5
 		#print(str(m)+ " * x + "+str(t))
 		#print(pos)
 		#print(start_2_values)
@@ -742,13 +771,13 @@ func longer_new_navigation():
 		var direction=""
 		#for area in areas:
 			#area.look()
-		if Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y-1+35)].is_touching($navigation_check_area):
+		if Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y-1+35)].is_touching(navigation_check_area):
 			direction="up"
-		if Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+1+35)].is_touching($navigation_check_area):
+		if Global.navigation_block_list[int(start_2_values.x+60)][int(start_2_values.y+1+35)].is_touching(navigation_check_area):
 			direction="down"
-		if Global.navigation_block_list[int(start_2_values.x+1+60)][int(start_2_values.y+35)].is_touching($navigation_check_area):
+		if Global.navigation_block_list[int(start_2_values.x+1+60)][int(start_2_values.y+35)].is_touching(navigation_check_area):
 			direction="right"
-		if Global.navigation_block_list[int(start_2_values.x-1+60)][int(start_2_values.y+35)].is_touching($navigation_check_area):
+		if Global.navigation_block_list[int(start_2_values.x-1+60)][int(start_2_values.y+35)].is_touching(navigation_check_area):
 			direction="left"
 		
 		
@@ -838,8 +867,8 @@ func longer_new_navigation():
 				current_list=[]
 				break
 		if start_2_values==end_2_values or (abs(start_2_values.x-end_2_values.x)<=1 and abs(start_2_values.y-end_2_values.y)<=1): #a littl cheating but naja
-			$pos_visualizer.hide()
-			$navigation_check_area.hide()
+			pos_visualizer.hide()
+			navigation_check_area.hide()
 			break
 			
 		#await get_tree().create_timer(0.2).timeout
@@ -878,3 +907,7 @@ func _on_navigation_timer_timeout() -> void:
 		pass
 		#longer_new_navigation()
 		#handle_new_pathfinding()
+		
+func throw(dir:Vector3):
+	thrown=true
+	throw_val=dir

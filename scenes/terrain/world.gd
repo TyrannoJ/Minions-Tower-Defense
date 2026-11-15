@@ -67,13 +67,21 @@ extends Node3D
 @onready var catapult_button=$CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button
 @onready var close_menu=$CanvasLayer/menu/Panel/close_menu
 @onready var inputs=$CanvasLayer/inputs
-@onready var round_label=$CanvasLayer/round
+
 @export var score_number:PackedScene
 @onready var start_button=$CanvasLayer/menu/Panel/VBoxContainer/MarginContainer/start
-var round_number=1
+@export var enemy_base_marker:PackedScene
+@onready var round_infos=$CanvasLayer/Round_infos
+@onready var round_number_label=$CanvasLayer/Round_infos/MarginContainer/Panel/VBoxContainer/round_number
+@onready var enemys_to_spawn_label=$CanvasLayer/Round_infos/MarginContainer/Panel/VBoxContainer/enemys_to_spawn
+@onready var max_spawner_nr_label=$CanvasLayer/Round_infos/MarginContainer/Panel/VBoxContainer/max_spawner_nr
+@onready var max_players_label=$CanvasLayer/Round_infos/MarginContainer/Panel/VBoxContainer/max_players
+@onready var round_change=$CanvasLayer/round_change
+@export var tower:PackedScene
+@onready var tower_button=$CanvasLayer/build_bar/Panel/HBoxContainer/tower_button
 
 var time_survived=0
-var build_mode=0
+
 const RAY_LENGTH=1000
 var trees=[]
 var start_base_health=8000
@@ -96,7 +104,7 @@ var obstacles=[]
 var important_controls=[]
 var tools=["normal mode","build mode"]
 var wall_positions=[Vector3(start_size,2.5,0),Vector3(-start_size,2.5,0),Vector3(0,2.5,start_size),Vector3(0,2.5,-start_size)]
-
+var enemy_base_markers=[]
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority(): return
 	
@@ -122,7 +130,7 @@ func _ready() -> void:
 	var screen=get_window().size
 	$CanvasLayer/ToolBar.position.x=screen.x/2-343
 	$CanvasLayer/Controls.position.x=screen.x-180
-	
+	round_infos.hide()
 	print(screen)
 	add_base()
 	Global.clicked.connect(on_player_clicked)
@@ -154,6 +162,7 @@ func _on_load_timer_timeout() -> void:
 	
 	loading_screen.hide()
 	print("done")
+	
 	
 
 func add_trees():
@@ -242,8 +251,41 @@ func spawn_players():
 		#red_persons[i].initialize(i,"red",Vector3(randi_range(-10,-20),2,randi_range(-13,13)),unique_id)
 		unique_id+=1
 func _process(delta: float) -> void:
-	
-	round_label.text="Round: "+str(round_number)
+	#print(target_area.position.y)
+	for ba in enemy_base_markers:
+		ba.queue_free()
+	enemy_base_markers.clear()
+	for i in range(0,len(Global.spawner_positions)):
+	#if Global.spawner_positions != []:
+		#var pos=Global.spawner_positions[0]
+		var pos=Global.spawner_positions[i]
+		var ba=enemy_base_marker.instantiate()
+		if !Global.visible_spawners[i]:
+			
+			var dir=Vector2(camera_pivot.position.x,camera_pivot.position.z).direction_to(Vector2(pos.x,pos.z))
+			
+			
+			if abs(dir.x)>abs(dir.y):
+				if dir.x>0:
+					ba.position.x=get_window().size.x-15
+				else:
+					ba.position.x=0
+				ba.position.y=get_window().size.y/2+(get_window().size.y/2)*dir.y
+			else:
+				if dir.y>0:
+					ba.position.y=get_window().size.y-15
+				else:
+					ba.position.y=0
+				ba.position.x=get_window().size.x/2+(get_window().size.x/2)*dir.x
+		else:
+			ba.position=camera.unproject_position(pos)
+		add_child(ba)
+		enemy_base_markers.append(ba)
+		
+	round_number_label.text="Round: "+str(Global.round_number)
+	enemys_to_spawn_label.text=str(Global.enemys_spawned)+ "/"+str(Global.enemys_to_spawn) +" enemys spawned"
+	max_players_label.text="max players: "+str(Global.max_player_count)
+	max_spawner_nr_label.text= "max enemy spawners: " +str(Global.max_spawner_count)
 	if Input.is_action_just_pressed("menu"):
 		close_menu.show()
 		menu.show()
@@ -260,7 +302,8 @@ func _process(delta: float) -> void:
 	#print(target_area.position.y)
 	#print(Engine.get_frames_per_second())
 	if Global.current_tool==0:
-		target_area.position.y=5
+		target_area.position.y=0
+		handle_playing()
 		build_position_mesh.hide()
 		build_bar.hide()
 	elif Global.current_tool==1:
@@ -270,6 +313,7 @@ func _process(delta: float) -> void:
 		#build_position_mesh.show()
 	hide_navigation_indicator()
 	
+	Global.containment_size=containment_slider.value
 	Global.containment_size=containment_slider.value
 	Global.player_number=len(blue_persons)
 	Global.enemy_number=len(red_persons)
@@ -319,7 +363,7 @@ func handle_tools():
 		Global.current_tool=0
 	if Input.is_action_just_pressed("tool2"):
 		Global.current_tool=1
-		build_mode=0
+		Global.build_mode=0
 	if Input.is_action_just_pressed("tool3"):
 		Global.current_tool=2
 	if Global.current_tool==0:
@@ -359,69 +403,119 @@ func set_map_size():
 		wa.scale.z=size_slider.value*2
 
 
-func _on_set_target_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
-	
-	if Global.current_tool==1:
-		if event is InputEventMouseButton and event.is_pressed() and event.button_index==1:
-			
+#func _on_set_target_input_event(camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int) -> void:
+	#
+	##if Global.current_tool==1:
+		##if event is InputEventMouseButton and event.is_pressed() and event.button_index==1:
+			##
+			###target_area.position.y=5
+			###if event is InputEventMouseMotion and event.button_mask==1:
+				###draw(event_position)
+			##var fe=fence.instantiate()
+			##add_child(fe)
+			##fe.position=Vector3(floorf(event_position.x),2,floorf(event_position.z))
+			##print("b")
+	##if Global.current_tool==2:
+		##target_area.position.y=5
+		###target_area.position.y=3
+		##if event is InputEventMouseButton and event.is_pressed() and event.button_index==1:
+			##set_area_start_point(event_position)
+		##if event is InputEventMouseMotion and event.button_mask==1:
+			##make_area(event_position)
+		##
+			##
+		##if event is InputEventMouseButton and event.is_released() and event.button_index==1:
+			##finish_area(event_position)
+	#if Global.current_tool==0:
+		#if event is InputEventMouseMotion and event.button_mask==1:
+			#
+			#start_dragging(event_position)
+			#player_indicator.show()
+			#player_indicator.position.x=event_position.x
+			#player_indicator.position.z=event_position.z
+			#player_indicator.position.y=2
+			#
+		#else:
+			#Global.dragging=false
 			#target_area.position.y=5
-			#if event is InputEventMouseMotion and event.button_mask==1:
-				#draw(event_position)
-			var fe=fence.instantiate()
-			add_child(fe)
-			fe.position=Vector3(floorf(event_position.x),2,floorf(event_position.z))
-			print("b")
-	if Global.current_tool==2:
-		target_area.position.y=5
-		#target_area.position.y=3
-		if event is InputEventMouseButton and event.is_pressed() and event.button_index==1:
-			set_area_start_point(event_position)
-		if event is InputEventMouseMotion and event.button_mask==1:
-			make_area(event_position)
-		
+			#if !(event is InputEventMouseButton and event.is_pressed() and event.button_index==3):
+				#player_indicator.hide()
+			#
+		#if event is InputEventMouseMotion and event.button_mask==MOUSE_BUTTON_MASK_MIDDLE :
+			#
+			#start_marking(event_position)
+			#player_indicator.show()
+			#player_indicator.position.x=event_position.x
+			#player_indicator.position.z=event_position.z
+			#player_indicator.position.y=2
+		#else:
+			#if !Global.dragging:
+				#player_indicator.hide()
+				#target_area.position.y=5
+				#explanations.text=""
+		#if event is InputEventMouseButton and event.is_pressed() and event.button_index==3:
+			#set_mark_start_point(event_position)
+			#
+		#if event is InputEventMouseButton and event.is_released() and event.button_index==3:
+			#release_pos=event_position
+			#if release_pos!=klick_pos and Global.current_tool==0:
+				#mark_players(event_position)
+				#player_indicator.hide()
+				#
+		#if event is InputEventMouseButton and event.is_released() and event.button_index==2:
+			#set_target(event_position)
+
+func handle_playing():
+	var on_controls=false
+	if get_mouse_raycast() !={}:
+		var mouse_position=get_viewport().get_mouse_position()
+		for control in important_controls:
+			if mouse_position.y>control.position.y and mouse_position.y<control.position.y+control.size.y and mouse_position.x<control.position.x+build_bar.size.x and mouse_position.x>control.position.x:
+				on_controls=true
+	else:
+		on_controls=true
+	if Global.current_tool==0 and !on_controls: #and Global.object_under_mouse.is_in_group("floor"):
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			
-		if event is InputEventMouseButton and event.is_released() and event.button_index==1:
-			finish_area(event_position)
-	if Global.current_tool==0:
-		if event is InputEventMouseMotion and event.button_mask==1:
-			
-			start_dragging(event_position)
+			start_dragging(get_mouse_raycast().position)
 			player_indicator.show()
-			player_indicator.position.x=event_position.x
-			player_indicator.position.z=event_position.z
+			player_indicator.position.x=get_mouse_raycast().position.x
+			player_indicator.position.z=get_mouse_raycast().position.z
 			player_indicator.position.y=2
 			
 		else:
 			Global.dragging=false
-			target_area.position.y=5
-			if !(event is InputEventMouseButton and event.is_pressed() and event.button_index==3):
+			#target_area.position.y=5
+			if !(Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE)):
 				player_indicator.hide()
 			
-		if event is InputEventMouseMotion and event.button_mask==MOUSE_BUTTON_MASK_MIDDLE :
+		if Input.is_action_pressed("mark_players"):
 			
-			start_marking(event_position)
+			start_marking(get_mouse_raycast().position)
 			player_indicator.show()
-			player_indicator.position.x=event_position.x
-			player_indicator.position.z=event_position.z
+			player_indicator.position.x=get_mouse_raycast().position.x
+			player_indicator.position.z=get_mouse_raycast().position.z
 			player_indicator.position.y=2
 		else:
 			if !Global.dragging:
 				player_indicator.hide()
-				target_area.position.y=5
+				#target_area.position.y=5
 				explanations.text=""
-		if event is InputEventMouseButton and event.is_pressed() and event.button_index==3:
-			set_mark_start_point(event_position)
+		#if Input.is_action_pressed("mark_players"):
+			#set_mark_start_point(get_mouse_raycast().position)
 			
-		if event is InputEventMouseButton and event.is_released() and event.button_index==3:
-			release_pos=event_position
-			if release_pos!=klick_pos and Global.current_tool==0:
-				mark_players(event_position)
-				player_indicator.hide()
+		
 				
-		if event is InputEventMouseButton and event.is_released() and event.button_index==2:
-			set_target(event_position)
-
-
+		if Input.is_action_just_pressed("set_target"):
+			print(get_mouse_raycast().position)
+			set_target(get_mouse_raycast().position)
+	if Global.current_tool==0:
+		if Input.is_action_just_released("mark_players"):
+			release_pos=get_mouse_raycast().position
+			if release_pos!=klick_pos and Global.current_tool==0:
+				mark_players(get_mouse_raycast().position)
+				player_indicator.hide()
+		
 
 func hide_navigation_indicator():
 	var hiding=true
@@ -435,7 +529,7 @@ func hide_navigation_indicator():
 func set_target(event_position):
 	click_marker.hide()
 	navigation_indicator.position=event_position
-	navigation_indicator.position.y=2
+	navigation_indicator.position.y=0
 	navigation_indicator.show()
 	var selected_color=[]
 	var selected_number=[]
@@ -456,8 +550,8 @@ func set_target(event_position):
 	Global.update_target.emit(selected_color,selected_number)	
 	
 func set_mark_start_point(event_position):
-	target_area.position.y=5
-	print(target_area.position.y)
+	#target_area.position.y=5
+	#print(target_area.position.y)
 	klick_pos=Vector3.ZERO
 	
 	#klick_pos.y=5
@@ -473,15 +567,15 @@ func start_marking(event_position):
 	if klick_pos==Vector3.ZERO:
 		klick_pos=event_position
 		klick_indicator.position=klick_pos
-		klick_indicator.position.y=2
+		klick_indicator.position.y=0
 		klick_indicator.show()
 	drag_marker.show()
-	drag_marker.position.y=2
+	drag_marker.position.y=0
 	drag_marker.position.x=klick_pos.x-(klick_pos.x-event_position.x)/2
 	drag_marker.position.z=klick_pos.z-(klick_pos.z-event_position.z)/2
 	drag_marker.scale.x=abs((klick_pos.x-event_position.x))
 	drag_marker.scale.z=abs((klick_pos.z-event_position.z))
-	target_area.position.y=5
+	#target_area.position.y=5
 	
 func mark_players(event_position):
 	if !Input.is_action_pressed("hold"):
@@ -489,8 +583,9 @@ func mark_players(event_position):
 			p.clicked=false
 			Global.focused=null
 	release_marker.position=event_position
-	release_marker.position.y=2
+	release_marker.position.y=0
 	#release_marker.show()
+	
 	klick_indicator.hide()
 	
 	for pe in red_persons:
@@ -505,52 +600,53 @@ func mark_players(event_position):
 	release_marker.hide()
 	click_marker.hide()
 	drag_marker.hide()
+	klick_pos=Vector3.ZERO
 	
 	
 	
-	
-func set_area_start_point(event_position):
-	klick_pos=event_position
-	click_marker.position=event_position
-	click_marker.position.y=5
-	target_area.position.y=5
-	var ar=control_area.instantiate()
-	add_child(ar)
-	control_areas.append(ar)
+	#
+#func set_area_start_point(event_position):
+	#klick_pos=event_position
+	#click_marker.position=event_position
+	#click_marker.position.y=5
+	##target_area.position.y=5
+	#var ar=control_area.instantiate()
+	#add_child(ar)
+	#control_areas.append(ar)
 	
 func start_dragging(event_position):
 	explanations.text="players follow you"
 	real_drag_marker.position=event_position
 	Global.drag_pos=real_drag_marker.position
-	real_drag_marker.position.y=5
+	real_drag_marker.position.y=0
 	Global.dragging=true	
-	target_area.position.y=5	
+	#target_area.position.y=5	
 	
-
-func make_area(event_position):
-	#target_area.position.y=5
+#
+#func make_area(event_position):
+	##target_area.position.y=5
+	#
+	#if len(control_areas)==current_area:
+		#var ar=control_area.instantiate()
+		#add_child(ar)
+		#control_areas.append(ar)
+	#control_areas[current_area].show()
+	#control_areas[current_area].position.y=3
+	#control_areas[current_area].position.x=klick_pos.x-(klick_pos.x-event_position.x)/2
+	#control_areas[current_area].position.z=klick_pos.z-(klick_pos.z-event_position.z)/2
+	#control_areas[current_area].scale.x=abs((klick_pos.x-event_position.x))
+	#control_areas[current_area].scale.z=abs((klick_pos.z-event_position.z))
 	
-	if len(control_areas)==current_area:
-		var ar=control_area.instantiate()
-		add_child(ar)
-		control_areas.append(ar)
-	control_areas[current_area].show()
-	control_areas[current_area].position.y=3
-	control_areas[current_area].position.x=klick_pos.x-(klick_pos.x-event_position.x)/2
-	control_areas[current_area].position.z=klick_pos.z-(klick_pos.z-event_position.z)/2
-	control_areas[current_area].scale.x=abs((klick_pos.x-event_position.x))
-	control_areas[current_area].scale.z=abs((klick_pos.z-event_position.z))
-	
-
-func finish_area(event_position):
-	
-	control_areas[current_area].under_creation=false
-	current_area+=1
-	release_marker.position=event_position
-	release_marker.position.y=2
-	target_area.position.y=2
-	release_marker.hide()
-	click_marker.hide()
+#
+#func finish_area(event_position):
+	#
+	#control_areas[current_area].under_creation=false
+	#current_area+=1
+	#release_marker.position=event_position
+	#release_marker.position.y=2
+	#target_area.position.y=2
+	#release_marker.hide()
+	#click_marker.hide()
 	
 func show_player_stats():
 	if current_player !=null:
@@ -634,6 +730,7 @@ func generate_new_numbers_red():
 	
 func add_player(pos):
 	if len(all_players())<70:
+		print(pos)
 		var blu=person.instantiate()
 		
 		blue_persons.append(blu)
@@ -647,15 +744,16 @@ func add_player(pos):
 func add_enemy(pos):
 	if len(all_players())<70:
 		var blu=person.instantiate()
-		Global.enemys_to_spawn-=1
+		Global.enemys_spawned+=1
 		red_persons.append(blu)
 		
 		add_child(red_persons[len(red_persons)-1])
 		red_persons[len(red_persons)-1].initialize(len(red_persons)-1,"red",pos,current_unique_id)
 		current_unique_id+=1
 		red_persons[len(red_persons)-1].killed.connect(delete_player)
-		if Global.enemys_to_spawn <=0:
+		if Global.enemys_spawned >=Global.enemys_to_spawn:
 			start_new_round()
+			print("a")
 		
 		
 		
@@ -675,7 +773,8 @@ func base_killed():
 func show_loose_screen():
 	var minutes=floorf(time_survived/60)
 	var seconds=int(time_survived)%60
-	final_score_label.text="Time Survived: "+str(minutes)+"m" + str(seconds)+"s"
+	#final_score_label.text="Time Survived: "+str(minutes)+"m" + str(seconds)+"s"
+	final_score_label.text="Wave: "+Global.round_number
 	loose_screen.show()
 
 
@@ -704,6 +803,7 @@ func _on_restart_pressed() -> void:
 	#enemy_spawns.start()
 	reset_stat_board()
 	time_survived=0
+	start_new_round()
 	
 func reset_stat_board():
 	name_label.text=""
@@ -765,10 +865,12 @@ func _on_quit_pressed() -> void:
 
 
 func _on_start_pressed() -> void:
+	start_new_round()
 	time_survived=0
 	Global.enemys_to_spawn=10
 	player_spawner.start()
 	enemy_spawns.start()
+	round_infos.show()
 	menu.hide()
 
 
@@ -794,7 +896,7 @@ func get_mouse_raycast() -> Dictionary:
 	if Global.current_tool==1:
 		query.collision_mask =  1 << 3 # only layer 4
 	elif Global.current_tool==0:
-		query.collision_mask =  1 << 11 
+		query.collision_mask =  1 << 11 | 1 <<3
 	query.collide_with_areas = true
 	
 	return get_world_3d().direct_space_state.intersect_ray(query)
@@ -805,21 +907,28 @@ func handle_building():
 	var mouse_position=get_viewport().get_mouse_position()
 	var mat=build_position_mesh.get_active_material(0)
 	
-	if build_mode==0:
+	if Global.build_mode==0:
 		fence_button.theme_type_variation= "selected"
 		catapult_button.theme_type_variation= ""
-	elif build_mode==1:
+		tower_button.theme_type_variation=""
+	elif Global.build_mode==1:
 		catapult_button.theme_type_variation= "selected"
 		fence_button.theme_type_variation= ""
+		tower_button.theme_type_variation=""
+	elif Global.build_mode==2:
+		tower_button.theme_type_variation= "selected"
+		fence_button.theme_type_variation= ""
+		catapult_button.theme_type_variation=""
 	var on_controls=false
 	for control in important_controls:
 		if mouse_position.y>control.position.y and mouse_position.y<control.position.y+control.size.y and mouse_position.x<control.position.x+build_bar.size.x and mouse_position.x>control.position.x:
 			on_controls=true
 	
 		
+		
 	if !on_controls:
 		build_position_mesh.show()
-		if build_mode==0:
+		if Global.build_mode==0:
 			build_position_mesh.scale.x=1
 			build_position_mesh.scale.z=1
 			build_position_mesh.position=Vector3(2*floorf((get_mouse_raycast().position.x+1)/2),-0.4,2*floorf((get_mouse_raycast().position.z+1)/2))
@@ -855,7 +964,7 @@ func handle_building():
 			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
 				Global.delete_mode=""
-		elif build_mode==1:
+		elif Global.build_mode==1:
 			build_position_mesh.scale.x=3
 			build_position_mesh.scale.z=3
 			build_position_mesh.position=Vector3(6*floorf((get_mouse_raycast().position.x+3)/6),-0.4,6*floorf((get_mouse_raycast().position.z+3)/6))
@@ -890,16 +999,52 @@ func handle_building():
 			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
 				Global.delete_mode=""
+		elif Global.build_mode==2:
+			build_position_mesh.scale.x=3.5
+			build_position_mesh.scale.z=3.5
+			build_position_mesh.position=Vector3(7*floorf((get_mouse_raycast().position.x+3.5)/7),-0.4,7*floorf((get_mouse_raycast().position.z+3.5)/7))
+			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+				
+				Global.delete_mode=""
+				var pos=get_mouse_raycast().position
+				#if get_mouse_raycast().collider.is_in_group("floor"):
+				var tower_pos=Vector3(7*floorf((pos.x+3.5)/7),2.5,7*floorf((pos.z+3.5)/7))
+				var placable=true
+				for t in Global.towers:
+					if t.position==tower_pos:
+						placable=false
+				if !get_mouse_raycast().collider.is_in_group("floor"):
+					placable=false
+				if Global.score <=4:
+					placable=false
+					score_label.add_theme_color_override("font_color", Color.RED)
+					await get_tree().create_timer(0.2).timeout
+					score_label.add_theme_color_override("font_color", Color.WHITE)
+					
+				if placable:
+					
+					var to=tower.instantiate()
+					add_child(to)
+					Global.towers.append(to)
+					to.position=tower_pos
+					Global.fence_built.emit(tower_pos)
+					Global.score-=5
+			elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+				mat.albedo_color=Color.from_hsv(0.0, 0.83, 0.86, 0.502)
+				Global.delete_mode="tower"
+			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
+				Global.delete_mode=""
 	else:
 		build_position_mesh.hide()
 		
 
 func _on_fence_button_pressed() -> void:
-	build_mode=0
+	Global.build_mode=0
 
 
 func _on_catapult_button_pressed() -> void:
-	build_mode=1
+	Global.build_mode=1
 
 
 
@@ -919,7 +1064,22 @@ func _on_close_inputs_pressed() -> void:
 	inputs.hide()
 	
 func start_new_round():
-	round_number+=1
-	Global.enemys_to_spawn=round_number*5+10
-	
-	
+	Global.round_number+=1
+	round_change.text="Round "+str(Global.round_number)
+	round_change.show()
+	Global.enemys_spawned=0
+	Global.enemys_to_spawn=(Global.round_number-1)*5+10
+	Global.max_spawner_count+=randi_range(1,2)
+	if Global.max_player_count<30:
+		Global.max_player_count=(Global.round_number-1)*5+10
+	var tween=get_tree().create_tween()
+	round_change.position.y=get_window().size.y+70
+	await tween.tween_property(round_change,"position:y",-70,1).finished
+	round_change.hide()
+
+func _on_round_infos_toggled(toggled_on: bool) -> void:
+	round_infos.visible=toggled_on
+
+
+func _on_tower_button_pressed() -> void:
+	Global.build_mode=2

@@ -254,7 +254,6 @@ mesh = SubResource("BoxMesh_hhcb3")
 [node name="center_visualizer" type="MeshInstance3D" parent="." unique_id=1631208941]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.74227774, 0)
 top_level = true
-visible = false
 material_override = SubResource("StandardMaterial3D_ckxbf")
 mesh = SubResource("CylinderMesh_hhcb3")
 

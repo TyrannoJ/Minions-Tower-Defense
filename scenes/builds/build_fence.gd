@@ -4,6 +4,7 @@ extends StaticBody3D
 var start_health=50
 @onready var middle_mesh=$MeshInstance3D
 @onready var delete_area=$delete_area
+@onready var hover_mesh=$hover_mesh
 func _ready() -> void:
 	Global.fence_built.connect(check_fence_proximity)
 	damage_area.initialize(start_health)
@@ -44,6 +45,10 @@ func _process(delta: float) -> void:
 	if Global.object_under_mouse==delete_area and Global.delete_mode=="fence":
 		Global.score+=1
 		on_kill()
+	if Global.object_under_mouse ==delete_area and Global.current_tool==1 and Global.build_mode==0:
+		hover_mesh.show()
+	else:
+		hover_mesh.hide()
 func on_kill():
 	var fe = Global.fences.find(self)
 	Global.fences.pop_at(fe)

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bl5u8xjoaiqae"]
+
+[node name="enemy_marker" type="ColorRect" unique_id=1195703896]
+offset_right = 15.0
+offset_bottom = 15.0
+color = Color(1, 0, 0, 1)

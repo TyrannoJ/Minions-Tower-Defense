@@ -12,6 +12,7 @@ extends CharacterBody3D
 @onready var hit_marker=$hit_marker
 @onready var collision_raycast=$Collision_raycast
 @onready var wall_hit_marker=$wall_hit_marker
+@onready var hover_mesh=$hover_mesh
 var controlled=false
 var loading=false
 var load_value=0
@@ -69,7 +70,7 @@ func _process(delta: float) -> void:
 						m.queue_free()
 					markers.clear()
 					#hit_marker.show()
-					load_value+=5/Engine.get_frames_per_second()*Engine.time_scale
+					load_value+=5*delta*Engine.time_scale
 					var null_point=0
 					var y_point=0
 					var wall=false
@@ -139,6 +140,10 @@ func _process(delta: float) -> void:
 	if Global.object_under_mouse==delete_area and Global.delete_mode=="catapult":
 		Global.score+=10
 		kill()
+	if Global.object_under_mouse ==delete_area and Global.current_tool==1 and Global.build_mode==1:
+		hover_mesh.show()
+	else:
+		hover_mesh.hide()
 		
 
 	
@@ -254,9 +259,7 @@ func make_improved_collision_map():
 		#else:
 			#break
 	collision_raycast.clear_exceptions()	
-	print(highest_hits)
-	#print(highest_hit)
-	#print(highest_hits)
+
 
 #func _on_click_mouse_entered() -> void:
 	#controlled=true

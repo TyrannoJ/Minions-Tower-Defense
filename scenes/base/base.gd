@@ -68,7 +68,11 @@ func get_damage(val):
 	anti_health_bar.position.x=sca
 
 func _process(delta: float) -> void:
-	
+	if Input.is_action_just_pressed("manual_restart"):
+		main.queue_free()
+		base_killed.emit()
+		has_killed_emitted=true
+		dead=true
 	if !dead:
 		if Global.explanations:
 			explanations.show()

@@ -22,8 +22,9 @@ func add_spawner():
 		if !filled[rand]:
 			break
 	spa.position=possible[rand]
-	
+	Global.spawner_positions.append(spa.position)
 	filled[rand]=true
+	Global.visible_spawners.append(false)
 	spa.initialize(rand,len(spawners))
 	spa.killed.connect(delete_spawner)
 	positions.append(spa.position)
@@ -33,11 +34,13 @@ func add_spawner():
 func start():
 	#pass
 	timer.start(5)
+	add_spawner()
 	#var spa=enemy_spawner.instantiate()
-	#
-	#spa.position=Vector3(0,3,20)
-	#
-	#
+	
+	spawners[0].position=Vector3(0,3,20)
+	Global.spawner_positions=[Vector3(0,3,20)]
+	
+	
 	#spa.initialize(1,len(spawners))
 	#spa.killed.connect(delete_spawner)
 	#positions.append(spa.position)
@@ -45,24 +48,26 @@ func start():
 	#add_child(spa)
 func _on_timer_timeout() -> void:
 	timer.start(randi_range(25,35))
-	if len(spawners)<5:
+	if len(spawners)<Global.max_spawner_count:
 		add_spawner()
 		
 func reset():
 	for spa in spawners:
 		spa.queue_free()
+	spawners.clear()
 	positions=[]
 	for i in range(0,len(filled)):
 		filled[i]=false
 	timer.start(5)
 	
-func delete_spawner(number):
-	filled[number]=false
-	var spa=spawners.pop_at(number)
+func delete_spawner(index_number,pos):
+	filled[index_number]=false
+	var spa=spawners.pop_at(index_number)
+	Global.spawner_positions.pop_at(index_number)
+	Global.visible_spawners.pop_at(index_number)
 	#print(number)
-	var pos=possible[number]
 	print(pos)
-	print(number)
+	print(index_number)
 	var sco=score_number.instantiate()
 	sco.position=Vector3(pos.x,10,pos.z)
 	sco.initialize(10,Color.RED)
@@ -72,4 +77,7 @@ func delete_spawner(number):
 	await tween.finished
 	await get_tree().create_timer(0.3).timeout
 	sco.queue_free()
+func _process(delta: float) -> void:
+	pass
+	#print(spawners)
 	

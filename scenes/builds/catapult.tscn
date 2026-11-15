@@ -128,13 +128,13 @@ material = SubResource("StandardMaterial3D_6qrlm")
 radius = 1.0
 height = 2.0
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_hhcb3"]
-height = 20.0
-radius = 37.0
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ck6nu"]
+transparency = 1
+albedo_color = Color(0, 0.101960786, 1, 0.4509804)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_t4qo1"]
-top_radius = 37.0
-bottom_radius = 37.0
+[sub_resource type="BoxMesh" id="BoxMesh_ckxbf"]
+material = SubResource("StandardMaterial3D_ck6nu")
+size = Vector3(6, 5, 6)
 
 [node name="catapult" type="CharacterBody3D" unique_id=1284938642]
 collision_layer = 0
@@ -150,7 +150,7 @@ shape = SubResource("BoxShape3D_hhcb3")
 [node name="catapult" parent="." unique_id=2075916946 instance=ExtResource("2_8s2d5")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="Cube_001" parent="catapult" index="1" unique_id=232987313]
+[node name="Cube_001" parent="catapult" index="1" unique_id=13603076]
 transform = Transform3D(0.5052376, 0.007344289, 0.0006688482, -0.0005503759, 0.0832504, -0.49838588, -0.007354116, 0.49833205, 0.08324953, 0, 2.83854, 0)
 
 [node name="Timer" type="Timer" parent="." unique_id=582790281]
@@ -221,16 +221,10 @@ collision_mask = 4
 visible = false
 mesh = SubResource("SphereMesh_hhcb3")
 
-[node name="Area3D" type="Area3D" parent="." unique_id=1527055321]
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=932972966]
-shape = SubResource("CylinderShape3D_hhcb3")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=744867316]
+[node name="hover_mesh" type="MeshInstance3D" parent="." unique_id=565289193]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.468256, -1.0939134)
 visible = false
-mesh = SubResource("CylinderMesh_t4qo1")
+mesh = SubResource("BoxMesh_ckxbf")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="input_event" from="click" to="." method="_on_click_input_event"]

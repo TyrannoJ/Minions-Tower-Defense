@@ -40,6 +40,8 @@ func _process(delta: float) -> void:
 		#set_collision_mask_value(3,false)
 		if !timer_started:
 			if get_colliding_bodies()[0].is_in_group("floor"):
+				damage_area.position=global_position
+				damage_area.position.y=0
 				damage_area.monitoring=true
 				#damage_area.scale.y=1
 				damage_area.show()
@@ -54,6 +56,7 @@ func _process(delta: float) -> void:
 				await tween.finished
 				damage_area.hide()
 			else:
+				damage_area2.position=global_position
 				damage_area2.monitoring=true
 				#damage_area.scale.y=1
 				damage_area2.show()
@@ -79,4 +82,19 @@ func _on_destroy_timer_timeout() -> void:
 func _on_damage_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("persons"):
 		if body.color == "red":
+			var direction_val=global_position.direction_to(body.position)
+			direction_val=direction_val*5
+			direction_val.y=6
 			body.get_damage(randf_range(40,60),-1)
+			body.throw(direction_val)
+
+
+func _on_damage_area_2_body_entered(body: Node3D) -> void:
+	if body.is_in_group("persons"):
+		if body.color == "red":
+			var pos=Vector3(global_position.x,0,global_position.z)
+			var direction_val=pos.direction_to(body.position)
+			direction_val=direction_val*5
+			direction_val.y=6
+			body.get_damage(randf_range(40,60),-1)
+			body.throw(direction_val)

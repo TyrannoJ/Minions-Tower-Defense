@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://b0ufhh4hby0k0"]
+
+[ext_resource type="Script" uid="uid://c72y6ypx3xtd7" path="res://scenes/builds/tower.gd" id="1_2iu4v"]
+[ext_resource type="Script" uid="uid://ciubg6ulicyqq" path="res://scenes/enemy_builds/spawner_damage.gd" id="2_mw0on"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
+albedo_color = Color(0.1833334, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
+material = SubResource("StandardMaterial3D_t4qo1")
+size = Vector3(1, 5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t4qo1"]
+size = Vector3(1, 5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2iu4v"]
+transparency = 1
+albedo_color = Color(1, 0, 0.9833331, 0.16470589)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hhcb3"]
+material = SubResource("StandardMaterial3D_2iu4v")
+top_radius = 3.5
+bottom_radius = 3.5
+height = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hhcb3"]
+height = 5.0
+radius = 3.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6ako0"]
+size = Vector3(1.3, 5.225, 1.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_25237"]
+size = Vector3(7, 1, 7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ck6nu"]
+transparency = 1
+albedo_color = Color(0, 0.101960786, 1, 0.4509804)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wv8j8"]
+material = SubResource("StandardMaterial3D_ck6nu")
+size = Vector3(2, 5, 2)
+
+[node name="tower" type="StaticBody3D" unique_id=1708917856]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_2iu4v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2045702403]
+mesh = SubResource("BoxMesh_hhcb3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2067868984]
+shape = SubResource("BoxShape3D_t4qo1")
+
+[node name="attack_area" type="Area3D" parent="." unique_id=1534122333]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="attack_area" unique_id=594181374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+mesh = SubResource("CylinderMesh_hhcb3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="attack_area" unique_id=570030671]
+shape = SubResource("CylinderShape3D_hhcb3")
+
+[node name="area" type="Area3D" parent="." unique_id=62000421 groups=["targets"]]
+collision_layer = 64
+script = ExtResource("2_mw0on")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area" unique_id=796044458]
+shape = SubResource("BoxShape3D_6ako0")
+
+[node name="delete_area" type="Area3D" parent="." unique_id=665343845]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="delete_area" unique_id=2115203782]
+shape = SubResource("BoxShape3D_25237")
+
+[node name="hover_mesh" type="MeshInstance3D" parent="." unique_id=869499007]
+visible = false
+mesh = SubResource("BoxMesh_wv8j8")

@@ -3,17 +3,21 @@
 [ext_resource type="Script" uid="uid://nib3le1l3j3x" path="res://scenes/builds/player_spawner.gd" id="1_6jqeu"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_74qmu"]
+size = Vector3(5, 1, 5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_27dp6"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.23921569)
 
 [sub_resource type="BoxMesh" id="BoxMesh_6jqeu"]
+size = Vector3(5, 1, 5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
 albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="TextMesh" id="TextMesh_hhcb3"]
 text = "2"
-font_size = 60
+font_size = 127
 
 [sub_resource type="BoxMesh" id="BoxMesh_27dp6"]
 size = Vector3(1, 0.2, 1)
@@ -37,14 +41,16 @@ collision_layer = 8
 script = ExtResource("1_6jqeu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1041820217]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
 shape = SubResource("BoxShape3D_74qmu")
 
 [node name="mesh" type="MeshInstance3D" parent="." unique_id=2133839587]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
 material_override = SubResource("StandardMaterial3D_27dp6")
 mesh = SubResource("BoxMesh_6jqeu")
 
 [node name="number" type="MeshInstance3D" parent="." unique_id=1960935913]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.55492175, 0)
+transform = Transform3D(3.5, 0, 0, 0, -1.5298986e-07, 3.5, 0, -3.5, -1.5298986e-07, 0, -3.447166, 0)
 material_override = SubResource("StandardMaterial3D_t4qo1")
 mesh = SubResource("TextMesh_hhcb3")
 

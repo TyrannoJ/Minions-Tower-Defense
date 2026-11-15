@@ -18,6 +18,14 @@ size = Vector3(2, 5.225, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_hhcb3"]
 size = Vector3(2, 1, 2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ck6nu"]
+transparency = 1
+albedo_color = Color(0, 0.101960786, 1, 0.4509804)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t4qo1"]
+material = SubResource("StandardMaterial3D_ck6nu")
+size = Vector3(2, 1.5, 2)
+
 [node name="build-fence" type="StaticBody3D" unique_id=1678789730]
 collision_layer = 4
 collision_mask = 0
@@ -31,12 +39,10 @@ shape = SubResource("BoxShape3D_t4qo1")
 mesh = SubResource("BoxMesh_hhcb3")
 
 [node name="area" type="Area3D" parent="." unique_id=1540147966 groups=["targets"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07439828, 1)
 collision_layer = 64
 script = ExtResource("3_sojmb")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="area" unique_id=670960461]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23706055, -0.9)
 shape = SubResource("BoxShape3D_3xjwa")
 
 [node name="delete_area" type="Area3D" parent="." unique_id=1863750645]
@@ -45,3 +51,7 @@ collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="delete_area" unique_id=632235530]
 shape = SubResource("BoxShape3D_hhcb3")
+
+[node name="hover_mesh" type="MeshInstance3D" parent="." unique_id=1538402804]
+visible = false
+mesh = SubResource("BoxMesh_t4qo1")
