@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bl5u8xjoaiqae" path="res://scenes/controls/enemy_marker.tscn" id="12_lckgc"]
 [ext_resource type="Theme" uid="uid://1hyjkilq2l3q" path="res://scenes/controls/controls_theme.tres" id="13_ayjxr"]
 [ext_resource type="PackedScene" uid="uid://b0ufhh4hby0k0" path="res://scenes/builds/tower.tscn" id="13_vptq5"]
+[ext_resource type="PackedScene" uid="uid://ca2v0a77csvfy" path="res://scenes/builds/test_build.tscn" id="14_qk03d"]
 [ext_resource type="Texture2D" uid="uid://dfjriu7f8ov38" path="res://scenes/controls/pixil-frame-0 (1).png" id="14_viyef"]
 [ext_resource type="Texture2D" uid="uid://cppxs8a5sqnrg" path="res://scenes/controls/pixil-frame-0 (2).png" id="15_cu54w"]
 [ext_resource type="PackedScene" uid="uid://cqlpt61hqv0o2" path="res://scenes/builds/player_spawner.tscn" id="16_cu2ht"]
@@ -489,6 +490,24 @@ albedo_color = Color(0, 0.101960786, 1, 0.4509804)
 material = SubResource("StandardMaterial3D_xo05s")
 size = Vector3(2, 1, 2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ckxbf"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.13333334)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t4qo1"]
+material = SubResource("StandardMaterial3D_ckxbf")
+size = Vector3(0.9, 1.4, 0.9)
+
+[sub_resource type="MeshLibrary" id="MeshLibrary_hhcb3"]
+item/0/name = "normal"
+item/0/mesh = SubResource("BoxMesh_t4qo1")
+item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/mesh_cast_shadow = 1
+item/0/shapes = []
+item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/navigation_layers = 1
+metadata/_editor_source_scene = "res://scenes/builds/test_build.tscn"
+
 [node name="World" type="Node3D" unique_id=1978241428]
 script = ExtResource("1_ooc7b")
 person = ExtResource("2_lckgc")
@@ -503,6 +522,7 @@ catapult = ExtResource("10_hg5nr")
 score_number = ExtResource("11_apphr")
 enemy_base_marker = ExtResource("12_lckgc")
 tower = ExtResource("13_vptq5")
+test_build = ExtResource("14_qk03d")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=46194837 groups=["floor"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
@@ -1434,6 +1454,11 @@ theme_override_font_sizes/font_size = 50
 text = "loading game..."
 horizontal_alignment = 1
 
+[node name="load_bar" type="ProgressBar" parent="CanvasLayer/Loading_screen/VBoxContainer" unique_id=1203810908]
+layout_mode = 2
+max_value = 3.0
+step = 0.0
+
 [node name="round_change" type="Label" parent="CanvasLayer" unique_id=2101421554]
 visible = false
 anchors_preset = 8
@@ -1546,6 +1571,10 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GridMap" type="GridMap" parent="." unique_id=753620614]
+mesh_library = SubResource("MeshLibrary_hhcb3")
+cell_size = Vector3(1, 1, 1)
 
 [connection signal="input_event" from="Ground/set_target" to="." method="_on_set_target_input_event"]
 [connection signal="toggled" from="CanvasLayer/Controls/show_controls" to="." method="_on_show_controls_toggled"]

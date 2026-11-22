@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://d2oqpfle8ufwf" path="res://scenes/builds/boulder.tscn" id="2_pa6a7"]
 [ext_resource type="PackedScene" uid="uid://bj8olj1bt0lxp" path="res://scenes/pathfinding/path_marker.tscn" id="3_dtymq"]
 [ext_resource type="Script" uid="uid://ciubg6ulicyqq" path="res://scenes/enemy_builds/spawner_damage.gd" id="4_pa6a7"]
+[ext_resource type="Shader" uid="uid://cpb3sj6nalqcd" path="res://scenes/players/person.tres" id="6_51yvn"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hhcb3"]
 size = Vector3(5, 0.5, 6)
@@ -107,7 +108,7 @@ font_size = 70
 size = Vector3(5.899727, 7.7747316, 6.3533535)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ckxbf"]
-size = Vector3(5, 0.1, 6)
+size = Vector3(6, 0.1, 6)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dtymq"]
 transparency = 1
@@ -134,7 +135,25 @@ albedo_color = Color(0, 0.101960786, 1, 0.4509804)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ckxbf"]
 material = SubResource("StandardMaterial3D_ck6nu")
-size = Vector3(6, 5, 6)
+size = Vector3(6, 0.6928711, 6)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lohvv"]
+render_priority = 0
+shader = ExtResource("6_51yvn")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7rx5"]
+albedo_color = Color(0.13678533, 1.1169488, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_v6ngi"]
+material = SubResource("StandardMaterial3D_r7rx5")
+size = Vector3(2, 0.2, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hoeld"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5bmr3"]
+material = SubResource("StandardMaterial3D_hoeld")
+size = Vector3(2, 0.2, 0.5)
 
 [node name="catapult" type="CharacterBody3D" unique_id=1284938642]
 collision_layer = 0
@@ -222,9 +241,18 @@ visible = false
 mesh = SubResource("SphereMesh_hhcb3")
 
 [node name="hover_mesh" type="MeshInstance3D" parent="." unique_id=565289193]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.468256, -1.0939134)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31443548, 0)
 visible = false
 mesh = SubResource("BoxMesh_ckxbf")
+
+[node name="Health_bar" type="MeshInstance3D" parent="." unique_id=738002771]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.299, 0.11, -3)
+material_override = SubResource("ShaderMaterial_lohvv")
+mesh = SubResource("BoxMesh_v6ngi")
+
+[node name="anti_health_bar" type="MeshInstance3D" parent="." unique_id=741766150]
+transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 1.299, 0.11, -3)
+mesh = SubResource("BoxMesh_5bmr3")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="input_event" from="click" to="." method="_on_click_input_event"]

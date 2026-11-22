@@ -5,6 +5,7 @@ var start_health=50
 @onready var middle_mesh=$MeshInstance3D
 @onready var delete_area=$delete_area
 @onready var hover_mesh=$hover_mesh
+@onready var attack_area=$attack_area
 
 func _ready() -> void:
 	
@@ -22,7 +23,21 @@ func _process(delta: float) -> void:
 		hover_mesh.show()
 	else:
 		hover_mesh.hide()
+	var bodies=attack_area.get_overlapping_bodies()
+	for b in bodies:
+		if b.is_in_group("persons"):
+			if b.color=="red":
+				#print("a")
+				b.get_damage(3*delta,-1)
+	
 func on_kill():
+	Global.build_destroyed.emit(position,2)
 	var to = Global.towers.find(self)
 	Global.towers.pop_at(to)
 	queue_free()
+
+
+
+
+
+	

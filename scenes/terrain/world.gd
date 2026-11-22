@@ -79,6 +79,9 @@ extends Node3D
 @onready var round_change=$CanvasLayer/round_change
 @export var tower:PackedScene
 @onready var tower_button=$CanvasLayer/build_bar/Panel/HBoxContainer/tower_button
+@export var test_build:PackedScene
+@onready var build_grid=$GridMap
+@onready var load_bar=$CanvasLayer/Loading_screen/VBoxContainer/load_bar
 
 var time_survived=0
 
@@ -105,6 +108,7 @@ var important_controls=[]
 var tools=["normal mode","build mode"]
 var wall_positions=[Vector3(start_size,2.5,0),Vector3(-start_size,2.5,0),Vector3(0,2.5,start_size),Vector3(0,2.5,-start_size)]
 var enemy_base_markers=[]
+var test_build_positions=[]
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority(): return
 	
@@ -137,6 +141,7 @@ func _ready() -> void:
 	Global.add_player.connect(add_player)
 	Global.add_enemy.connect(add_enemy)
 	Global.base=base.global_position
+	Global.build_destroyed.connect(on_build_destroyed)
 	spawn_players()
 	spawn_obstacles()
 	loading_screen.show()
@@ -146,20 +151,27 @@ func _ready() -> void:
 func _on_load_timer_timeout() -> void:
 	
 	load_label.text="loading trees..."
+	
 	#print("Loading trees...")
 	
 	await get_tree().process_frame
 	await get_tree().process_frame
 	
 	await add_trees()
-	print("Loading navigation...")
+	#print("Loading navigation...")
+	load_bar.value=1
 	load_label.text="loading navigation..."
 	
 	await get_tree().process_frame
 	await get_tree().process_frame
 	
 	await navigation.create_grid()
-	
+	load_bar.value=2
+	load_label.text="preparing building..."
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await prepare_grid()
+	load_bar.value=3
 	loading_screen.hide()
 	print("done")
 	
@@ -182,7 +194,31 @@ func add_trees():
 			var factor=2
 			tre.position=Vector3(randf_range(x*factor+1,x*factor-1),2,randf_range(y*factor+1,y*factor-1))
 			trees.append(tre)
+	test_build_positions.clear()
+	
+			
+			#var te=test_build.instantiate()
+			#te.position=pos
+			#test_build_positions[x+140].append(te)
+			#te.hide()
+			#add_child(te)
 	return true
+	
+func prepare_grid():
+	for x in range(-140,140):
+		
+		for z in range(-90,91):
+			var pos=Vector3i(x,-1,z)
+			build_grid.set_cell_item(pos,0)
+	for x in range(-9,9):  #Das vllt noch automatisieren
+		for z in range(-9,9):
+			var pos=Vector3i(x,-1,z)
+			build_grid.set_cell_item(pos,GridMap.INVALID_CELL_ITEM)
+			
+	for x in range(22,33):
+		for z in range(-6,6):
+			var pos=Vector3i(x,-1,z)
+			build_grid.set_cell_item(pos,GridMap.INVALID_CELL_ITEM)
 func add_base():
 	if base !=null:
 		base.queue_free()
@@ -466,6 +502,7 @@ func set_map_size():
 			#set_target(event_position)
 
 func handle_playing():
+	build_grid.hide()
 	var on_controls=false
 	if get_mouse_raycast() !={}:
 		var mouse_position=get_viewport().get_mouse_position()
@@ -753,7 +790,7 @@ func add_enemy(pos):
 		red_persons[len(red_persons)-1].killed.connect(delete_player)
 		if Global.enemys_spawned >=Global.enemys_to_spawn:
 			start_new_round()
-			print("a")
+			#print("a")
 		
 		
 		
@@ -774,7 +811,7 @@ func show_loose_screen():
 	var minutes=floorf(time_survived/60)
 	var seconds=int(time_survived)%60
 	#final_score_label.text="Time Survived: "+str(minutes)+"m" + str(seconds)+"s"
-	final_score_label.text="Wave: "+Global.round_number
+	final_score_label.text="Wave: "+str(Global.round_number)
 	loose_screen.show()
 
 
@@ -902,6 +939,7 @@ func get_mouse_raycast() -> Dictionary:
 	return get_world_3d().direct_space_state.intersect_ray(query)
 	
 func handle_building():
+	build_grid.show()
 	#print(get_mouse_raycast().collider)
 	#print(get_mouse_raycast().position.y)
 	var mouse_position=get_viewport().get_mouse_position()
@@ -928,16 +966,28 @@ func handle_building():
 		
 	if !on_controls:
 		build_position_mesh.show()
+		if !get_mouse_raycast().collider.is_in_group("floor"):
+			build_position_mesh.hide()
 		if Global.build_mode==0:
-			build_position_mesh.scale.x=1
-			build_position_mesh.scale.z=1
-			build_position_mesh.position=Vector3(2*floorf((get_mouse_raycast().position.x+1)/2),-0.4,2*floorf((get_mouse_raycast().position.z+1)/2))
+			build_position_mesh.scale.x=0.5
+			build_position_mesh.scale.z=0.5
+			#build_position_mesh.position=Vector3(2*floorf((get_mouse_raycast().position.x+1)/2),-0.4,2*floorf((get_mouse_raycast().position.z+1)/2))
+			build_position_mesh.position=Vector3(floorf((get_mouse_raycast().position.x))+0.5,-0.4,floorf((get_mouse_raycast().position.z))+0.5)
+			var pos=get_mouse_raycast().position
+			
+			#var fence_pos=Vector3(2*floorf((pos.x+1)/2),1,2*floorf((pos.z+1)/2))
+			var fence_pos=Vector3(floorf((pos.x))+0.5,1,floorf((pos.z))+0.5)
+			
+			var grid_pos=Vector3i(int(floorf(fence_pos.x)),-1,int(floorf(fence_pos.z)))
+			#for x in range(grid_pos.x-1,grid_pos.x+1):
+				#for z in range(grid_pos.z-1,grid_pos.z+1):
+			if build_grid.get_cell_item(grid_pos) == build_grid.INVALID_CELL_ITEM:
+				build_position_mesh.hide()
+						
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
 				Global.delete_mode=""
-				var pos=get_mouse_raycast().position
-				#if get_mouse_raycast().collider.is_in_group("floor"):
-				var fence_pos=Vector3(2*floorf((pos.x+1)/2),1,2*floorf((pos.z+1)/2))
+				
 				var placable=true
 				for f in Global.fences:
 					if f.position==fence_pos:
@@ -950,7 +1000,22 @@ func handle_building():
 					await get_tree().create_timer(0.2).timeout
 					score_label.add_theme_color_override("font_color", Color.WHITE)
 					
+				#var grid_pos=Vector3i(int(fence_pos.x),-1,int(fence_pos.z))
+				#for x in range(grid_pos.x-1,grid_pos.x+1):
+					#for z in range(grid_pos.z-1,grid_pos.z+1):
+						#if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
+							#placable=false
+				if build_grid.get_cell_item(grid_pos) == build_grid.INVALID_CELL_ITEM:
+					placable=false
 				if placable:
+					#test_build_positions[int(floorf((pos.x+0.5)))+140][int(floorf((pos.z+0.5)))+90].hide()
+					
+					
+					
+					#for x in range(grid_pos.x-1,grid_pos.x+1):
+						#for z in range(grid_pos.z-1,grid_pos.z+1):
+					build_grid.set_cell_item(grid_pos,GridMap.INVALID_CELL_ITEM)
+					#build_grid.set_cell_item(grid_pos,GridMap.INVALID_CELL_ITEM)
 					
 					var fe=fence.instantiate()
 					add_child(fe)
@@ -967,12 +1032,19 @@ func handle_building():
 		elif Global.build_mode==1:
 			build_position_mesh.scale.x=3
 			build_position_mesh.scale.z=3
-			build_position_mesh.position=Vector3(6*floorf((get_mouse_raycast().position.x+3)/6),-0.4,6*floorf((get_mouse_raycast().position.z+3)/6))
+			build_position_mesh.position=Vector3(floorf((get_mouse_raycast().position.x+0.5)),-0.4,floorf((get_mouse_raycast().position.z+0.5)))
+			#build_position_mesh.position=Vector3(6*floorf((get_mouse_raycast().position.x+3)/6),-0.4,6*floorf((get_mouse_raycast().position.z+3)/6))
+			var pos=get_mouse_raycast().position
+			var catapult_pos=Vector3(floorf((get_mouse_raycast().position.x+0.5)),0.5,floorf((get_mouse_raycast().position.z+0.5)))
+			#var catapult_pos=Vector3(6*floorf((pos.x+3)/6),0.5,6*floorf((pos.z+3)/6))
+			var grid_pos=Vector3i(int(catapult_pos.x+2),-1,int(catapult_pos.z+2))
+			for x in range(grid_pos.x-5,grid_pos.x+1):
+				for z in range(grid_pos.z-5,grid_pos.z+1):
+					if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
+						build_position_mesh.hide()
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
-				var pos=get_mouse_raycast().position
 				
-				var catapult_pos=Vector3(6*floorf((pos.x+3)/6),0.5,6*floorf((pos.z+3)/6))
 				var placable=true
 				for c in Global.catapults:
 					if c.position==catapult_pos:
@@ -985,8 +1057,19 @@ func handle_building():
 					await get_tree().create_timer(0.2).timeout
 					score_label.add_theme_color_override("font_color", Color.WHITE)
 					
+				for x in range(grid_pos.x-5,grid_pos.x+1):
+					for z in range(grid_pos.z-5,grid_pos.z+1):
+						if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
+							placable=false
+					
 				if placable:
 					
+					#var grid_pos=Vector3i(int(catapult_pos.x+2),-1,int(catapult_pos.z+2))
+					for x in range(grid_pos.x-5,grid_pos.x+1):
+						for z in range(grid_pos.z-5,grid_pos.z+1):
+							build_grid.set_cell_item(Vector3i(x,-1,z),GridMap.INVALID_CELL_ITEM)
+					
+	
 					var ca=catapult.instantiate()
 					add_child(ca)
 					Global.catapults.append(ca)
@@ -1000,15 +1083,22 @@ func handle_building():
 				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
 				Global.delete_mode=""
 		elif Global.build_mode==2:
-			build_position_mesh.scale.x=3.5
-			build_position_mesh.scale.z=3.5
-			build_position_mesh.position=Vector3(7*floorf((get_mouse_raycast().position.x+3.5)/7),-0.4,7*floorf((get_mouse_raycast().position.z+3.5)/7))
+			build_position_mesh.scale.x=4
+			build_position_mesh.scale.z=4
+			#build_position_mesh.position=Vector3(8*floorf((get_mouse_raycast().position.x+4)/8),-0.4,8*floorf((get_mouse_raycast().position.z+4)/8))
+			build_position_mesh.position=Vector3(floorf((get_mouse_raycast().position.x+0.5)),-0.4,floorf((get_mouse_raycast().position.z+0.5)))
+			var pos=get_mouse_raycast().position
+			var tower_pos=Vector3(floorf((get_mouse_raycast().position.x+0.5)),2.5,floorf((get_mouse_raycast().position.z+0.5)))
+			#var tower_pos=Vector3(8*floorf((pos.x+4)/8),2.5,8*floorf((pos.z+4)/8))
+			var grid_pos=Vector3i(int(tower_pos.x+3),-1,int(tower_pos.z+3))
+			for x in range(grid_pos.x-7,grid_pos.x+1):
+				for z in range(grid_pos.z-7,grid_pos.z+1):
+					if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
+						build_position_mesh.hide()
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
 				Global.delete_mode=""
-				var pos=get_mouse_raycast().position
-				#if get_mouse_raycast().collider.is_in_group("floor"):
-				var tower_pos=Vector3(7*floorf((pos.x+3.5)/7),2.5,7*floorf((pos.z+3.5)/7))
+				
 				var placable=true
 				for t in Global.towers:
 					if t.position==tower_pos:
@@ -1020,8 +1110,16 @@ func handle_building():
 					score_label.add_theme_color_override("font_color", Color.RED)
 					await get_tree().create_timer(0.2).timeout
 					score_label.add_theme_color_override("font_color", Color.WHITE)
-					
+				for x in range(grid_pos.x-7,grid_pos.x+1):
+					for z in range(grid_pos.z-7,grid_pos.z+1):
+						if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
+							placable=false
 				if placable:
+					
+					#var grid_pos=Vector3i(int(tower_pos.x+3),-1,int(tower_pos.z+3))
+					for x in range(grid_pos.x-7,grid_pos.x+1):
+						for z in range(grid_pos.z-7,grid_pos.z+1):
+							build_grid.set_cell_item(Vector3i(x,-1,z),GridMap.INVALID_CELL_ITEM)
 					
 					var to=tower.instantiate()
 					add_child(to)
@@ -1083,3 +1181,22 @@ func _on_round_infos_toggled(toggled_on: bool) -> void:
 
 func _on_tower_button_pressed() -> void:
 	Global.build_mode=2
+	
+func on_build_destroyed(pos:Vector3,type:int):
+	if type==0:
+		var grid_pos=Vector3i(int(floorf(pos.x)),-1,int(floorf(pos.z)))
+		build_grid.set_cell_item(grid_pos,0)
+				
+	if type==1:
+		var grid_pos=Vector3i(int(pos.x)+2,-1,int(pos.z)+2)
+		for x in range(grid_pos.x-5,grid_pos.x+1):
+			for z in range(grid_pos.z-5,grid_pos.z+1):
+				build_grid.set_cell_item(Vector3i(x,-1,z),0)
+				
+	if type==2:
+		var grid_pos=Vector3i(int(pos.x)+3,-1,int(pos.z)+3)
+		for x in range(grid_pos.x-7,grid_pos.x+1):
+			for z in range(grid_pos.z-7,grid_pos.z+1):
+				build_grid.set_cell_item(Vector3i(x,-1,z),0)
+	
+			

@@ -36,7 +36,7 @@ func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, n
 		under_creation=true
 		position.x=event_position.x
 		position.z=event_position.z
-		print("a")
+		#print("a")
 	else:
 		under_creation=false
 	if event is InputEventMouseButton and event.button_index==2 and event.is_released() and Global.current_tool==2:

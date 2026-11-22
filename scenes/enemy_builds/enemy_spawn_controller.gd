@@ -34,11 +34,11 @@ func add_spawner():
 func start():
 	#pass
 	timer.start(5)
-	add_spawner()
-	#var spa=enemy_spawner.instantiate()
-	
-	spawners[0].position=Vector3(0,3,20)
-	Global.spawner_positions=[Vector3(0,3,20)]
+	#add_spawner()
+	##var spa=enemy_spawner.instantiate()
+	#
+	#spawners[0].position=Vector3(0,3,20)
+	#Global.spawner_positions=[Vector3(0,3,20)]
 	
 	
 	#spa.initialize(1,len(spawners))
@@ -78,6 +78,7 @@ func delete_spawner(index_number,pos):
 	await get_tree().create_timer(0.3).timeout
 	sco.queue_free()
 func _process(delta: float) -> void:
-	pass
+	for i in range(0,len(spawners)):
+		spawners[i].index_number=i
 	#print(spawners)
 	

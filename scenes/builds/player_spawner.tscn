@@ -120,6 +120,7 @@ collision_mask = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="build_block" unique_id=375952597]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.651389, 0)
 shape = SubResource("BoxShape3D_hhcb3")
+disabled = true
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

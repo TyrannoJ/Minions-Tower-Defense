@@ -13,6 +13,10 @@ extends CharacterBody3D
 @onready var collision_raycast=$Collision_raycast
 @onready var wall_hit_marker=$wall_hit_marker
 @onready var hover_mesh=$hover_mesh
+@onready var health_bar=$Health_bar
+@onready var anti_health_bar=$anti_health_bar
+var health
+var start_health:=1000.0
 var controlled=false
 var loading=false
 var load_value=0
@@ -39,6 +43,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				make_improved_collision_map()
 
 func _process(delta: float) -> void:
+	health=damage_area.health
+	var sca:float=float(health/start_health) 
+	anti_health_bar.scale.x=1-sca
+	health_bar.position.x=-(1-sca)+1.3
+	health_bar.scale.x=sca
+	anti_health_bar.position.x=sca+1.3
+	
 	controlled=false
 	#print(shot_marker.global_position.y)
 	if click_area == Global.object_under_mouse:
@@ -174,6 +185,7 @@ func fire():
 	await animations.animation_finished
 	
 func kill():
+	Global.build_destroyed.emit(position,1)
 	var ca = Global.catapults.find(self)
 	Global.catapults.pop_at(ca)
 	queue_free()
@@ -270,6 +282,7 @@ func make_improved_collision_map():
 		#fire()
 	#controlled=false
 func on_boulder_impact():
+	
 	hit_marker.hide()
 	wall_hit_marker.hide()
 	for m in markers:

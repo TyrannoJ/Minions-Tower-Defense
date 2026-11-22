@@ -41,6 +41,15 @@ var visible_spawners=[]
 var round_number=0
 var max_spawner_count=3
 var towers=[]
+var build_spots:=[]
+signal build_destroyed(pos,type)
+func _ready() -> void:
+	
+	for x in range(0,280):
+		build_spots.append([])
+		for z in range(-90,91):
+			build_spots[x].append(false)
+		
 func restart():
 	target_pos=Vector3.ZERO
 	current_tool=0
@@ -64,3 +73,8 @@ func restart():
 	towers=[]
 	fences=[]
 	catapults=[]
+	build_spots.clear()
+	for x in range(0,280):
+		build_spots.append([])
+		for z in range(-90,91):
+			build_spots[x].append(false)

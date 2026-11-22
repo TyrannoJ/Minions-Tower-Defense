@@ -216,8 +216,8 @@ func direction():
 					
 			if found_weapons !=[]:
 				not_rotating=true
-				if number==1:
-					print("a")
+				#if number==1:
+					#print("a")
 				look_at(find_closest(found_weapons))
 				rotation.z=0
 				rotation.x=0
@@ -335,7 +335,7 @@ func handle_pathfinding():
 				pathfinder.markers[next_index].queue_free()
 			next_index+=1
 func show_attributes():
-	if Global.show_health and color=="blue":
+	if Global.show_health :
 		health_bar.show()
 		anti_health_bar.show()
 	else:
@@ -518,7 +518,7 @@ func get_damage(val,attacker):
 	anti_health_bar.scale.x=1-sca
 	health_bar.position.x=-(1-sca)
 	health_bar.scale.x=sca
-	#anti_health_bar.position.x=1-sca
+	anti_health_bar.position.x=sca
 
 func follow_mouse():
 	if clicked and Global.current_tool==0 and Global.dragging:

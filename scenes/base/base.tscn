@@ -132,7 +132,7 @@ shape = SubResource("BoxShape3D_8rhti")
 [node name="altar" parent="StaticBody3D" unique_id=974646216 instance=ExtResource("4_h5ip5")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 
-[node name="Cube_006" parent="StaticBody3D/altar" index="5" unique_id=885429549]
+[node name="Cube_006" parent="StaticBody3D/altar" index="5" unique_id=823785466]
 transform = Transform3D(-0.105702244, 0.030959489, 0.18044494, -0.14948553, 0.10570221, -0.10570224, -0.105702214, -0.180445, -0.030959439, 0, 1.633795, 0)
 material_override = SubResource("StandardMaterial3D_h5ip5")
 "blend_shapes/Key 1" = 0.4991118
@@ -159,10 +159,13 @@ mesh = SubResource("TextMesh_h5ip5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2527585, 0)
 collision_layer = 8
 collision_mask = 0
+monitoring = false
+monitorable = false
 metadata/_edit_group_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="build_block" unique_id=559451870]
 shape = SubResource("BoxShape3D_hhcb3")
+disabled = true
 
 [connection signal="timeout" from="rescue_timer" to="." method="_on_rescue_timer_timeout"]
 

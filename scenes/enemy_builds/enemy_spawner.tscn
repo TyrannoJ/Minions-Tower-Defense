@@ -36,6 +36,9 @@ albedo_color = Color(0, 0, 0, 1)
 material = SubResource("StandardMaterial3D_hoeld")
 size = Vector3(4, 0.2, 0.7)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_tex2c"]
+size = Vector3(14, 1, 14)
+
 [node name="enemy spawner" type="Node3D" unique_id=2055623077]
 script = ExtResource("1_xl0gr")
 enemy = ExtResource("2_ih16b")
@@ -117,6 +120,15 @@ mesh = SubResource("BoxMesh_31irv")
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="." unique_id=1622920734]
 aabb = AABB(-3.4506457, -2.7364671, -3.0165875, 6.9012914, 5.4729342, 6.033175)
+
+[node name="build_block" type="Area3D" parent="." unique_id=589383422]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2527585, 0)
+collision_layer = 8
+collision_mask = 0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="build_block" unique_id=972662508]
+shape = SubResource("BoxShape3D_tex2c")
 
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_entered"]

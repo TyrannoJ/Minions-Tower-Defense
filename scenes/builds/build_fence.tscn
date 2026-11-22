@@ -5,18 +5,19 @@
 [ext_resource type="Script" uid="uid://ciubg6ulicyqq" path="res://scenes/enemy_builds/spawner_damage.gd" id="3_sojmb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_t4qo1"]
+size = Vector3(0.5, 1, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xcp8f"]
 albedo_color = Color(0.42963597, 0.25309387, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_hhcb3"]
 material = SubResource("StandardMaterial3D_xcp8f")
+size = Vector3(0.5, 1, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3xjwa"]
-size = Vector3(2, 5.225, 2)
+size = Vector3(1, 5.225, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hhcb3"]
-size = Vector3(2, 1, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ck6nu"]
 transparency = 1
@@ -24,7 +25,7 @@ albedo_color = Color(0, 0.101960786, 1, 0.4509804)
 
 [sub_resource type="BoxMesh" id="BoxMesh_t4qo1"]
 material = SubResource("StandardMaterial3D_ck6nu")
-size = Vector3(2, 1.5, 2)
+size = Vector3(1, 1.5, 1)
 
 [node name="build-fence" type="StaticBody3D" unique_id=1678789730]
 collision_layer = 4

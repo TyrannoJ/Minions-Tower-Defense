@@ -88,8 +88,29 @@ Your job is to defend your castle from the red minions by controlling your minio
 - put everything on ground
 - optimize!!!
 - make catapult base more square
-- sounds
+- sounds 
 - automatic catapult
 - sub towers
 - damage animation
 - damage towers
+- health bars for builds
+- no deleting damaged builds (less payback)
+- better build system
+
+- checken ob DPS funktioniert
+- halbe Mauernn nicht mit Kugeln treffen
+- neue mauern ned mit Kugeln trffen
+- dynamik positioning
+
+- make enemys stop at catapults
+- style loading screen
+- damage animation
+- make people stronger not just more
+
+## Done!!!!!
+- to little
+- nervige andere build areas entfernen
+- beim entfernen blöcke wieder hin
+- loading progress bar
+- use gridmap for navigation/build field
+- make fence single spot

@@ -62,11 +62,11 @@ size = Vector3(0.9834412, 2, 0.76656497)
 render_priority = 0
 shader = ExtResource("3_3qlke")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7rx5"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s4hqy"]
 albedo_color = Color(0.13678533, 1.1169488, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2v3k6"]
-material = SubResource("StandardMaterial3D_r7rx5")
+material = SubResource("StandardMaterial3D_s4hqy")
 size = Vector3(2, 0.2, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2v3k6"]
@@ -79,11 +79,11 @@ top_radius = 0.2
 bottom_radius = 0.2
 height = 50.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hoeld"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hhpmw"]
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xktsn"]
-material = SubResource("StandardMaterial3D_hoeld")
+material = SubResource("StandardMaterial3D_hhpmw")
 size = Vector3(2, 0.2, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
