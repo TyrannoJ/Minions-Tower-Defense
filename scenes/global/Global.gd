@@ -42,6 +42,7 @@ var round_number=0
 var max_spawner_count=3
 var towers=[]
 var build_spots:=[]
+var mouse_position:=Vector3.ZERO
 signal build_destroyed(pos,type)
 func _ready() -> void:
 	

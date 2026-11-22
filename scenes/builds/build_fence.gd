@@ -52,7 +52,8 @@ func _process(delta: float) -> void:
 	fence_extensions.clear()
 	
 	if Global.object_under_mouse==delete_area and Global.delete_mode=="fence":
-		Global.score+=1
+		if damage_area.health==start_health:
+			Global.score+=1
 		on_kill()
 	if Global.object_under_mouse ==delete_area and Global.current_tool==1 and Global.build_mode==0:
 		hover_mesh.show()

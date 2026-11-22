@@ -141,18 +141,18 @@ size = Vector3(6, 0.6928711, 6)
 render_priority = 0
 shader = ExtResource("6_51yvn")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7rx5"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_51yvn"]
 albedo_color = Color(0.13678533, 1.1169488, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_v6ngi"]
-material = SubResource("StandardMaterial3D_r7rx5")
+material = SubResource("StandardMaterial3D_51yvn")
 size = Vector3(2, 0.2, 0.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hoeld"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lohvv"]
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_5bmr3"]
-material = SubResource("StandardMaterial3D_hoeld")
+material = SubResource("StandardMaterial3D_lohvv")
 size = Vector3(2, 0.2, 0.5)
 
 [node name="catapult" type="CharacterBody3D" unique_id=1284938642]

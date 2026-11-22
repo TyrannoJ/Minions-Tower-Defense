@@ -43,6 +43,10 @@ var current_pathfining_position=0
 @onready var center_visualizer=$center_visualizer
 @onready var pos_visualizer=$pos_visualizer
 @onready var navigation_check_area=$navigation_check_area
+@onready var damage_particles=$damage_particles
+@onready var health_bar_mat=$Health_bar.get_active_material(0).duplicate()
+@onready var anti_health_bar_mat=$anti_health_bar.get_active_material(0).duplicate()
+@onready var tower_damage_particles=$tower_damage_particles
 var center:Vector3=Vector3.ZERO
 var has_center=false
 var show_location=false
@@ -60,6 +64,8 @@ var movement_velocity:Vector3
 var new_pathfinding=false
 var thrown=false
 var throw_val:Vector3
+var attack_countdown=1
+var at_tower=false
 
 func _ready() -> void:
 	
@@ -84,6 +90,11 @@ func initialize(num,col,pos,un):
 	else:
 		vision.set_collision_mask_value(6,true)
 		character.make_red()
+	if color=="red":
+		health_bar_mat.albedo_color=Color(0.88, 0.0, 0.777, 1.0)
+		health_bar.set_surface_override_material(0,health_bar_mat)
+		anti_health_bar_mat.albedo_color=Color()
+		anti_health_bar.set_surface_override_material(0,anti_health_bar_mat)
 		
 func _physics_process(delta: float) -> void:
 	#print(position.y)
@@ -98,11 +109,16 @@ func _physics_process(delta: float) -> void:
 	#if new_pathfinding:
 		#if Input.is_action_just_pressed("trigger_navigation"):
 			#longer_new_navigation()
+	if color=="red":
+		tower_attack()
 	
 		
 	follow_area.color=color
+	attack_countdown-=delta
+	if attack_countdown<=0:
+		attack_players()
+		attack_countdown=0.5
 	
-	attack_players()
 	follow_mouse()
 	show_attributes()
 	pathfinder.player_position=position
@@ -473,21 +489,22 @@ func attack_players():
 					if !character.godot_animations.is_playing():
 						character.godot_animations.play("hit")
 					
-					da.get_damage(current_damage,unique_id)
+					da.get_damage(DPS/2,unique_id)
 			
 	damaging=attack_area.get_overlapping_areas()
 	if color=="red":
 		if damaging !=[]:
+			stop=false
 			for da in damaging:
 				
-				if da.is_in_group("targets") and color=="red" and has_weapon:
+				if da.is_in_group("targets") and has_weapon:
 					show_location=true
 					if !character.godot_animations.is_playing():
 						character.godot_animations.play("hit")
 					stop=true
-					da.get_damage(current_damage)
-				else:
-					stop=false
+					da.get_damage(DPS/2)
+				
+					
 	if color=="blue":
 		stop=false
 		if damaging !=[]:
@@ -499,7 +516,7 @@ func attack_players():
 						character.godot_animations.play("hit")
 					stop=true
 					
-					da.get_damage(current_damage)
+					da.get_damage(DPS/2)
 				
 					
 					
@@ -512,13 +529,14 @@ func get_damage(val,attacker):
 			has_killed_emitted=true
 		
 	var sca:float=float(health/100) 
-	var mat := health_bar.material_override as ShaderMaterial
-	mat.set_shader_parameter("Interpolation", health)
-
+	#var mat := health_bar.material_override as ShaderMaterial
+	#mat.set_shader_parameter("Interpolation", health)
+	#damage_particles.emitting=true
+	character.get_damage()
 	anti_health_bar.scale.x=1-sca
-	health_bar.position.x=-(1-sca)
+	health_bar.position.x=-(1-sca)/2
 	health_bar.scale.x=sca
-	anti_health_bar.position.x=sca
+	anti_health_bar.position.x=sca/2
 
 func follow_mouse():
 	if clicked and Global.current_tool==0 and Global.dragging:
@@ -911,3 +929,25 @@ func _on_navigation_timer_timeout() -> void:
 func throw(dir:Vector3):
 	thrown=true
 	throw_val=dir
+
+func tower_attack():
+	if color=="red":
+		var areas=follow_area.get_overlapping_areas()
+		at_tower=false
+		for a in areas:
+			
+			if a.is_in_group("tower_areas"):
+				
+				at_tower=true
+		
+		if at_tower:
+			
+				
+			tower_damage_particles.show()
+			tower_damage_particles.emitting=true
+		else:
+			
+				
+			tower_damage_particles.hide()
+			tower_damage_particles.emitting=false
+	

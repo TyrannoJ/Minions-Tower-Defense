@@ -24,6 +24,7 @@ var markers=[]
 var current_marker_nr=0
 var highest_hit=Vector2.ZERO
 var highest_hits=[]
+var real_rot_before
 func _ready() -> void:
 	explain.position=position
 	explain.position.y=5
@@ -50,12 +51,33 @@ func _process(delta: float) -> void:
 	health_bar.scale.x=sca
 	anti_health_bar.position.x=sca+1.3
 	
-	controlled=false
+	
 	#print(shot_marker.global_position.y)
-	if click_area == Global.object_under_mouse:
-		controlled=true
-	else:
-		controlled=false
+	if click_area == Global.object_under_mouse and Input.is_action_just_pressed("select_catapult"):
+		controlled=!controlled
+	if controlled:
+		pass
+		var dir=position.direction_to(Vector3(Global.mouse_position.x,position.y,Global.mouse_position.z))
+		var basis=Basis.looking_at(dir,Vector3.UP,true)
+		
+		var rot=basis.get_euler()
+		rot.y+=PI
+		var real_rot=snappedf(rot.y,PI/50)
+		#rotation.y=real_rot
+		##print(rot)
+		##look_at(Vector3(Global.mouse_position.x,position.y,Global.mouse_position.z))
+		#rotation.y+=PI
+		#rotation.x=0
+		#rotation.z=0
+		#if real_rot_before !=real_rot:
+			#make_improved_collision_map()
+		#real_rot_before=real_rot
+		
+	print(rotation.y)
+	#if click_area == Global.object_under_mouse:
+		#controlled=true
+	#else:
+		#controlled=false
 	#print(damage_area.health)
 	if Global.explanations:
 		explain.show()
@@ -149,7 +171,7 @@ func _process(delta: float) -> void:
 			fire()
 	#print(delete_area)
 	if Global.object_under_mouse==delete_area and Global.delete_mode=="catapult":
-		Global.score+=10
+		Global.score+=int((health/start_health)*10)
 		kill()
 	if Global.object_under_mouse ==delete_area and Global.current_tool==1 and Global.build_mode==1:
 		hover_mesh.show()

@@ -109,6 +109,7 @@ var tools=["normal mode","build mode"]
 var wall_positions=[Vector3(start_size,2.5,0),Vector3(-start_size,2.5,0),Vector3(0,2.5,start_size),Vector3(0,2.5,-start_size)]
 var enemy_base_markers=[]
 var test_build_positions=[]
+var speed_factor=1
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority(): return
 	
@@ -142,8 +143,11 @@ func _ready() -> void:
 	Global.add_enemy.connect(add_enemy)
 	Global.base=base.global_position
 	Global.build_destroyed.connect(on_build_destroyed)
+	
 	spawn_players()
 	spawn_obstacles()
+	enemy_spawns.spawner_built.connect(on_enemy_spawner_built)
+	enemy_spawns.spawner_destroyed.connect(on_enemy_spawner_destroyed)
 	loading_screen.show()
 	menu.show()
 	#spawn_weapons()
@@ -288,6 +292,7 @@ func spawn_players():
 		unique_id+=1
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
+	
 	for ba in enemy_base_markers:
 		ba.queue_free()
 	enemy_base_markers.clear()
@@ -329,6 +334,7 @@ func _process(delta: float) -> void:
 		
 	if get_mouse_raycast() !={}:
 		Global.object_under_mouse=get_mouse_raycast().collider
+		Global.mouse_position=get_mouse_raycast().position
 	else:
 		Global.object_under_mouse=null
 
@@ -395,34 +401,53 @@ func handle_tools():
 		for blu in blue_persons:
 			blu.clicked=true
 	
-	if Input.is_action_just_pressed("tool1"):
-		Global.current_tool=0
-	if Input.is_action_just_pressed("tool2"):
-		Global.current_tool=1
-		Global.build_mode=0
-	if Input.is_action_just_pressed("tool3"):
-		Global.current_tool=2
+	#if Input.is_action_just_pressed("tool1"):
+		#Global.current_tool=0
+	#if Input.is_action_just_pressed("tool2"):
+		#Global.current_tool=1
+		#Global.build_mode=0
+	#if Input.is_action_just_pressed("tool3"):
+		#Global.current_tool=2
+	if Input.is_action_just_pressed("change_mode"):
+		
+		if Global.current_tool==0:
+			Global.current_tool=1
+			Global.build_mode=0
+		elif Global.current_tool==1:
+			Global.current_tool=0
 	if Global.current_tool==0:
 		tool_label.text="normal mode"
 	else:
 		tool_label.text="build mode"
+		if Input.is_action_just_pressed("mode1"):
+			Global.build_mode=0
+		if Input.is_action_just_pressed("mode2"):
+			Global.build_mode=1
+		if Input.is_action_just_pressed("mode3"):
+			Global.build_mode=2
+
 		
 	
 	
 	tool_label.text=str(tools[Global.current_tool])
 func handle_movement():
+	if Input.is_action_pressed("speed_up"):
+		speed_factor=3
+	else:
+		speed_factor=1
 	if Input.is_action_pressed("forward") and !wall_up_notifier.is_on_screen():
-		camera_pivot.position.z-=0.3
+		camera_pivot.position.z-=0.3*speed_factor
 	if Input.is_action_pressed("back") and !wall_down_notifier.is_on_screen():
-		camera_pivot.position.z+=0.3
+		camera_pivot.position.z+=0.3*speed_factor
 	if Input.is_action_pressed("left") and !wall_left_notifier.is_on_screen():
-		camera_pivot.position.x-=0.3
+		camera_pivot.position.x-=0.3*speed_factor
 	if Input.is_action_pressed("right") and !wall_right_notifier.is_on_screen():
-		camera_pivot.position.x+=0.3
+		camera_pivot.position.x+=0.3*speed_factor
 	if Input.is_action_pressed("up") and !wall_up_notifier.is_on_screen() and !wall_down_notifier.is_on_screen() and !wall_left_notifier.is_on_screen() and !wall_right_notifier.is_on_screen():
-		camera_pivot.position.y+=0.3
+		camera_pivot.position.y+=0.3*speed_factor
 	if Input.is_action_pressed("down") and camera_pivot.position.y>15:
-		camera_pivot.position.y-=0.3
+		camera_pivot.position.y-=0.3*speed_factor
+	
 	Global.camera_position=camera_pivot.position
 	
 func set_map_size():
@@ -965,9 +990,12 @@ func handle_building():
 		
 		
 	if !on_controls:
+		var buildable=true
 		build_position_mesh.show()
 		if !get_mouse_raycast().collider.is_in_group("floor"):
-			build_position_mesh.hide()
+			mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
+			buildable=false
+			#build_position_mesh.hide()
 		if Global.build_mode==0:
 			build_position_mesh.scale.x=0.5
 			build_position_mesh.scale.z=0.5
@@ -982,7 +1010,8 @@ func handle_building():
 			#for x in range(grid_pos.x-1,grid_pos.x+1):
 				#for z in range(grid_pos.z-1,grid_pos.z+1):
 			if build_grid.get_cell_item(grid_pos) == build_grid.INVALID_CELL_ITEM:
-				build_position_mesh.hide()
+				mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
+				buildable=false
 						
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
@@ -1026,7 +1055,7 @@ func handle_building():
 			elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 				mat.albedo_color=Color.from_hsv(0.0, 0.83, 0.86, 0.502)
 				Global.delete_mode="fence"
-			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and buildable:
 				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
 				Global.delete_mode=""
 		elif Global.build_mode==1:
@@ -1041,7 +1070,8 @@ func handle_building():
 			for x in range(grid_pos.x-5,grid_pos.x+1):
 				for z in range(grid_pos.z-5,grid_pos.z+1):
 					if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
-						build_position_mesh.hide()
+						mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
+						buildable=false
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
 				
@@ -1079,7 +1109,7 @@ func handle_building():
 			elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 				mat.albedo_color=Color.from_hsv(0.0, 0.83, 0.86, 0.502)
 				Global.delete_mode="catapult"
-			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and buildable:
 				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
 				Global.delete_mode=""
 		elif Global.build_mode==2:
@@ -1094,7 +1124,8 @@ func handle_building():
 			for x in range(grid_pos.x-7,grid_pos.x+1):
 				for z in range(grid_pos.z-7,grid_pos.z+1):
 					if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
-						build_position_mesh.hide()
+						mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
+						buildable=false
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
 				Global.delete_mode=""
@@ -1130,10 +1161,11 @@ func handle_building():
 			elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
 				mat.albedo_color=Color.from_hsv(0.0, 0.83, 0.86, 0.502)
 				Global.delete_mode="tower"
-			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and buildable:
 				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
 				Global.delete_mode=""
 	else:
+		#mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
 		build_position_mesh.hide()
 		
 
@@ -1198,5 +1230,18 @@ func on_build_destroyed(pos:Vector3,type:int):
 		for x in range(grid_pos.x-7,grid_pos.x+1):
 			for z in range(grid_pos.z-7,grid_pos.z+1):
 				build_grid.set_cell_item(Vector3i(x,-1,z),0)
+				
+func on_enemy_spawner_built(pos:Vector3):
+	var grid_pos=Vector3i(int(floorf(pos.x)),-1,int(floorf(pos.z)))
+	for x in range(grid_pos.x-15,grid_pos.x+15):
+			for z in range(grid_pos.z-15,grid_pos.z+15):
+				build_grid.set_cell_item(Vector3i(x,-1,z),GridMap.INVALID_CELL_ITEM)
+				
+func on_enemy_spawner_destroyed(pos:Vector3):
+	var grid_pos=Vector3i(int(floorf(pos.x)),-1,int(floorf(pos.z)))
+	for x in range(grid_pos.x-15,grid_pos.x+15):
+			for z in range(grid_pos.z-15,grid_pos.z+15):
+				build_grid.set_cell_item(Vector3i(x,-1,z),0)
+	
 	
 			

@@ -8,6 +8,8 @@ var spawner_size=15
 var possible=[]
 var filled=[]
 var spawners=[]
+signal spawner_built(pos)
+signal spawner_destroyed(pos)
 func _ready() -> void:
 	for x in range(-100,100,10):
 		for y in range(-60,60,10):
@@ -23,6 +25,7 @@ func add_spawner():
 			break
 	spa.position=possible[rand]
 	Global.spawner_positions.append(spa.position)
+	spawner_built.emit(spa.position)
 	filled[rand]=true
 	Global.visible_spawners.append(false)
 	spa.initialize(rand,len(spawners))
@@ -34,11 +37,11 @@ func add_spawner():
 func start():
 	#pass
 	timer.start(5)
-	#add_spawner()
-	##var spa=enemy_spawner.instantiate()
-	#
-	#spawners[0].position=Vector3(0,3,20)
-	#Global.spawner_positions=[Vector3(0,3,20)]
+	add_spawner()
+	#var spa=enemy_spawner.instantiate()
+	
+	spawners[0].position=Vector3(0,3,20)
+	Global.spawner_positions=[Vector3(0,3,20)]
 	
 	
 	#spa.initialize(1,len(spawners))
@@ -61,6 +64,7 @@ func reset():
 	timer.start(5)
 	
 func delete_spawner(index_number,pos):
+	spawner_destroyed.emit(pos)
 	filled[index_number]=false
 	var spa=spawners.pop_at(index_number)
 	Global.spawner_positions.pop_at(index_number)

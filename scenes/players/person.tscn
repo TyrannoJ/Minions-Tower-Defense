@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://djh86oew3hjc7" path="res://scenes/players/person.gd" id="1_rm4p6"]
 [ext_resource type="PackedScene" uid="uid://btgvb01m7i75d" path="res://scenes/pathfinding/pathfinder.tscn" id="2_asawu"]
-[ext_resource type="Shader" uid="uid://cpb3sj6nalqcd" path="res://scenes/players/person.tres" id="3_3qlke"]
 [ext_resource type="Script" uid="uid://7kcr2qf5us1c" path="res://scenes/players/follow_area.gd" id="3_g6f2d"]
 [ext_resource type="PackedScene" uid="uid://fssql05vmrhb" path="res://scenes/players/sword_red.tscn" id="5_aoiax"]
 [ext_resource type="PackedScene" uid="uid://1mmh648yardf" path="res://scenes/players/sword_blue.tscn" id="6_r7rx5"]
@@ -50,24 +49,22 @@ radius = 0.1
 [sub_resource type="BoxShape3D" id="BoxShape3D_3qlke"]
 size = Vector3(1, 0.33447266, 1.7752686)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aoiax"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ma24a"]
 transparency = 1
 albedo_color = Color(0.7666664, 0, 1, 0.39607844)
 
-[sub_resource type="BoxMesh" id="BoxMesh_r7rx5"]
-material = SubResource("StandardMaterial3D_aoiax")
-size = Vector3(0.9834412, 2, 0.76656497)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g6f2d"]
-render_priority = 0
-shader = ExtResource("3_3qlke")
+[sub_resource type="CylinderMesh" id="CylinderMesh_t7shy"]
+material = SubResource("StandardMaterial3D_ma24a")
+top_radius = 0.8
+bottom_radius = 0.8
+height = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s4hqy"]
 albedo_color = Color(0.13678533, 1.1169488, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_2v3k6"]
 material = SubResource("StandardMaterial3D_s4hqy")
-size = Vector3(2, 0.2, 0.5)
+size = Vector3(1, 0.1, 0.3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2v3k6"]
 transparency = 1
@@ -84,7 +81,7 @@ albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xktsn"]
 material = SubResource("StandardMaterial3D_hhpmw")
-size = Vector3(2, 0.2, 0.5)
+size = Vector3(1, 0.1, 0.3)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t4qo1"]
 albedo_color = Color(0, 0, 0, 1)
@@ -115,6 +112,55 @@ height = 0.5
 top_radius = 0.2
 bottom_radius = 0.2
 height = 5.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hhcb3"]
+emission_shape = 3
+emission_box_extents = Vector3(0.1, 0.01, 0.1)
+direction = Vector3(0, 1, 0)
+spread = 30.0
+initial_velocity_min = 4.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q7xsi"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_t4qo1"]
+material = SubResource("StandardMaterial3D_q7xsi")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_owca0"]
+emission_shape = 3
+emission_box_extents = Vector3(0.7, 0.05, 0.7)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 8.659998
+linear_accel_max = 11.019998
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0n7sa"]
+transparency = 1
+albedo_color = Color(0.9333334, 0, 1, 0.49411765)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_nx36l"]
+material = SubResource("StandardMaterial3D_0n7sa")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4o2yd"]
+transparency = 1
+albedo_color = Color(0.9333334, 0, 1, 0.49411765)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bke8b"]
+material = SubResource("StandardMaterial3D_4o2yd")
+top_radius = 0.7
+bottom_radius = 0.7
+height = 0.05
 
 [node name="Person_Red" type="CharacterBody3D" unique_id=203047781 groups=["persons"]]
 collision_mask = 5
@@ -147,7 +193,7 @@ autostart = true
 visible = false
 
 [node name="Click_Check" type="Area3D" parent="." unique_id=1797500761]
-collision_layer = 8
+collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Click_Check" unique_id=423641895]
 shape = SubResource("BoxShape3D_hncb1")
@@ -162,7 +208,7 @@ visible = false
 mesh = SubResource("CylinderMesh_hncb1")
 
 [node name="follow_area" type="Area3D" parent="." unique_id=373154287 groups=["persons"]]
-collision_mask = 80
+collision_mask = 4176
 script = ExtResource("3_g6f2d")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="follow_area" unique_id=36651014]
@@ -181,13 +227,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.33276367, -1.4382831)
 shape = SubResource("BoxShape3D_3qlke")
 
 [node name="clicked" type="MeshInstance3D" parent="." unique_id=1605485960]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02047427, 0, -0.034959495)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02047427, -0.92391, -0.034959495)
 visible = false
-mesh = SubResource("BoxMesh_r7rx5")
+mesh = SubResource("CylinderMesh_t7shy")
 
 [node name="Health_bar" type="MeshInstance3D" parent="." unique_id=1774231909]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2681521, 0)
-material_override = SubResource("ShaderMaterial_g6f2d")
 mesh = SubResource("BoxMesh_2v3k6")
 
 [node name="focused" type="MeshInstance3D" parent="." unique_id=21022616]
@@ -197,7 +242,6 @@ mesh = SubResource("CylinderMesh_hoeld")
 
 [node name="anti_health_bar" type="MeshInstance3D" parent="." unique_id=1677478668]
 transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.268, 0)
-visible = false
 mesh = SubResource("BoxMesh_xktsn")
 
 [node name="sword_red" parent="." unique_id=1997743619 instance=ExtResource("5_aoiax")]
@@ -254,6 +298,7 @@ mesh = SubResource("BoxMesh_hhcb3")
 [node name="center_visualizer" type="MeshInstance3D" parent="." unique_id=1631208941]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.74227774, 0)
 top_level = true
+visible = false
 material_override = SubResource("StandardMaterial3D_ckxbf")
 mesh = SubResource("CylinderMesh_hhcb3")
 
@@ -261,6 +306,27 @@ mesh = SubResource("CylinderMesh_hhcb3")
 top_level = true
 visible = false
 mesh = SubResource("CylinderMesh_t4qo1")
+
+[node name="damage_particles" type="GPUParticles3D" parent="." unique_id=990452182]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9659989, 0)
+emitting = false
+amount = 100
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.19
+randomness = 0.41
+process_material = SubResource("ParticleProcessMaterial_hhcb3")
+draw_pass_1 = SubResource("CapsuleMesh_t4qo1")
+
+[node name="tower_damage_particles" type="GPUParticles3D" parent="." unique_id=1865835693]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.88440734, 0)
+visible = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_owca0")
+draw_pass_1 = SubResource("CapsuleMesh_nx36l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="tower_damage_particles" unique_id=635245032]
+mesh = SubResource("CylinderMesh_bke8b")
 
 [connection signal="timeout" from="Rotation_timer" to="." method="_on_rotation_timer_timeout"]
 [connection signal="input_event" from="Click_Check" to="." method="_on_click_check_input_event"]
