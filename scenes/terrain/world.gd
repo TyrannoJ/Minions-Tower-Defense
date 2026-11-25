@@ -111,8 +111,13 @@ var enemy_base_markers=[]
 var test_build_positions=[]
 var speed_factor=1
 func _unhandled_input(event: InputEvent) -> void:
-	if not is_multiplayer_authority(): return
 	
+	if not is_multiplayer_authority(): return
+	if event is InputEventMouseButton and event.is_pressed():
+		if event.button_index==MOUSE_BUTTON_WHEEL_UP:
+			time_slider.value+=0.05
+		elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN:
+			time_slider.value-=0.05
 	
 		#camera_pivot.rotate_y(-event.relative.x * sensitivity)
 		#if -event.relative.x>0:
@@ -230,6 +235,7 @@ func add_base():
 	add_child(base)
 	base.position=Vector3(0,2,0)
 	base.base_killed.connect(base_killed)
+	
 func spawn_weapons():
 	if weapons !=[]:
 		for we in weapons:
@@ -383,6 +389,10 @@ func handle_time():
 	if Input.is_action_pressed("time_up"):
 		time_slider.value+=0.01
 	if Input.is_action_pressed("time_down"):
+		time_slider.value-=0.01
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_WHEEL_UP):
+		time_slider.value+=0.01
+	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_WHEEL_DOWN):
 		time_slider.value-=0.01
 	Engine.time_scale=time_slider.value
 	
@@ -655,6 +665,11 @@ func mark_players(event_position):
 			if is_in_area(pe.position,klick_pos,release_pos):
 				#pe.clicked=true
 				pass
+	for ca in Global.catapults:
+		if ca !=null:
+			print(ca)
+			if is_in_area(ca.position,klick_pos,release_pos):
+				ca.controlled=true
 	for pe in blue_persons:
 		if pe != null:
 			if is_in_area(pe.position,klick_pos,release_pos):
@@ -857,6 +872,16 @@ func _on_restart_pressed() -> void:
 	size_slider.value=40
 	enemy_spawns.reset()
 	player_spawner.reset()
+	for f in Global.fences:
+		f.on_kill()
+	for t in Global.towers:
+		t.on_kill()
+	for c in Global.catapults:
+		c.kill()
+	Global.fences.clear()
+	Global.towers.clear()
+	Global.catapults.clear()
+	
 	#player_spawner.number=0
 	#player_spawner.start()
 	for fe in Global.fences:
@@ -1012,7 +1037,10 @@ func handle_building():
 			if build_grid.get_cell_item(grid_pos) == build_grid.INVALID_CELL_ITEM:
 				mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
 				buildable=false
-						
+			
+			if check_players_in_area():
+				mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
+				buildable=false
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
 				Global.delete_mode=""
@@ -1035,6 +1063,8 @@ func handle_building():
 						#if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
 							#placable=false
 				if build_grid.get_cell_item(grid_pos) == build_grid.INVALID_CELL_ITEM:
+					placable=false
+				if check_players_in_area():
 					placable=false
 				if placable:
 					#test_build_positions[int(floorf((pos.x+0.5)))+140][int(floorf((pos.z+0.5)))+90].hide()
@@ -1072,6 +1102,9 @@ func handle_building():
 					if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
 						mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
 						buildable=false
+			if check_players_in_area():
+				mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
+				buildable=false
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
 				
@@ -1091,6 +1124,8 @@ func handle_building():
 					for z in range(grid_pos.z-5,grid_pos.z+1):
 						if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
 							placable=false
+				if check_players_in_area():
+					placable=false
 					
 				if placable:
 					
@@ -1101,9 +1136,10 @@ func handle_building():
 					
 	
 					var ca=catapult.instantiate()
+					ca.position=catapult_pos
 					add_child(ca)
 					Global.catapults.append(ca)
-					ca.position=catapult_pos
+					
 					#Global.fence_built.emit(fence_pos)
 					Global.score-=10
 			elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
@@ -1126,6 +1162,9 @@ func handle_building():
 					if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
 						mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
 						buildable=false
+			if check_players_in_area():
+				mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
+				buildable=false
 			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 				
 				Global.delete_mode=""
@@ -1145,6 +1184,8 @@ func handle_building():
 					for z in range(grid_pos.z-7,grid_pos.z+1):
 						if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
 							placable=false
+				if check_players_in_area():
+					placable=false
 				if placable:
 					
 					#var grid_pos=Vector3i(int(tower_pos.x+3),-1,int(tower_pos.z+3))
@@ -1242,6 +1283,18 @@ func on_enemy_spawner_destroyed(pos:Vector3):
 	for x in range(grid_pos.x-15,grid_pos.x+15):
 			for z in range(grid_pos.z-15,grid_pos.z+15):
 				build_grid.set_cell_item(Vector3i(x,-1,z),0)
+func check_players_in_area():
+	for p in all_players():
+		var UL=build_position_mesh.position
+		UL.x-=build_position_mesh.scale.x
+		UL.z-=build_position_mesh.scale.z
+		var DR=build_position_mesh.position
+		DR.x+=build_position_mesh.scale.x
+		DR.z+=build_position_mesh.scale.z
+		if is_in_area(p.position,UL,DR):
+			return true
+	return false
+		
 	
 	
 			

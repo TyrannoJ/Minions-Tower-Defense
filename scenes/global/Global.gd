@@ -50,7 +50,8 @@ func _ready() -> void:
 		build_spots.append([])
 		for z in range(-90,91):
 			build_spots[x].append(false)
-		
+			
+
 func restart():
 	target_pos=Vector3.ZERO
 	current_tool=0
@@ -62,7 +63,7 @@ func restart():
 	show_name_tag=false
 	containment_size=5
 	containment=true
-	score=0
+	score=100
 	enemys_spawned=0
 	spawner_positions=[]
 	visible_spawners=[]
@@ -71,9 +72,7 @@ func restart():
 	enemys_to_spawn=10
 	max_player_count=10
 	max_spawner_count=3
-	towers=[]
-	fences=[]
-	catapults=[]
+	
 	build_spots.clear()
 	for x in range(0,280):
 		build_spots.append([])

@@ -37,13 +37,13 @@ func add_spawner():
 func start():
 	#pass
 	timer.start(5)
-	add_spawner()
-	#var spa=enemy_spawner.instantiate()
+	#add_spawner()
 	
-	spawners[0].position=Vector3(0,3,20)
-	Global.spawner_positions=[Vector3(0,3,20)]
+	#
+	#spawners[0].position=Vector3(0,3,20)
+	#Global.spawner_positions=[Vector3(0,3,20)]
 	
-	
+	##var spa=enemy_spawner.instantiate()
 	#spa.initialize(1,len(spawners))
 	#spa.killed.connect(delete_spawner)
 	#positions.append(spa.position)
@@ -56,7 +56,7 @@ func _on_timer_timeout() -> void:
 		
 func reset():
 	for spa in spawners:
-		spa.queue_free()
+		spa.kill()
 	spawners.clear()
 	positions=[]
 	for i in range(0,len(filled)):

@@ -18,8 +18,7 @@ func instantiate(rot,strength):
 	linear_velocity=direction*strength
 	damage_area.monitoring=false
 	damage_area2.monitoring=false
-	print(rot)
-	print(strength)
+	
 	#damage_area.scale.y=0.01 #fix
 	#print(direction)
 	#print(strength)
@@ -72,7 +71,7 @@ func _process(delta: float) -> void:
 				await tween.finished
 				damage_area2.hide()
 		mesh.hide()
-		
+	
 		
 		
 

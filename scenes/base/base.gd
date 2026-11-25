@@ -53,11 +53,8 @@ func get_damage(val):
 	
 	if health <=0:
 		if !has_killed_emitted:
+			kill()
 			
-			main.queue_free()
-			base_killed.emit()
-			has_killed_emitted=true
-			dead=true
 			
 	var sca:float=float(health/start_health)
 	
@@ -69,10 +66,7 @@ func get_damage(val):
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("manual_restart"):
-		main.queue_free()
-		base_killed.emit()
-		has_killed_emitted=true
-		dead=true
+		kill()
 	if !dead:
 		if Global.explanations:
 			explanations.show()
@@ -89,6 +83,10 @@ func _process(delta: float) -> void:
 		light.light_color=col_begin.lerp(col_end,hue_val)
 		altar_animation.play("rotate")
 		$StaticBody3D/altar/AnimationPlayer2.play("shrink")
-	
+func kill():
+	main.queue_free()
+	base_killed.emit()
+	has_killed_emitted=true
+	dead=true
 func _on_rescue_timer_timeout() -> void:
 	Global.attack_on_base=false

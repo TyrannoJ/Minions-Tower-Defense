@@ -15,6 +15,8 @@ extends CharacterBody3D
 @onready var hover_mesh=$hover_mesh
 @onready var health_bar=$Health_bar
 @onready var anti_health_bar=$anti_health_bar
+@onready var plate=$plate
+var fired=false
 var health
 var start_health:=1000.0
 var controlled=false
@@ -30,18 +32,22 @@ func _ready() -> void:
 	explain.position.y=5
 	explain.position.z-=2
 	damage_area.initialize(1000)
-	damage_area.kill.connect(kill)
+	damage_area.kill.connect(kill)#
+	plate.global_position=global_position
+	plate.position.y=0
+	print(position)
 func _unhandled_input(event: InputEvent) -> void:
-	if controlled:
-		if event is InputEventMouseButton and event.is_pressed():
-			if event.button_index==MOUSE_BUTTON_WHEEL_UP:
-				rotation.y+=PI/50
-				#make_collision_map()
-				make_improved_collision_map()
-			elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN:
-				rotation.y-=PI/50
-				#make_collision_map()
-				make_improved_collision_map()
+	pass
+	#if controlled:
+		#if event is InputEventMouseButton and event.is_pressed():
+			#if event.button_index==MOUSE_BUTTON_WHEEL_UP:
+				#rotation.y+=PI/50
+				##make_collision_map()
+				#make_improved_collision_map()
+			#elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN:
+				#rotation.y-=PI/50
+				##make_collision_map()
+				#make_improved_collision_map()
 
 func _process(delta: float) -> void:
 	health=damage_area.health
@@ -50,11 +56,14 @@ func _process(delta: float) -> void:
 	health_bar.position.x=-(1-sca)+1.3
 	health_bar.scale.x=sca
 	anti_health_bar.position.x=sca+1.3
-	
+	if Input.is_action_just_pressed("deselect"):
+		controlled=false
 	
 	#print(shot_marker.global_position.y)
-	if click_area == Global.object_under_mouse and Input.is_action_just_pressed("select_catapult"):
-		controlled=!controlled
+	#if click_area == Global.object_under_mouse and Input.is_action_just_pressed("select_catapult"):
+		#controlled=!controlled
+	if Global.current_tool !=0:
+		controlled=false
 	if controlled:
 		pass
 		var dir=position.direction_to(Vector3(Global.mouse_position.x,position.y,Global.mouse_position.z))
@@ -63,17 +72,29 @@ func _process(delta: float) -> void:
 		var rot=basis.get_euler()
 		rot.y+=PI
 		var real_rot=snappedf(rot.y,PI/50)
-		#rotation.y=real_rot
+		rotation.y=real_rot
 		##print(rot)
 		##look_at(Vector3(Global.mouse_position.x,position.y,Global.mouse_position.z))
-		#rotation.y+=PI
-		#rotation.x=0
-		#rotation.z=0
-		#if real_rot_before !=real_rot:
-			#make_improved_collision_map()
-		#real_rot_before=real_rot
+		rotation.y+=PI
+		rotation.x=0
+		rotation.z=0
+		if real_rot_before !=real_rot:
+			make_improved_collision_map()
+			if fired:
+				fired=false
+				hit_marker.position=Vector3.ZERO
+				wall_hit_marker.position=Vector3.ZERO
+				hit_marker.hide()
+				wall_hit_marker.hide()
+				for m in markers:
+					m.queue_free()
+				markers.clear()
+				
+				
+				
+		real_rot_before=real_rot
 		
-	print(rotation.y)
+	#print(rotation.y)
 	#if click_area == Global.object_under_mouse:
 		#controlled=true
 	#else:
@@ -97,6 +118,7 @@ func _process(delta: float) -> void:
 				current_marker_nr=0
 			else:
 				if load_value <20:
+					
 					hit_marker.hide()
 					wall_hit_marker.hide()
 					for m in markers:
@@ -188,7 +210,7 @@ func go_to_start():
 	animations.play_backwards("fire")
 
 func fire():
-	
+	fired=true
 	loading=false
 	godot_animations.play("fire")
 	godot_animations.pause()
@@ -197,6 +219,7 @@ func fire():
 	godot_animations.speed_scale=2
 	animations.play("fire")
 	godot_animations.play("fire")
+	 
 	await get_tree().create_timer(0.45*load_value/20).timeout
 	var bo=boulder.instantiate()
 	add_child(bo)
@@ -273,7 +296,8 @@ func make_collision_map():
 	#print(highest_hit)
 			
 func make_improved_collision_map():
-	highest_hits=[]
+	var highest_hits_local=[]
+	var angle=rotation.y
 	await get_tree().physics_frame
 	for i in range (0,5):
 		var hit:=Vector2.ZERO
@@ -287,12 +311,14 @@ func make_improved_collision_map():
 			#if hit.x > 70:
 				#break
 			highest_hit=hit
-			highest_hits.append(hit)
+			highest_hits_local.append(hit)
 			collision_raycast.add_exception(collider)
 			await get_tree().physics_frame
 		#else:
 			#break
 	collision_raycast.clear_exceptions()	
+	if angle==rotation.y:
+		highest_hits=highest_hits_local
 
 
 #func _on_click_mouse_entered() -> void:
@@ -304,7 +330,9 @@ func make_improved_collision_map():
 		#fire()
 	#controlled=false
 func on_boulder_impact():
-	
+	fired=false
+	hit_marker.position=Vector3.ZERO
+	wall_hit_marker.position=Vector3.ZERO
 	hit_marker.hide()
 	wall_hit_marker.hide()
 	for m in markers:
