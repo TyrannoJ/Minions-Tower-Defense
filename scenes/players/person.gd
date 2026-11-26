@@ -66,10 +66,11 @@ var thrown=false
 var throw_val:Vector3
 var attack_countdown=1
 var at_tower=false
-
+var last_position:Vector3
+var stuck:=false
 func _ready() -> void:
 	
-	
+	last_position=position
 	rotation.y=deg_to_rad(randf_range(-180,180))
 	#velocity+=-global_transform.basis.z
 	Global.update_target.connect(on_update_target)
@@ -178,6 +179,11 @@ func _physics_process(delta: float) -> void:
 	#if is_on_floor():
 	velocity=physics_velocity+movement_velocity
 	move_and_slide()
+	if position==last_position and !stop:
+		stuck=true 
+	else:
+		stuck=false
+	last_position=position
 		
 			
 		
@@ -207,7 +213,8 @@ func direction():
 			change_rotation()
 			#to_base=true
 			rot_timer.start(randi_range(0.3,0.5))
-	
+	if stuck:
+		rotation.y+=PI/2
 		
 		
 				
@@ -297,6 +304,7 @@ func speed():
 		#velocity=Vector3.ZERO
 	else:
 		character.animations.play("Walk")
+		
 	character.animations.speed_scale=Speed*4
 	
 func handle_collisions():
@@ -488,6 +496,7 @@ func attack_players():
 				if da.color != color:
 					if !character.godot_animations.is_playing():
 						character.godot_animations.play("hit")
+						stop=true
 					
 					da.get_damage(DPS/2,unique_id)
 			

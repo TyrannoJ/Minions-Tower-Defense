@@ -91,8 +91,7 @@ Your job is to defend your castle from the red minions by controlling your minio
 - sounds 
 - automatic catapult
 - sub towers
-- damage animationw
-- damage towers
+
 - better build system
 - halbe Mauernn nicht mit Kugeln treffen
 - neue mauern ned mit Kugeln trffen
@@ -103,12 +102,13 @@ Your job is to defend your castle from the red minions by controlling your minio
 - fix the player inspect
 - gravestones
 - tower damage
-- catapult controls roation with mouse
+
 - block building at players
 
-- enemys flee from tower
+- (enemys flee from tower)
+- make players not get stuck on each other 
+- change player spawner position
 
-- platform under catapult
 ## Done!!!!!
 - to little
 - nervige andere build areas entfernen
@@ -129,3 +129,9 @@ Your job is to defend your castle from the red minions by controlling your minio
 
 - selct ctapults with middle mouse button
 - fix bugs with catapult walls
+- catapult controls roation with mouse
+- platform under catapult
+- damage animationw
+- damage towers
+
+- path stays when shooting

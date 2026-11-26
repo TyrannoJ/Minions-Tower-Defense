@@ -62,10 +62,9 @@ func _process(delta: float) -> void:
 	#print(shot_marker.global_position.y)
 	#if click_area == Global.object_under_mouse and Input.is_action_just_pressed("select_catapult"):
 		#controlled=!controlled
-	if Global.current_tool !=0:
-		controlled=false
-	if controlled:
-		pass
+
+	if controlled and  Global.current_tool ==0:
+		
 		var dir=position.direction_to(Vector3(Global.mouse_position.x,position.y,Global.mouse_position.z))
 		var basis=Basis.looking_at(dir,Vector3.UP,true)
 		
@@ -80,15 +79,15 @@ func _process(delta: float) -> void:
 		rotation.z=0
 		if real_rot_before !=real_rot:
 			make_improved_collision_map()
-			if fired:
-				fired=false
-				hit_marker.position=Vector3.ZERO
-				wall_hit_marker.position=Vector3.ZERO
-				hit_marker.hide()
-				wall_hit_marker.hide()
-				for m in markers:
-					m.queue_free()
-				markers.clear()
+			#if fired:
+				#fired=false
+				#hit_marker.position=Vector3.ZERO
+				#wall_hit_marker.position=Vector3.ZERO
+				#hit_marker.hide()
+				#wall_hit_marker.hide()
+				#for m in markers:
+					#m.queue_free()
+				#markers.clear()
 				
 				
 				
@@ -116,6 +115,7 @@ func _process(delta: float) -> void:
 				load_value=0
 				hit_marker.position.z=0
 				current_marker_nr=0
+				on_boulder_impact()
 			else:
 				if load_value <20:
 					
@@ -219,7 +219,10 @@ func fire():
 	godot_animations.speed_scale=2
 	animations.play("fire")
 	godot_animations.play("fire")
-	 
+	hit_marker.top_level=true
+	wall_hit_marker.top_level=true
+	for m in markers:
+		m.top_level=true
 	await get_tree().create_timer(0.45*load_value/20).timeout
 	var bo=boulder.instantiate()
 	add_child(bo)
@@ -331,6 +334,8 @@ func make_improved_collision_map():
 	#controlled=false
 func on_boulder_impact():
 	fired=false
+	wall_hit_marker.top_level=false
+	hit_marker.top_level=false
 	hit_marker.position=Vector3.ZERO
 	wall_hit_marker.position=Vector3.ZERO
 	hit_marker.hide()

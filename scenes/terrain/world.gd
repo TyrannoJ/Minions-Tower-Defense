@@ -455,7 +455,7 @@ func handle_movement():
 		camera_pivot.position.x+=0.3*speed_factor
 	if Input.is_action_pressed("up") and !wall_up_notifier.is_on_screen() and !wall_down_notifier.is_on_screen() and !wall_left_notifier.is_on_screen() and !wall_right_notifier.is_on_screen():
 		camera_pivot.position.y+=0.3*speed_factor
-	if Input.is_action_pressed("down") and camera_pivot.position.y>15:
+	if Input.is_action_pressed("down") and camera_pivot.position.y>8:
 		camera_pivot.position.y-=0.3*speed_factor
 	
 	Global.camera_position=camera_pivot.position
