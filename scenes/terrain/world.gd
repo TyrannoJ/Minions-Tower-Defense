@@ -300,7 +300,7 @@ func spawn_players():
 		unique_id+=1
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
-	print(Global.spawners)
+	
 	for ba in enemy_base_markers:
 		ba.queue_free()
 	enemy_base_markers.clear()
@@ -877,7 +877,7 @@ func _on_restart_pressed() -> void:
 	time_slider.value=1
 	size_slider.value=40
 	enemy_spawns.reset()
-	Global.reset_spawners.emit()
+	Spawners.reset()
 	for f in Global.fences:
 		f.on_kill()
 	for t in Global.towers:
@@ -963,7 +963,7 @@ func _on_start_pressed() -> void:
 	start_new_round()
 	time_survived=0
 	Global.enemys_to_spawn=10
-	Global.start_spawners.emit()
+	Spawners.start()
 	enemy_spawns.start()
 	round_infos.show()
 	menu.hide()

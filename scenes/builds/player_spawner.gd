@@ -1,7 +1,7 @@
 extends Area3D
 
 @onready var timer=$Timer
-var number=3
+
 @onready var number_mesh=$number
 @onready var button_mesh=$mesh
 @onready var mat=$mesh.get_active_material(0)
@@ -18,16 +18,13 @@ func _on_input_event(camera: Node, event: InputEvent, event_position: Vector3, n
 	
 	if event is InputEventMouseButton and event.button_index==1 and event.is_released() and Global.current_tool==0:
 		
-		if number>0:
-			for i in range(0,number):
+		if Spawners.number>0:
+			for i in range(0,Spawners.number):
 				Global.add_player.emit(Vector3(randf_range(position.x-3,position.x+3),1,randf_range(position.z-3,position.z+3)))
-			number=0
+			Spawners.number=0
 
 
-func _on_timer_timeout() -> void:
-	if Global.player_number+number < Global.MAX_PLAYERS and Global.player_number+number<Global.max_player_count:
-		number+=1
-	timer.start(randf_range(1,2))
+
 
 func _process(delta: float) -> void:
 	if Global.explanations:
@@ -35,7 +32,7 @@ func _process(delta: float) -> void:
 	else:
 		explain.hide()
 	var me=number_mesh.mesh
-	me.text=str(number)
+	me.text=str(Spawners.number)
 	if Global.object_under_mouse==delete_area and Global.delete_mode=="spawner":
 		if damage_area.health==start_health:
 			Global.score+=1
@@ -59,8 +56,6 @@ func _on_mouse_exited() -> void:
 	mat.albedo_color=Color.from_hsv(1,0,1,0.5)
 	pass # Replace with function body.
 
-func reset():
-	number=0
 	
 func on_kill():
 	Global.build_destroyed.emit(position,3)

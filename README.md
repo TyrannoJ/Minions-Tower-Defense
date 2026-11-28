@@ -121,6 +121,7 @@ Your job is to defend your castle from the red minions by controlling your minio
 - mae damage_area independent scene
 - clean up handle_building
 - developer mode
+- cool animation for players spawn
 
 
 ## Done!!!!!

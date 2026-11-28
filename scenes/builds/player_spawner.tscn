@@ -51,7 +51,7 @@ material = SubResource("StandardMaterial3D_ck6nu")
 size = Vector3(2, 4, 2)
 
 [node name="player_spawner" type="Area3D" unique_id=1809576690 groups=["clickable"]]
-collision_layer = 0
+collision_layer = 2048
 script = ExtResource("1_6jqeu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1041820217 groups=["clickable"]]
