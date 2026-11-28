@@ -43,7 +43,10 @@ var max_spawner_count=3
 var towers=[]
 var build_spots:=[]
 var mouse_position:=Vector3.ZERO
+signal start_spawners
+signal reset_spawners
 signal build_destroyed(pos,type)
+var spawners=[]
 func _ready() -> void:
 	
 	for x in range(0,280):

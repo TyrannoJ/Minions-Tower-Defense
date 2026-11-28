@@ -12,7 +12,7 @@ var start_health=50
 @export var damage_particles:PackedScene
 var start_time=80
 var damage_timer=1
-var damage_val=5
+var damage_val=10
 var damage_particle_list=[]
 func _ready() -> void:
 	

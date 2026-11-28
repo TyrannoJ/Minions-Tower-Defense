@@ -548,6 +548,7 @@ score_number = ExtResource("11_apphr")
 enemy_base_marker = ExtResource("12_lckgc")
 tower = ExtResource("13_vptq5")
 test_build = ExtResource("14_qk03d")
+player_spawner = ExtResource("16_cu2ht")
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=46194837 groups=["floor"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
@@ -782,14 +783,16 @@ offset_top = 95.0
 offset_right = 41.0
 offset_bottom = 150.0
 theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "12"
 
 [node name="blue_label" type="Label" parent="CanvasLayer/ToolBar" unique_id=92440136]
 layout_mode = 0
-offset_left = 639.0
-offset_top = 95.0
-offset_right = 679.0
-offset_bottom = 150.0
+offset_left = 577.5
+offset_top = 94.0
+offset_right = 684.5
+offset_bottom = 149.0
 theme_override_colors/font_color = Color(0.0333333, 0, 1, 1)
+text = "12/20"
 
 [node name="anti_health_bar" type="ColorRect" parent="CanvasLayer/ToolBar" unique_id=1660463709]
 layout_mode = 0
@@ -1116,9 +1119,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -139.92398
+offset_left = -194.0
 offset_top = -86.0
-offset_right = 139.92395
+offset_right = 194.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = SubResource("Theme_ctatt")
@@ -1175,6 +1178,10 @@ texture = ExtResource("15_cu54w")
 [node name="tower_button" type="Button" parent="CanvasLayer/build_bar/Panel/HBoxContainer" unique_id=1994267997]
 layout_mode = 2
 text = "Tower"
+
+[node name="spawner_button" type="Button" parent="CanvasLayer/build_bar/Panel/HBoxContainer" unique_id=1772236974]
+layout_mode = 2
+text = "spawner"
 
 [node name="inputs" type="Control" parent="CanvasLayer" unique_id=1932602981]
 visible = false
@@ -1432,6 +1439,7 @@ text = "max players: 10"
 horizontal_alignment = 1
 
 [node name="Loading_screen" type="Control" parent="CanvasLayer" unique_id=2039070855]
+visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -1532,7 +1540,7 @@ visible = false
 mesh = SubResource("CylinderMesh_036b0")
 
 [node name="player_spawner" parent="." unique_id=1809576690 instance=ExtResource("16_cu2ht")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303, 7, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.303, 2, 0)
 
 [node name="enemy_spawn_controller" parent="." unique_id=288827277 instance=ExtResource("17_lsqqx")]
 
@@ -1618,5 +1626,6 @@ mesh = SubResource("BoxMesh_hhcb3")
 [connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/fence_button" to="." method="_on_fence_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/catapult_button" to="." method="_on_catapult_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/tower_button" to="." method="_on_tower_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/build_bar/Panel/HBoxContainer/spawner_button" to="." method="_on_spawner_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/inputs/Panel/close_inputs" to="." method="_on_close_inputs_pressed"]
 [connection signal="timeout" from="load_timer" to="." method="_on_load_timer_timeout"]

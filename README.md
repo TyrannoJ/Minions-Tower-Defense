@@ -78,6 +78,9 @@ Your job is to defend your castle from the red minions by controlling your minio
 - That I made most of it myself, I just used AI to look for special methods, cause it's a little faster than the docs
 
 ![Image of gameplay](screenshot.png)
+
+## Fun bugs
+- Sometimes whn I pressed th spawn button for a to short time, players flew in the air on spawn
 ## To do (for future reference)
 - make people not get stuck
 - let pathfinding check if it can get into somewhere
@@ -97,7 +100,7 @@ Your job is to defend your castle from the red minions by controlling your minio
 - neue mauern ned mit Kugeln trffen
 - dynamik positioning
 . make fences diaconnect when deleted
-- style loading screen
+
 - make people stronger not just more
 - fix the player inspect
 - gravestones
@@ -107,7 +110,18 @@ Your job is to defend your castle from the red minions by controlling your minio
 
 - (enemys flee from tower)
 - make players not get stuck on each other 
-- change player spawner position
+- change player spawner position (as a build)
+- terrain
+- how much off a build can you have 
+- clean up process
+
+- check player y on spawn
+- reeneforcemnts button
+- spawner minion
+- mae damage_area independent scene
+- clean up handle_building
+- developer mode
+
 
 ## Done!!!!!
 - to little
@@ -135,3 +149,8 @@ Your job is to defend your castle from the red minions by controlling your minio
 - damage towers
 
 - path stays when shooting
+- style loading screen
+- dont hit ground when spawning players
+- only spawn players in play mode 
+- stop marking when in build mode
+- maybe change deletion

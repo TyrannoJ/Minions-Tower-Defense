@@ -81,7 +81,7 @@ func initialize(num,col,pos,un):
 	color=col
 	position=pos
 	unique_id=un
-	position.y=1
+	position.y=1.5
 	name_mesh.text=str(number)
 	has_weapon=true
 	character.godot_animations.play("grab")
@@ -98,6 +98,7 @@ func initialize(num,col,pos,un):
 		anti_health_bar.set_surface_override_material(0,anti_health_bar_mat)
 		
 func _physics_process(delta: float) -> void:
+	
 	#print(position.y)
 	if color=="blue":
 		pass

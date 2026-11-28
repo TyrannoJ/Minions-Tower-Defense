@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cqlpt61hqv0o2"]
 
 [ext_resource type="Script" uid="uid://nib3le1l3j3x" path="res://scenes/builds/player_spawner.gd" id="1_6jqeu"]
+[ext_resource type="Script" uid="uid://ciubg6ulicyqq" path="res://scenes/enemy_builds/spawner_damage.gd" id="2_vx4mw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_74qmu"]
 size = Vector3(5, 1, 5)
@@ -19,12 +20,6 @@ albedo_color = Color(0, 0, 0, 1)
 text = "2"
 font_size = 127
 
-[sub_resource type="BoxMesh" id="BoxMesh_27dp6"]
-size = Vector3(1, 0.2, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_hiofm"]
-size = Vector3(1, 5, 1)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ckxbf"]
 albedo_color = Color(0, 0, 0, 1)
 
@@ -33,24 +28,43 @@ material = SubResource("StandardMaterial3D_ckxbf")
 text = "click to spawn new minions"
 font_size = 70
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_hhcb3"]
-size = Vector3(13, 1, 13)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_207up"]
+albedo_color = Color(0.04000002, 0.08799976, 1, 1)
 
-[node name="player_spawner" type="Area3D" unique_id=1809576690]
-collision_layer = 8
+[sub_resource type="CylinderMesh" id="CylinderMesh_hhcb3"]
+material = SubResource("StandardMaterial3D_207up")
+top_radius = 0.2
+height = 3.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kn758"]
+size = Vector3(1, 5.225, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dek1y"]
+size = Vector3(5, 0.3, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ck6nu"]
+transparency = 1
+albedo_color = Color(0, 0.101960786, 1, 0.4509804)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vx4mw"]
+material = SubResource("StandardMaterial3D_ck6nu")
+size = Vector3(2, 4, 2)
+
+[node name="player_spawner" type="Area3D" unique_id=1809576690 groups=["clickable"]]
+collision_layer = 0
 script = ExtResource("1_6jqeu")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1041820217]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1041820217 groups=["clickable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0580807, 0)
 shape = SubResource("BoxShape3D_74qmu")
 
 [node name="mesh" type="MeshInstance3D" parent="." unique_id=2133839587]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0580807, 0)
 material_override = SubResource("StandardMaterial3D_27dp6")
 mesh = SubResource("BoxMesh_6jqeu")
 
 [node name="number" type="MeshInstance3D" parent="." unique_id=1960935913]
-transform = Transform3D(3.5, 0, 0, 0, -1.5298986e-07, 3.5, 0, -3.5, -1.5298986e-07, 0, -3.447166, 0)
+transform = Transform3D(3.5, 0, 0, 0, -1.5298986e-07, 3.5, 0, -3.5, -1.5298986e-07, 0, 2.6109147, 0)
 material_override = SubResource("StandardMaterial3D_t4qo1")
 mesh = SubResource("TextMesh_hhcb3")
 
@@ -58,69 +72,30 @@ mesh = SubResource("TextMesh_hhcb3")
 wait_time = 2.0
 one_shot = true
 
-[node name="walls" type="Node3D" parent="." unique_id=887575117]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
-
-[node name="Area3D" type="Area3D" parent="walls" unique_id=869566928]
-transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
-collision_layer = 256
-collision_mask = 0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D" unique_id=1564921319]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
-mesh = SubResource("BoxMesh_27dp6")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D" unique_id=1678092128]
-shape = SubResource("BoxShape3D_hiofm")
-
-[node name="Area3D2" type="Area3D" parent="walls" unique_id=1084276337]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10, 5, 0, 0)
-collision_layer = 256
-collision_mask = 0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D2" unique_id=1811187830]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
-mesh = SubResource("BoxMesh_27dp6")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D2" unique_id=400961646]
-shape = SubResource("BoxShape3D_hiofm")
-
-[node name="Area3D3" type="Area3D" parent="walls" unique_id=1643149361]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10, -5, 0, 0)
-collision_layer = 256
-collision_mask = 0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D3" unique_id=858717743]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
-mesh = SubResource("BoxMesh_27dp6")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D3" unique_id=777154114]
-shape = SubResource("BoxShape3D_hiofm")
-
-[node name="Area3D4" type="Area3D" parent="walls" unique_id=329327749]
-transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
-collision_layer = 256
-collision_mask = 0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="walls/Area3D4" unique_id=1971806655]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
-mesh = SubResource("BoxMesh_27dp6")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="walls/Area3D4" unique_id=1323836915]
-shape = SubResource("BoxShape3D_hiofm")
-
 [node name="explain" type="MeshInstance3D" parent="." unique_id=1279639541]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.012308598, 1.118931, -1.1756184)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -0.012308598, 4.4995766, -1.1756184)
 mesh = SubResource("TextMesh_t4qo1")
 
-[node name="build_block" type="Area3D" parent="." unique_id=172417033]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1946363557]
+mesh = SubResource("CylinderMesh_hhcb3")
+
+[node name="damage_area" type="Area3D" parent="." unique_id=394859231 groups=["targets"]]
+collision_layer = 64
+script = ExtResource("2_vx4mw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="damage_area" unique_id=393121399]
+shape = SubResource("BoxShape3D_kn758")
+
+[node name="delete_area" type="Area3D" parent="." unique_id=1492695240]
 collision_layer = 8
 collision_mask = 0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="build_block" unique_id=375952597]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.651389, 0)
-shape = SubResource("BoxShape3D_hhcb3")
-disabled = true
+[node name="CollisionShape3D" type="CollisionShape3D" parent="delete_area" unique_id=1386580837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+shape = SubResource("BoxShape3D_dek1y")
+
+[node name="hover_mesh" type="MeshInstance3D" parent="." unique_id=1133495805]
+mesh = SubResource("BoxMesh_vx4mw")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

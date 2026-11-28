@@ -41,7 +41,7 @@ extends Node3D
 @onready var wall_down_notifier=$Walls/Wall2/down
 @onready var wall_left_notifier=$Walls/Wall3/left
 @onready var wall_right_notifier=$Walls/Wall4/right
-@onready var player_spawner=$player_spawner
+
 @onready var player_indicator=$player_indicator
 @onready var klick_indicator=$klick_indicator
 @onready var fps_label=$CanvasLayer/Controls/Panel/VBoxContainer/FPS
@@ -82,6 +82,8 @@ extends Node3D
 @export var test_build:PackedScene
 @onready var build_grid=$GridMap
 @onready var load_bar=$CanvasLayer/Loading_screen/VBoxContainer/load_bar
+@onready var spawner_button=$CanvasLayer/build_bar/Panel/HBoxContainer/spawner_button
+@export var player_spawner:PackedScene
 
 var time_survived=0
 
@@ -298,7 +300,7 @@ func spawn_players():
 		unique_id+=1
 func _process(delta: float) -> void:
 	#print(target_area.position.y)
-	
+	print(Global.spawners)
 	for ba in enemy_base_markers:
 		ba.queue_free()
 	enemy_base_markers.clear()
@@ -371,7 +373,7 @@ func _process(delta: float) -> void:
 		show_base_health()
 	Engine.time_scale=time_slider.value
 	red_label.text=str(len(red_persons))
-	blue_label.text=str(len(blue_persons))
+	blue_label.text=str(len(blue_persons))+ "/" + str(Global.max_player_count)
 	if current_player != null:
 		
 		show_player_stats()
@@ -423,6 +425,9 @@ func handle_tools():
 		if Global.current_tool==0:
 			Global.current_tool=1
 			Global.build_mode=0
+			if drag_marker.visible:
+				mark_players(Vector3.ZERO)
+				player_indicator.hide()
 		elif Global.current_tool==1:
 			Global.current_tool=0
 	if Global.current_tool==0:
@@ -549,11 +554,12 @@ func handle_playing():
 	if Global.current_tool==0 and !on_controls: #and Global.object_under_mouse.is_in_group("floor"):
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			
-			start_dragging(get_mouse_raycast().position)
-			player_indicator.show()
-			player_indicator.position.x=get_mouse_raycast().position.x
-			player_indicator.position.z=get_mouse_raycast().position.z
-			player_indicator.position.y=2
+			if !get_mouse_raycast().collider.is_in_group("clickable"):
+				start_dragging(get_mouse_raycast().position)
+				player_indicator.show()
+				player_indicator.position.x=get_mouse_raycast().position.x
+				player_indicator.position.z=get_mouse_raycast().position.z
+				player_indicator.position.y=2
 			
 		else:
 			Global.dragging=false
@@ -584,9 +590,9 @@ func handle_playing():
 	if Global.current_tool==0:
 		if Input.is_action_just_released("mark_players"):
 			release_pos=get_mouse_raycast().position
-			if release_pos!=klick_pos and Global.current_tool==0:
-				mark_players(get_mouse_raycast().position)
-				player_indicator.hide()
+			#if release_pos!=klick_pos:
+			mark_players(get_mouse_raycast().position)
+			player_indicator.hide()
 		
 
 func hide_navigation_indicator():
@@ -871,19 +877,21 @@ func _on_restart_pressed() -> void:
 	time_slider.value=1
 	size_slider.value=40
 	enemy_spawns.reset()
-	player_spawner.reset()
+	Global.reset_spawners.emit()
 	for f in Global.fences:
 		f.on_kill()
 	for t in Global.towers:
 		t.on_kill()
 	for c in Global.catapults:
 		c.kill()
+	for s in Global.spawners:
+		s.queue_free()
 	Global.fences.clear()
 	Global.towers.clear()
 	Global.catapults.clear()
+	Global.spawners.clear()
 	
-	#player_spawner.number=0
-	#player_spawner.start()
+	
 	for fe in Global.fences:
 		fe.queue_free()
 	Global.fences.clear()
@@ -955,7 +963,7 @@ func _on_start_pressed() -> void:
 	start_new_round()
 	time_survived=0
 	Global.enemys_to_spawn=10
-	player_spawner.start()
+	Global.start_spawners.emit()
 	enemy_spawns.start()
 	round_infos.show()
 	menu.hide()
@@ -983,7 +991,7 @@ func get_mouse_raycast() -> Dictionary:
 	if Global.current_tool==1:
 		query.collision_mask =  1 << 3 # only layer 4
 	elif Global.current_tool==0:
-		query.collision_mask =  1 << 11 | 1 <<3
+		query.collision_mask =  1 << 11 | 1 <<3 
 	query.collide_with_areas = true
 	
 	return get_world_3d().direct_space_state.intersect_ray(query)
@@ -999,14 +1007,22 @@ func handle_building():
 		fence_button.theme_type_variation= "selected"
 		catapult_button.theme_type_variation= ""
 		tower_button.theme_type_variation=""
+		spawner_button.theme_type_variation=""
 	elif Global.build_mode==1:
 		catapult_button.theme_type_variation= "selected"
 		fence_button.theme_type_variation= ""
 		tower_button.theme_type_variation=""
+		spawner_button.theme_type_variation=""
 	elif Global.build_mode==2:
 		tower_button.theme_type_variation= "selected"
 		fence_button.theme_type_variation= ""
 		catapult_button.theme_type_variation=""
+		spawner_button.theme_type_variation=""
+	elif Global.build_mode==3:
+		tower_button.theme_type_variation= ""
+		fence_button.theme_type_variation= ""
+		catapult_button.theme_type_variation=""
+		spawner_button.theme_type_variation="selected"
 	var on_controls=false
 	for control in important_controls:
 		if mouse_position.y>control.position.y and mouse_position.y<control.position.y+control.size.y and mouse_position.x<control.position.x+build_bar.size.x and mouse_position.x>control.position.x:
@@ -1205,11 +1221,71 @@ func handle_building():
 			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and buildable:
 				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
 				Global.delete_mode=""
+		elif Global.build_mode==3:
+			build_position_mesh.scale.x=6
+			build_position_mesh.scale.z=6
+			#build_position_mesh.position=Vector3(8*floorf((get_mouse_raycast().position.x+4)/8),-0.4,8*floorf((get_mouse_raycast().position.z+4)/8))
+			build_position_mesh.position=Vector3(floorf((get_mouse_raycast().position.x+0.5)),-0.4,floorf((get_mouse_raycast().position.z+0.5)))
+			var pos=get_mouse_raycast().position
+			var spawner_pos=Vector3(floorf((get_mouse_raycast().position.x+0.5)),2.5,floorf((get_mouse_raycast().position.z+0.5)))
+			#var tower_pos=Vector3(8*floorf((pos.x+4)/8),2.5,8*floorf((pos.z+4)/8))
+			var grid_pos=Vector3i(int(spawner_pos.x+5),-1,int(spawner_pos.z+5))
+			for x in range(grid_pos.x-11,grid_pos.x+1):
+				for z in range(grid_pos.z-11,grid_pos.z+1):
+					if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
+						mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
+						buildable=false
+			if check_players_in_area():
+				mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
+				buildable=false
+			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+				
+				Global.delete_mode=""
+				
+				var placable=true
+				for t in Global.towers:
+					if t.position==spawner_pos:
+						placable=false
+				if !get_mouse_raycast().collider.is_in_group("floor"):
+					placable=false
+				if Global.score <=15:
+					placable=false
+					score_label.add_theme_color_override("font_color", Color.RED)
+					await get_tree().create_timer(0.2).timeout
+					score_label.add_theme_color_override("font_color", Color.WHITE)
+				for x in range(grid_pos.x-11,grid_pos.x+1):
+					for z in range(grid_pos.z-11,grid_pos.z+1):
+						if build_grid.get_cell_item(Vector3i(x,-1,z)) == build_grid.INVALID_CELL_ITEM:
+							placable=false
+				if check_players_in_area():
+					placable=false
+				if placable:
+					
+					#var grid_pos=Vector3i(int(tower_pos.x+3),-1,int(tower_pos.z+3))
+					for x in range(grid_pos.x-11,grid_pos.x+1):
+						for z in range(grid_pos.z-11,grid_pos.z+1):
+							build_grid.set_cell_item(Vector3i(x,-1,z),GridMap.INVALID_CELL_ITEM)
+					
+					var spa=player_spawner.instantiate()
+					add_child(spa)
+					Global.spawners.append(spa)
+					spa.position=spawner_pos
+					
+					Global.score-=15
+			elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+				mat.albedo_color=Color.from_hsv(0.0, 0.83, 0.86, 0.502)
+				Global.delete_mode="spawner"
+			if !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and buildable:
+				mat.albedo_color=Color.from_hsv(0.57, 0.832, 0.857, 0.5)
+				Global.delete_mode=""
 	else:
 		#mat.albedo_color=Color.from_hsv(0.467, 0.0, 0.209, 0.502)
 		build_position_mesh.hide()
 		
-
+#Build checklist:
+# button
+# connect button
+# turn button to pressed state
 func _on_fence_button_pressed() -> void:
 	Global.build_mode=0
 
@@ -1271,6 +1347,11 @@ func on_build_destroyed(pos:Vector3,type:int):
 		for x in range(grid_pos.x-7,grid_pos.x+1):
 			for z in range(grid_pos.z-7,grid_pos.z+1):
 				build_grid.set_cell_item(Vector3i(x,-1,z),0)
+	if type==3:
+		var grid_pos=Vector3i(int(pos.x)+5,-1,int(pos.z)+5)
+		for x in range(grid_pos.x-11,grid_pos.x+1):
+			for z in range(grid_pos.z-11,grid_pos.z+1):
+				build_grid.set_cell_item(Vector3i(x,-1,z),0)
 				
 func on_enemy_spawner_built(pos:Vector3):
 	var grid_pos=Vector3i(int(floorf(pos.x)),-1,int(floorf(pos.z)))
@@ -1298,3 +1379,7 @@ func check_players_in_area():
 	
 	
 			
+
+
+func _on_spawner_button_pressed() -> void:
+	Global.build_mode=3

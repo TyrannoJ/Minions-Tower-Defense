@@ -50,7 +50,8 @@ func _process(delta: float) -> void:
 	middle_mesh.scale.z=damage_area.health/start_health
 	if damage_area.health < start_health:
 		for f in fence_extensions:
-			f.queue_free()
+			if f !=null:
+				f.queue_free()
 		fence_extensions.clear()
 	
 	if Global.object_under_mouse==delete_area and Global.delete_mode=="fence":
